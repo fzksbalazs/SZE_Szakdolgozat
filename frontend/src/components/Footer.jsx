@@ -1,14 +1,11 @@
 import {
-    Facebook,
-    Instagram,
     MailOutline,
     Phone,
-    Pinterest,
-    Room,
-    Twitter,
+    Room
   } from "@material-ui/icons";
   import styled from "styled-components";
   import { mobile } from "../responsive";
+  import { Link } from "react-router-dom";
   
   const Container = styled.div`
     display: flex;
@@ -27,22 +24,7 @@ import {
   const Desc = styled.p`
     margin: 20px 0px;
   `;
-  
-  const SocialContainer = styled.div`
-    display: flex;
-  `;
-  
-  const SocialIcon = styled.div`
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: white;
-    background-color: #${(props) => props.color};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-  `;
+
   
   const Center = styled.div`
     flex: 1;
@@ -96,8 +78,8 @@ import {
         <Center>
           <Title>LINKEK</Title>
           <List>
-            <ListItem>Főoldal</ListItem>
-            <ListItem>Kosár</ListItem>
+           <ListItem>  <Link to='/' >Főoldal  </Link> </ListItem> 
+             <ListItem> <Link to='/cart'> Kosár </Link></ListItem> 
             <ListItem>Polók</ListItem>
             <ListItem>Cipők</ListItem>
             <ListItem>Kiegészitők</ListItem>
