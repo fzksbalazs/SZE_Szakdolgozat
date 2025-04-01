@@ -159,14 +159,11 @@ const Cart = () => {
       <Navbar />
       <Announcement />
       <Wrapper>
-        <Title>YOUR BAG</Title>
+        <Title>KOSARAD</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
-          <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
-          </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          <TopButton>VÁSÁRLÁS FOLYTATÁSA</TopButton>
+        
+          <TopButton type="filled">FIZETÉS</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -223,24 +220,24 @@ const Cart = () => {
             </Product>
           </Info>
           <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <SummaryTitle>RENDELÉSED</SummaryTitle>
             <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
+              <SummaryItemText>TERMÉKEK ÁRA</SummaryItemText>
               <SummaryItemPrice>$ 80</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
+              <SummaryItemText>SZÁLLITÁSI KÖLTSÉG</SummaryItemText>
               <SummaryItemPrice>$ 5.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>Shipping Discount</SummaryItemText>
+              <SummaryItemText>AKCIÓ</SummaryItemText>
               <SummaryItemPrice>$ -5.90</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemText>ÖSSZESEN</SummaryItemText>
               <SummaryItemPrice>$ 80</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button>FIZETÉS</Button>
           </Summary>
         </Bottom>
       </Wrapper>

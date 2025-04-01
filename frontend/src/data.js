@@ -27,16 +27,19 @@ export const sliderItems = [
       id: 1,
       img: "https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       title: "POLÓK",
+      cat: "polo"
     },
     {
       id: 2,
       img: "https://images.pexels.com/photos/6153367/pexels-photo-6153367.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       title: "CIPŐK",
+      cat: "cipo"
     },
     {
       id: 3,
       img: "https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       title: "KIEGÉSZITŐK",
+      cat: "kiegeszito"
     },
   ];
 

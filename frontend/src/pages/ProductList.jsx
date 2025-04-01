@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
+import Navbar from "../components/Navbar";
 import Products from "../components/Products";
-import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router";
+import { useState } from "react";
 
 const Container = styled.div``;
 
@@ -37,6 +38,14 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2]; 
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest");
+
+  
+
+
   return (
     <Container>
       <Navbar />
@@ -76,8 +85,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
-      <Newsletter />
+      <Products cat={cat} filters={filters} sort={sort} />
       <Footer />
     </Container>
   );

@@ -1,5 +1,9 @@
 import Home from "./pages/Home";
-
+import Product from "./pages/Product";
+import ProductList from "./pages/ProductList";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Cart from "./pages/Cart";
 
 
 import {
@@ -14,12 +18,38 @@ const App = () => {
 
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route path="/login">
+    
+      </Route>
+      <Route path="/register">
+       
+      </Route>
+     
+        <>
+          <Route path="/products/:category">
+            <ProductList />
+          </Route>
+          <Route path="/product/:id">
+            <Product />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+        
+         
+       
+         
+         
+        </>
+       (
+        <Redirect to="/login" />
+      )
+    </Switch>
+  </Router>
   );
 };
 
