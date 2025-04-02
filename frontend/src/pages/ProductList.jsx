@@ -35,16 +35,39 @@ const Select = styled.select`
   margin-right: 20px;
   ${mobile({ margin: "10px 0px" })}
 `;
+
 const Option = styled.option``;
 
 const ProductList = () => {
   const location = useLocation();
-  const cat = location.pathname.split("/")[2]; 
+  const cat = location.pathname.split("/")[2];
+
+  // Állapotok a szűréshez és rendezéshez
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("newest");
 
-  
+  // Szűrőválasztás kezelése
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
 
+    // Ha az érték "Szin" vagy "Méret", akkor töröljük a filtert
+    if (value === "" || value === "Szin" || value === "Méret") {
+      const newFilters = { ...filters };
+      delete newFilters[name]; // Töröljük az adott szűrőt
+      setFilters(newFilters);
+    } else {
+      setFilters({
+        ...filters,
+        [name]: value,
+      });
+    }
+  };
+
+
+  // Rendezés kezelése
+  const handleSortChange = (e) => {
+    setSort(e.target.value);
+  };
 
   return (
     <Container>
@@ -53,35 +76,49 @@ const ProductList = () => {
       <Title>Dresses</Title>
       <FilterContainer>
         <Filter>
-          <FilterText>Filter Products:</FilterText>
-          <Select>
-            <Option disabled selected>
-              Color
-            </Option>
-            <Option>White</Option>
-            <Option>Black</Option>
-            <Option>Red</Option>
-            <Option>Blue</Option>
-            <Option>Yellow</Option>
-            <Option>Green</Option>
+          <FilterText>Szürés:</FilterText>
+          <Select name="color" onChange={handleFilterChange}>
+            <Option value="">Szin</Option>
+            <Option value="Fehér">Fehér</Option>
+            <Option value="Fekete">Fekete</Option>
+            <Option value="Piros">Piros</Option>
+            <Option value="Kék">Kék</Option>
+            <Option value="Sárga">Sárga</Option>
+            <Option value="Rózsaszin">Rózsaszin</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              Size
-            </Option>
-            <Option>XS</Option>
-            <Option>S</Option>
-            <Option>M</Option>
-            <Option>L</Option>
-            <Option>XL</Option>
+          <Select name="size" onChange={handleFilterChange}>
+            <Option value="">Méret</Option>
+            {cat === "cipo" ? (
+              <>
+                <Option value="36">36</Option>
+                <Option value="37">37</Option>
+                <Option value="38">38</Option>
+                <Option value="39">39</Option>
+                <Option value="40">40</Option>
+                <Option value="41">41</Option>
+                <Option value="42">42</Option>
+                <Option value="43">43</Option>
+                <Option value="44">44</Option>
+                <Option value="45">45</Option>
+                <Option value="46">46</Option>
+              </>
+            ) : (
+              <>
+                <Option value="XS">XS</Option>
+                <Option value="S">S</Option>
+                <Option value="M">M</Option>
+                <Option value="L">L</Option>
+                <Option value="XL">XL</Option>
+              </>
+            )}
           </Select>
         </Filter>
         <Filter>
-          <FilterText>Sort Products:</FilterText>
-          <Select>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Price (desc)</Option>
+          <FilterText>Rendezés:</FilterText>
+          <Select onChange={handleSortChange}>
+            <Option value="newest">Legújabb</Option>
+            <Option value="asc">Ár szerint növekvő </Option>
+            <Option value="desc">Ár szerint csökkenő </Option>
           </Select>
         </Filter>
       </FilterContainer>

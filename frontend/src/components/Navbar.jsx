@@ -1,8 +1,9 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   height: 60px;
@@ -37,6 +38,7 @@ const Center = styled.div`
 
 const Logo = styled.h1`
   font-weight: bold;
+  color: black;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
@@ -61,15 +63,27 @@ const Navbar = () => {
         <Left>
         </Left>
         <Center>
+        <Link style={{ textDecoration: "none" }} to="/">
           <Logo>WEARABLE.</Logo>
+          </Link>
         </Center>
         <Right>
-          <MenuItem>REGISZTRÁCIÓ</MenuItem>
-          <MenuItem>BEJELENTKEZÉS</MenuItem>
+        <Link style={{ textDecoration: "none", color:"black" }} to={"/register"}>
+            <MenuItem >
+              REGISZTRÁCIÓ
+            </MenuItem>
+          </Link>
+          <Link style={{ textDecoration: "none", color:"black" }} to={"/login"}>
+            <MenuItem >
+              BEJELENTKEZÉS
+            </MenuItem>
+          </Link>
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+          <Link  to="/cart">
+            <Badge badgeContent={4} color="secondary" style={{ color: "black", textDecoration: "none" }}>
               <ShoppingCartOutlined />
             </Badge>
+            </Link>
           </MenuItem>
         </Right>
       </Wrapper>
