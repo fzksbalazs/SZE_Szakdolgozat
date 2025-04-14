@@ -4,6 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { Logout } from "../redux/apiCalls";
 
 const Container = styled.div`
   height: 60px;
@@ -57,6 +60,18 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+  const quantity = useSelector((state) => state.cart.quantity);
+  const history = useHistory();
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    Logout(dispatch);
+    history.push("/"); 
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -69,22 +84,30 @@ const Navbar = () => {
         </Center>
         <Right>
         <Link style={{ textDecoration: "none", color:"black" }} to={"/register"}>
-            <MenuItem >
+            <MenuItem style={user ? { display: "none" } : {}} >
               REGISZTRÁCIÓ
             </MenuItem>
           </Link>
           <Link style={{ textDecoration: "none", color:"black" }} to={"/login"}>
-            <MenuItem >
+            <MenuItem style={user ? { display: "none" } : {}} >
               BEJELENTKEZÉS
             </MenuItem>
           </Link>
+          <MenuItem
+            style={!user ? { display: "none" } : {}}
+            onClick={handleLogout} 
+          >
+            KIJELENTKEZÉS
+          </MenuItem>
           <MenuItem>
           <Link  to="/cart">
-            <Badge badgeContent={4} color="secondary" style={{ color: "black", textDecoration: "none" }}>
+            <Badge badgeContent={quantity} color="secondary" style={{ color: "black", textDecoration: "none", ...(!user ? { display: "none" } : {}) 
+  }}>
               <ShoppingCartOutlined />
             </Badge>
             </Link>
           </MenuItem>
+          
         </Right>
       </Wrapper>
     </Container>

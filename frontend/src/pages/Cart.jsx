@@ -1,9 +1,17 @@
-import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../redux/cartRedux";
+import StripeCheckout from "react-stripe-checkout";
+import { userRequest } from "../requestMethods";
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+
+const KEY = "pk_test_51Q8gHHE0Esp4B2xrgdSNPaGgO0Q7gzgWPWxzyYgO9QGJr8FX8OPdguVwVJr876FYqYU3Uo2HWzKCnZYLXUoWhlP600K4RbQXYg";
 
 const Container = styled.div``;
 
@@ -22,6 +30,11 @@ const Top = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  ${mobile({
+    flexDirection: "column",       
+    gap: "10px",                   
+    alignItems: "center"           
+  })}
 `;
 
 const TopButton = styled.button`
@@ -34,14 +47,6 @@ const TopButton = styled.button`
   color: ${(props) => props.type === "filled" && "white"};
 `;
 
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0px 10px;
-`;
 
 const Bottom = styled.div`
   display: flex;
@@ -73,19 +78,13 @@ const Details = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 
 const ProductName = styled.span``;
 
 const ProductId = styled.span``;
 
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
 
 const ProductSize = styled.span``;
 
@@ -121,6 +120,12 @@ const Hr = styled.hr`
   height: 1px;
 `;
 
+const Empty = styled.h1`
+  font-weight: 600;
+  text-align: center;
+  font-size: 45px;
+`;
+
 const Summary = styled.div`
   flex: 1;
   border: 0.5px solid lightgray;
@@ -131,6 +136,14 @@ const Summary = styled.div`
 
 const SummaryTitle = styled.h1`
   font-weight: 200;
+`;
+
+const ProductColor = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+  border: ${(props) => (props.color === "white" ? "1px solid black" : "none")};
 `;
 
 const SummaryItem = styled.div`
@@ -154,90 +167,141 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useHistory();
+  
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: cart.total*100,
+        });
+        
+        history.replace("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, history, cart]);
+
+
+
+
+
+  const handleDelete = () => {
+    dispatch(clearCart());
+  };
+
+  const colorMap = {
+    "Fekete": "black",
+    "Fehér": "white",
+    "Piros": "red",
+    "Kék": "blue",
+    "Sárga": "yellow",
+    "Zöld": "green",
+    "Rózsaszin": "pink",
+    "Narancs": "orange",
+    "Lila": "purple",
+    "Szürke": "gray",
+  };
+
+
+
   return (
     <Container>
-      <Navbar />
       <Announcement />
+      <Navbar />
       <Wrapper>
-        <Title>KOSARAD</Title>
+        <Title>KOSÁR</Title>
         <Top>
+          <Link to="webshop">
           <TopButton>VÁSÁRLÁS FOLYTATÁSA</TopButton>
-        
-          <TopButton type="filled">FIZETÉS</TopButton>
+          </Link>
+          <TopButton onClick={handleDelete} type="filled">
+            KOSÁR TÖRLÉSE
+          </TopButton>
         </Top>
         <Bottom>
-          <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 37.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
+          <Info >
+          <Empty style={cart.total !== 0 ? { display: "none" } : {}}>
+              A kosár üres!
+            </Empty>
+
+            {cart.products.map((product) => (
+  <Product key={product._id}>
+    <ProductDetail>
+      <Image src={product.img} />
+      <Details>
+        
+        <ProductId>
+          <b>Termék azonosító:</b> {product._id}
+        </ProductId>
+        <ProductName>
+          <b>Termék neve:</b> {product.title}
+        </ProductName>
+        <ProductSize>
+  <b>Választott méret:</b> {Array.isArray(product.size) ? product.size[0] : product.size || "-"}
+</ProductSize>
+<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+  <ProductColor color={colorMap[product.color] || "gray"} />
+  <span>{product.color}</span>
+</div>
+        
+      </Details>
+    </ProductDetail>
+    <PriceDetail>
+      <ProductAmountContainer>
+        <ProductAmount>{product.quantity}</ProductAmount>
+      </ProductAmountContainer>
+      <ProductPrice>
+        {product.price * product.quantity} Ft
+      </ProductPrice>
+    </PriceDetail>
+  </Product>
+))}
+            
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="gray" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
-            <SummaryTitle>RENDELÉSED</SummaryTitle>
+            <SummaryTitle>RENDELÉS ÖSSZEGZÉSE</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>TERMÉKEK ÁRA</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>{cart.total} Ft</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
-              <SummaryItemText>SZÁLLITÁSI KÖLTSÉG</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>AKCIÓ</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemText>SZÁLLITÁSI DIJ</SummaryItemText>
+              <SummaryItemPrice>0 Ft</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
-              <SummaryItemText>ÖSSZESEN</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemText>TELJES ÁR</SummaryItemText>
+              <SummaryItemPrice>{cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Button>FIZETÉS</Button>
+            <StripeCheckout
+              name="GOFIT"
+              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLLgR7yJ9Vk2hxKMTzEHSUHDK4IirV-s7tOtpJ9w9PEqtz-lO3mXscpxuwrfU3DYAHRpE&usqp=CAU"
+              billingAddress
+              shippingAddress
+              description={`A végösszeg ${cart.total} Ft`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button style={cart.total === 0 ? { display: "none" } : {}}>
+                MEGRENDELÉS
+              </Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

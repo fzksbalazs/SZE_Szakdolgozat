@@ -118,10 +118,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
     if (password !== confirmPassword) {
       setError("A jelszavak nem egyeznek.");
       return;
@@ -133,8 +135,12 @@ const Register = () => {
         password,
       });
       console.log("Sikeres regisztráció:", res.data);
-      history.push("/login");
-      
+      setSuccess(true); // sikerüzenet beállítása
+
+      setTimeout(() => {
+        history.push("/login");
+      }, 2000); // 2 másodperc után átdob a login oldalra
+
     } catch (err) {
       setError("Hiba történt a regisztráció során.");
       console.error(err);
@@ -156,7 +162,11 @@ const Register = () => {
             <b> ADATKEZELÉSI TÁJÉKOZATÓ</b>
           </Agreement>
 
-          {error && <span style={{ color: "red" }}>{error}</span>}
+          <div style={{ width: "100%", textAlign: "center", marginBottom: "10px" }}>
+    {error && <span style={{ color: "red" }}>{error}</span>}
+    {success && <span style={{ color: "green" }}>Sikeres regisztráció! Átirányítás...</span>}
+  </div>
+          
           <Button type="submit">REGISZTRÁCIÓ</Button>
         </Form>
         <StyledLink to="/">VISSZA A FŐOLDALRA</StyledLink>

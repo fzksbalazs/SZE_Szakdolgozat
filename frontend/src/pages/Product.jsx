@@ -3,11 +3,12 @@ import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux";
 
 
 const Container = styled.div``;
@@ -128,6 +129,11 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity, color, size}));
+  };
 
 
   useEffect(() => {
@@ -135,10 +141,19 @@ const Product = () => {
       try {
         const res = await publicRequest.get("/products/find/" + id);
         setProduct(res.data);
-      } catch { }
+        if (res.data.color && res.data.color.length > 0) {
+          setColor(res.data.color[0]);
+        }
+        if (res.data.size && res.data.size.length > 0) {
+          setSize(res.data.size[0]);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     };
     getProduct();
   }, [id]);
+  
 
   const handleQuantity = (type) => {
     if (type === "dec") {
@@ -201,7 +216,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick} >KOSÁRHOZ ADÁS</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
