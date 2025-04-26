@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
-const KEY = "pk_test_51Q8gHHE0Esp4B2xrgdSNPaGgO0Q7gzgWPWxzyYgO9QGJr8FX8OPdguVwVJr876FYqYU3Uo2HWzKCnZYLXUoWhlP600K4RbQXYg";
+const KEY = "pk_test_51KTYWpB1bb1VrKRi8D6WQYnKbZ02r2Jp7evDytQUhbIatPZTSWs7An0BeVDTYzqVDM7DsDXoIcBeZwDmQXRaY2fe00pb87wOeq";
 
 const Container = styled.div``;
 
@@ -289,8 +289,7 @@ const Cart = () => {
               <SummaryItemPrice>{cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="GOFIT"
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLLgR7yJ9Vk2hxKMTzEHSUHDK4IirV-s7tOtpJ9w9PEqtz-lO3mXscpxuwrfU3DYAHRpE&usqp=CAU"
+              name="WEARABLE."           
               billingAddress
               shippingAddress
               description={`A végösszeg ${cart.total} Ft`}
