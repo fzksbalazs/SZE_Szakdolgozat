@@ -52,6 +52,19 @@ const Customizer = () => {
     }
   };
 
+  const handleSubmit = async (type) => {
+    if (!prompt) return alert("Please enter a prompt");
+
+      try { 
+        // OpenAI API hivas
+    } catch (error) {
+      alert(error);
+    } finally {
+      setgeneratinImg(false);
+      setActiveEditorTab(""); 
+    }
+  }
+
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
     state[decalType.stateProperty] = result;
