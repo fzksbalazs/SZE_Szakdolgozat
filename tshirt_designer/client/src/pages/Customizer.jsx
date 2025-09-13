@@ -18,13 +18,15 @@ import {
   CustomButton,
 } from "../components";
 
+export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
+
 const Customizer = () => {
   const snap = useSnapshot(state);
 
   const [file, setFile] = useState('');
   const [prompt, setPrompt] = useState("");
 
-  const [generatinImg, setgeneratinImg] = useState(false);
+  const [generatingImg, setgeneratingImg] = useState(false);
 
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
@@ -42,9 +44,9 @@ const Customizer = () => {
       case "aipicker":
         return <AIPicker
           prompt={prompt} setPrompt={setPrompt}
-          generatinImg={generatinImg}
-          setgeneratinImg={setgeneratinImg}
-          handleDecals={handleDecals}
+          generatingImg={generatingImg}
+          setgeneratingImg={setgeneratingImg}
+          handleSubmit={handleSubmit}
         
         />;
       default:
@@ -56,11 +58,38 @@ const Customizer = () => {
     if (!prompt) return alert("Please enter a prompt");
 
       try { 
-        // OpenAI API hivas
-    } catch (error) {
-      alert(error);
-    } finally {
-      setgeneratinImg(false);
+        setgeneratingImg(true);
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt,
+          }),
+        });
+
+          const data = await response.json().catch(() => ({}));
+   if (!response.ok) {
+     throw new Error(data?.message || `HTTP ${response.status}`);
+   }
+   if (!data?.photo) {
+     throw new Error("Missing image in response");
+   }
+   handleDecals(type, `data:image/png;base64,${data.photo}`);
+
+        if (response.ok) {
+          // Handle successful response
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert(error);
+        console.error("AI generate error:", error);
+    alert(`AI generate failed: ${error.message || error}`);
+
+      } finally {
+        setgeneratingImg(false);
       setActiveEditorTab(""); 
     }
   }
@@ -120,7 +149,8 @@ const readFile = (type) => {
                     tab={tab}
                     handleClick={() => setActiveEditorTab(tab.name)}
                   />
-                ))};
+                ))}
+                 
 
                 {generateTabContent()}
               </div>
