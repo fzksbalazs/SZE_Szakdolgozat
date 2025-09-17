@@ -11,10 +11,34 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const emailRoutes = require("./routes/emailRoutes");
 
+const cloudinary= require("cloudinary");
+
 
 dotenv.config(); //env fileból toltes
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
+
+app.post("/api/custom/upload", async (req, res) => {
+  try {
+    const { imageDataUrl, productId } = req.body;
+    if (!imageDataUrl) return res.status(400).json({ message: "Missing image" });
+
+    const { secure_url } = await cloudinary.uploader.upload(imageDataUrl, {
+      folder: "custom-tshirts",
+      overwrite: true,
+    });
+
+    return res.json({ url: secure_url, productId });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Upload failed" });
+  }
+});
 
 
 mongoose.set("strictQuery", false);
@@ -26,7 +50,7 @@ mongoose
   });
 
   app.use(cors()); //Google miatt kell + frontend backend osszekotes
-  app.use(express.json());
+  app.use(express.json({limit: "10mb"}));
 
   
   app.use("/api/auth", authRoute);
