@@ -1,85 +1,82 @@
-import React, { useEffect, useRef } from "react";
+// src/pages/DesignerEmbedPage.jsx
+import React, { useEffect, useMemo, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../redux/cartRedux"; // igazítsd a saját reduceredhez
 
-const DESIGNER_URL = process.env.REACT_APP_DESIGNER_URL || "https://wearable-3d.vercel.app";
+const DESIGNER_URL = process.env.REACT_APP_DESIGNER_URL;
+const API_BASE = process.env.REACT_APP_API_BASE;
 
-function useQuery() {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
-export default function Designer() {
-  const history = useHistory();
+export default function DesignerEmbedPage() {
   const iframeRef = useRef(null);
-  const query = useQuery();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-  const productId = query.get("productId") || "tee-001";
-  const baseColor = query.get("color") || "#ffffff";
-  const initialLogoUrl = query.get("logoUrl") || "";
-  const mode = query.get("mode") || "logo"; // "logo" | "full"
+  // (Opcionális) továbbküldöd a productId/color-t a designernek query-ben:
+  const src = useMemo(() => {
+    const qs = new URLSearchParams(location.search); // /designer?productId=...&color=...
+    const url = new URL(DESIGNER_URL);
+    // átirányítás a designer felé ugyanazokkal a querykkel:
+    url.search = qs.toString();
+    return url.toString();
+  }, [location.search]);
 
   useEffect(() => {
+    const allowedOrigin = new URL(DESIGNER_URL).origin;
+
+    async function uploadToCloudinary(dataUrl) {
+      const res = await fetch(`${API_BASE}/api/upload-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ dataUrl }),
+      });
+      if (!res.ok) throw new Error("Upload failed");
+      return res.json(); // { url, public_id }
+    }
+
     async function onMessage(e) {
-      const allowedOrigin = new URL(DESIGNER_URL).origin;
       if (e.origin !== allowedOrigin) return;
-
       const { type, payload } = e.data || {};
-      if (type === "DONE") {
-        // 1) feltöltjük a képet a backendre (Cloudinary-n át)
-        const resp = await fetch(
-          `${process.env.REACT_APP_API_BASE}/api/custom/upload`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              imageDataUrl: payload.imageDataUrl,
-              productId: payload.productId,
-            }),
-          }
-        );
-        const { url } = await resp.json();
+      if (type !== "DONE") return;
 
-        // 2) navigálunk a kosárba és átadjuk a testreszabást
-        history.push({
-          pathname: "/cart",
-          state: {
-            customization: {
-              productId: payload.productId,
-              imageUrl: url,
-              baseColor: payload.baseColor,
-              isLogoTexture: payload.isLogoTexture,
-              isFullTexture: payload.isFullTexture,
+      try {
+        // 1) feltöltés Cloudinary-ra backendünkön keresztül
+        const { url } = await uploadToCloudinary(payload.image);
+
+        // 2) kosárba helyezés (helyi state/Redux – igazítsd saját struktúrádhoz)
+        dispatch(
+          addProduct({
+            productId: payload.productId,
+            quantity: 1,
+            variant: {
+              color: payload.color,
+              mode: payload.mode, // "logo"/"full"
             },
-          },
-        });
-      } else if (type === "CANCEL") {
-        history.goBack();
+            customImageUrl: url,
+          })
+        );
+
+        // 3) átnavigálás a kosár oldalra
+        history.push("/cart");
+      } catch (err) {
+        console.error("Mentés hiba:", err);
+        alert("Nem sikerült elmenteni a mintát. Próbáld újra!");
       }
     }
+
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, [history]);
-
-  function handleIframeLoad() {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
-    iframe.contentWindow?.postMessage(
-      {
-        type: "INIT",
-        payload: { productId, baseColor, initialLogoUrl, mode },
-      },
-      new URL(DESIGNER_URL).origin
-    );
-  }
+  }, [dispatch, history]);
 
   return (
-    <div style={{ height: "100vh", display: "grid" }}>
+    <div style={{ height: "100vh", width: "100%" }}>
       <iframe
         ref={iframeRef}
         title="T-Shirt Designer"
-        src={DESIGNER_URL}
+        src={src}
         style={{ border: "none", width: "100%", height: "100%" }}
-        onLoad={handleIframeLoad}
+        allow="clipboard-read; clipboard-write"
       />
     </div>
   );
