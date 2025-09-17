@@ -1,48 +1,24 @@
-import express from 'express';
-import * as dotenv from 'dotenv';
-import {Configuration, OpenAIApi} from 'openai';
-import cors from 'cors';
-
-dotenv.config();
-
+// server/routes/dalle.routes.js
+import express from "express";
+import axios from "axios";
 const router = express.Router();
 
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+const PY_AI_URL = "http://localhost:8000/generate";
 
-
-  
-});
-
-const openai = new OpenAIApi(config);
-
-router.route('/').get((req, res) => {
-  res.send('Hello from DALL-E route');
-});
-
-router.route('/').post(async (req,res) => {
+router.post("/", async (req, res) => {
   try {
-    const {prompt} = req.body;
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ message: "Missing prompt" });
 
-    const response = await openai.createImage({
-      prompt,
-      n: 1,
-      size: '1024x1024',
-      response_format: 'b64_json',
-    });
-    const image = response.data?.data?.[0]?.b64_json;
-    if (!image) {
-      console.error("OpenAI response had no image:", response.data);
-      return res.status(502).json({ message: "No image returned from OpenAI" });
-    }
+    const r = await axios.post(PY_AI_URL, { prompt }, { timeout: 180000000 });
+    const photo = r.data?.photo;
+    if (!photo) return res.status(502).json({ message: "No image from generator" });
 
-    res.status(200).json({ photo: image });
+    res.status(200).json({ photo });
   } catch (err) {
-    // írd ki, mi a valódi hiba (kulcs hiány, kvóta, stb.)
-    const detail = err?.response?.data || err?.message || String(err);
-    console.error("OpenAI error:", detail);
-    res.status(500).json({ message: "Something went wrong", detail });
+    const status = err?.response?.status || 500;
+    res.status(status).json({ message: "Image generation failed" });
   }
 });
 
-export default router; 
+export default router;
