@@ -23,22 +23,31 @@ cloudinary.config({
 });
 
 
-app.post("/api/custom/upload", async (req, res) => {
-  try {
-    const { imageDataUrl, productId } = req.body;
-    if (!imageDataUrl) return res.status(400).json({ message: "Missing image" });
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,  // .env
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    const { secure_url } = await cloudinary.uploader.upload(imageDataUrl, {
-      folder: "custom-tshirts",
-      overwrite: true,
+// --------- új endpoint: PNG dataURL → Cloudinary ---------
+app.post("/api/upload-image", async (req, res) => {
+  try {
+    const { dataUrl } = req.body;
+    if (!dataUrl || !dataUrl.startsWith("data:image/"))
+      return res.status(400).json({ message: "Hiányzó vagy hibás dataUrl" });
+
+    const upload = await cloudinary.v2.uploader.upload(dataUrl, {
+      folder: "custom-shirts",
+      overwrite: false,
     });
 
-    return res.json({ url: secure_url, productId });
+    return res.json({ url: upload.secure_url, public_id: upload.public_id });
   } catch (err) {
-    console.error(err);
+    console.error("Cloudinary upload error:", err);
     return res.status(500).json({ message: "Upload failed" });
   }
 });
+
 
 
 mongoose.set("strictQuery", false);
