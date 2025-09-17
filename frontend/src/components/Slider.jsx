@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { sliderItems } from "../data";
 import { mobile } from "../responsive";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -79,6 +80,11 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+
+const DESIGNER_URL =
+  process.env.REACT_APP_DESIGNER_URL|| "https://wearable-3d.vercel.app";
+
+
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
@@ -87,6 +93,26 @@ const Slider = () => {
     } else {
       setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
     }
+  };
+
+
+  const history = useHistory();
+
+ const openDesigner = (product) => {
+    if (!product || (!product._id && !product.id)) {
+      console.error("openDesigner: hiányzó product vagy _id/id", product);
+      return;
+    }
+    const productId = product._id || product.id;
+
+    const params = new URLSearchParams({
+      productId,
+      color: "#ffffff",
+      logoUrl: "",
+      mode: "logo",
+    });
+
+    history.push(`/designer?${params.toString()}`);
   };
 
   return (
@@ -103,7 +129,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button>BÖNGÉSZÉS</Button>
+              <Button onClick={() => openDesigner(item)}>TERVEZD MEG!</Button>
             </InfoContainer>
           </Slide>
         ))}
