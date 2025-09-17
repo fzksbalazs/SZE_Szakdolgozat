@@ -19,24 +19,9 @@ import {
 
 export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
 
-function sendDoneToHost(imageDataUrl) {
-  window.parent.postMessage(
-    {
-      type: "DONE",
-      payload: {
-        productId: state.productId || "tee-001",
-        imageDataUrl,                 // PNG data URL
-        baseColor: state.color,
-        isLogoTexture: state.isLogoTexture,
-        isFullTexture: state.isFullTexture,
-      },
-    },
-    "*" 
-  );
 
-}
 
-const Customizer = () => {
+const Customizer = ({productId, color, mode, logoUrl}) => {
   const snap = useSnapshot(state);
 
   const [file, setFile] = useState('');
@@ -49,6 +34,31 @@ const Customizer = () => {
     logoShirt: true,
     stylishShirt: false,
   });
+
+
+const handleSaveForShop = () => {
+    // vedd le a képet a <canvas>-ról
+    const canvas = document.querySelector("canvas");
+    if (!canvas) return;
+
+    const dataUrl = canvas.toDataURL("image/png"); // "data:image/png;base64,..."
+
+    // Küldés a szülőnek
+    window.parent.postMessage(
+      {
+        type: "DONE",
+        payload: {
+          image: dataUrl,              // dataURL
+          productId: productId ?? "unknown",
+          color: color ?? "#ffffff",
+          mode: mode ?? "logo",        // pl. "logo" | "full"
+          logoUrl: logoUrl || ""
+        },
+      },
+      "*" // ha szigorúbb akarsz lenni: new URL(window.location.href).origin
+    );
+  };
+
 
   // Tabok megjelenitese
   const generateTabContent = () => {
@@ -189,10 +199,8 @@ const readFile = (type) => {
             <CustomButton
   type="filled"
   title="Mentés a webshopnak"
-  handleClick={() => {
-    const png = downloadCanvasToImage(); // ez ad vissza dataURL-t
-    if (png) sendDoneToHost(png);
-  }}
+  onClick={handleSaveForShop}
+  
   customStyles="w-fit px-4 py-2.5 font-bold text-sm"
 />
 
