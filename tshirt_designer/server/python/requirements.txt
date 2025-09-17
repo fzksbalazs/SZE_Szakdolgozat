@@ -3,6 +3,6 @@ uvicorn[standard]==0.27.1
 diffusers==0.30.3
 transformers==4.43.3
 accelerate==0.33.0
-safetensors==0.4.3
-torch==2.2.2      # CPU build Renderen is jó
+safetensors==0.4.5
+torch==2.2.2
 Pillow==11.0.0
