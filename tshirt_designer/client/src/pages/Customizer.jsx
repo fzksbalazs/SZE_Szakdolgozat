@@ -180,7 +180,19 @@ const readFile = (type) => {
                 isActiveTab={activeFilterTab[tab.name]}
                 handleClick={() => handleActiveFilterTab(tab.name)}
               />
+
+
+
+              
             ))}
+
+            <button className="download-btn" onClick={downloadCanvasToImage}>
+<img
+src={download}
+alt="download_image"
+className="object-contain w-3/5 h-3/5"
+/>
+</button>
           </motion.div>
         </>
       )}
