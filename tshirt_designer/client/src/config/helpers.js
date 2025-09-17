@@ -8,6 +8,7 @@ export const downloadCanvasToImage = () => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  return canvas.toDataURL("image/png")
 };
 
 export const reader = (file) =>
