@@ -14,6 +14,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import Designer from "./pages/Designer";
 
 
 const App = () => {
@@ -44,7 +45,8 @@ const App = () => {
             </Route>
             <Route path="/success">
               <Success />
-            </Route>                        
+            </Route>       
+            <Route path="/designer" component={Designer}/>                 
           </>
         ) : (
           <Redirect to="/login" />

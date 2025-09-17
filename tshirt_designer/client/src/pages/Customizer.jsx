@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSnapshot } from "valtio";
-
 import config from "../config/config";
 import state from "../store";
 import { download } from "../assets";
@@ -19,6 +18,23 @@ import {
 } from "../components";
 
 export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
+
+function sendDoneToHost(imageDataUrl) {
+  window.parent.postMessage(
+    {
+      type: "DONE",
+      payload: {
+        productId: state.productId || "tee-001",
+        imageDataUrl,                 // PNG data URL
+        baseColor: state.color,
+        isLogoTexture: state.isLogoTexture,
+        isFullTexture: state.isFullTexture,
+      },
+    },
+    "*" 
+  );
+
+}
 
 const Customizer = () => {
   const snap = useSnapshot(state);
@@ -53,6 +69,9 @@ const Customizer = () => {
         return null;
     }
   };
+
+
+
 
   const handleSubmit = async (type) => {
     if (!prompt) return alert("Please enter a prompt");
@@ -166,6 +185,17 @@ const readFile = (type) => {
               handleClick={() => (state.intro = true)}
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
+
+            <CustomButton
+  type="filled"
+  title="Mentés a webshopnak"
+  handleClick={() => {
+    const png = downloadCanvasToImage(); // ez ad vissza dataURL-t
+    if (png) sendDoneToHost(png);
+  }}
+  customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+/>
+
           </motion.div>
 
           <motion.div
