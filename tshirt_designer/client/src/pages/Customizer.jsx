@@ -57,6 +57,7 @@ function handleSave() {
     }
   })();
 
+  const imageDataUrl = downloadCanvasToImage();
   // (opcionális) debug
   console.log("posting DONE to parent", { pid, baseColor, isLogoTexture, isFullTexture });
 
@@ -64,7 +65,7 @@ function handleSave() {
     {
       type: "DONE",
       payload: {
-        imageDataUrl: png,
+        imageDataUrl,
         productId: pid,
         baseColor,
         isLogoTexture,
