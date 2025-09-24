@@ -44,7 +44,7 @@ function handleSave() {
   }
   const png = canvas.toDataURL("image/png");
 
-  const pid = productId || "tee-001";
+  const pid = productId || `custom_shirt_${Date.now()}`;
   const baseColor = snap.color;
   const isLogoTexture = state.isLogoTexture;
   const isFullTexture = state.isFullTexture;
