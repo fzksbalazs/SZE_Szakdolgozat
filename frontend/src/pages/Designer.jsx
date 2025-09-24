@@ -59,7 +59,7 @@ export default function Designer() {
           addProduct({
             _id: payload.productId, // ha kell az _id a reduceredhez
             title: "Custom T-shirt",
-            price: 0,
+            price: 5000,
             quantity: 1,
             customImageUrl: url,
             variant: {
