@@ -28,7 +28,7 @@ const Customizer = ({productId, color, mode, logoUrl}) => {
   const [prompt, setPrompt] = useState("");
 
   const [generatingImg, setgeneratingImg] = useState(false);
-
+  const productId = params.get("productId");
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
@@ -44,7 +44,7 @@ function handleSave() {
   }
   const png = canvas.toDataURL("image/png");
 
-  const pid = productId || "tee-001";
+   const pid = productId;
   const baseColor = snap.color;
   const isLogoTexture = state.isLogoTexture;
   const isFullTexture = state.isFullTexture;
@@ -57,7 +57,6 @@ function handleSave() {
     }
   })();
 
-  const imageDataUrl = downloadCanvasToImage();
   // (opcionális) debug
   console.log("posting DONE to parent", { pid, baseColor, isLogoTexture, isFullTexture });
 
@@ -65,7 +64,7 @@ function handleSave() {
     {
       type: "DONE",
       payload: {
-        imageDataUrl,
+        imageDataUrl: png,
         productId: pid,
         baseColor,
         isLogoTexture,
