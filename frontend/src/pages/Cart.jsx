@@ -239,10 +239,11 @@ const Cart = () => {
               A kosár üres!
             </Empty>
 
-            {cart.products.map((product) => (
-  <Product key={product._id}>
+            {cart.products.map((product, index) => (
+   <Product key={`${product._id}-${index}`}>
     <ProductDetail>
-      <Image src={product.img} />
+      <Image src={product.customImageUrl ? product.customImageUrl : product.img}
+  alt={product.title}/>
       <Details>
         
         <ProductId>
