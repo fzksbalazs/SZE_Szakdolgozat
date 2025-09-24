@@ -16,7 +16,7 @@ const cloudinary= require("cloudinary");
 const allowedOrigins = [
   "http://localhost:3000",            // helyi CRA
   "http://localhost:5173",            // ha a designer is helyben fut
-  "https://wearable-3d.vercel.app",   // Vercel designer
+  "https://wearable-3d.vercel.app/",   // Vercel designer
   "https://<A_TE_WEBHOP_DOMAINOD>"    // (ha van saját domain)
 ];
 
