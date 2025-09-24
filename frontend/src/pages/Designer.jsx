@@ -40,7 +40,7 @@ export default function Designer() {
     }
 
     async function onMessage(e) {
-      if (e.origin !== allowedOrigin) return;
+      // if (e.origin !== allowedOrigin) return;
       const { type, payload } = e.data || {};
       if (type !== "DONE") return;
 

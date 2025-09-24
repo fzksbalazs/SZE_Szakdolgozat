@@ -51,10 +51,9 @@ function handleSave() {
 
   const parentOrigin = (() => {
     try {
-      
-      return "https://wearable-3d.vercel.app"; // fejlesztéshez oké
+      return new URL(document.referrer).origin; 
     } catch {
-      return "*";
+      return "*"; // fejlesztéshez jó
     }
   })();
 
