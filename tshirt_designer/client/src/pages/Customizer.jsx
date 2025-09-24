@@ -51,8 +51,8 @@ function handleSave() {
 
   const parentOrigin = (() => {
     try {
-      const ref = document.referrer;
-      return ref ? new URL(ref).origin : "*"; // fejlesztéshez oké
+      
+      return "https://wearable-3d.vercel.app"; // fejlesztéshez oké
     } catch {
       return "*";
     }
