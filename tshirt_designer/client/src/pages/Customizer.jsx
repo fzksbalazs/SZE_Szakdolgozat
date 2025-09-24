@@ -21,7 +21,7 @@ export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
 
 
 
-const Customizer = ({productId, color, mode, logoUrl}) => {
+const Customizer = ({color, mode, logoUrl}) => {
   const snap = useSnapshot(state);
 
   const [file, setFile] = useState('');
