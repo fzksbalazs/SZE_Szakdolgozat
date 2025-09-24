@@ -36,28 +36,46 @@ const Customizer = ({productId, color, mode, logoUrl}) => {
   });
 
 
-const handleSaveForShop = () => {
-    // vedd le a képet a <canvas>-ról
-    const canvas = document.querySelector("canvas");
-    if (!canvas) return;
+function handleSave() {
+  const canvas = document.querySelector("canvas");
+  if (!canvas) {
+    alert("Canvas not found");
+    return;
+  }
+  const png = canvas.toDataURL("image/png");
 
-    const dataUrl = canvas.toDataURL("image/png"); // "data:image/png;base64,..."
+  const pid = productId || "tee-001";
+  const baseColor = snap.color;
+  const isLogoTexture = state.isLogoTexture;
+  const isFullTexture = state.isFullTexture;
 
-    // Küldés a szülőnek
-    window.parent.postMessage(
-      {
-        type: "DONE",
-        payload: {
-          image: dataUrl,              // dataURL
-          productId: productId ?? "unknown",
-          color: color ?? "#ffffff",
-          mode: mode ?? "logo",        // pl. "logo" | "full"
-          logoUrl: logoUrl || ""
-        },
+  const parentOrigin = (() => {
+    try {
+      const ref = document.referrer;
+      return ref ? new URL(ref).origin : "*"; // fejlesztéshez oké
+    } catch {
+      return "*";
+    }
+  })();
+
+  // (opcionális) debug
+  console.log("posting DONE to parent", { pid, baseColor, isLogoTexture, isFullTexture });
+
+  window.parent?.postMessage(
+    {
+      type: "DONE",
+      payload: {
+        imageDataUrl: png,
+        productId: pid,
+        baseColor,
+        isLogoTexture,
+        isFullTexture,
       },
-      "*" // ha szigorúbb akarsz lenni: new URL(window.location.href).origin
-    );
-  };
+    },
+    parentOrigin
+  );
+}
+
 
 
   // Tabok megjelenitese
@@ -199,8 +217,7 @@ const readFile = (type) => {
             <CustomButton
   type="filled"
   title="Mentés a webshopnak"
-  onClick={handleSaveForShop}
-  
+  handleClick={handleSave}
   customStyles="w-fit px-4 py-2.5 font-bold text-sm"
 />
 
