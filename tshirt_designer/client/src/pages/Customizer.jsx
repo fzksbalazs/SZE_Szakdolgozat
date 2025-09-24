@@ -21,14 +21,14 @@ export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
 
 
 
-const Customizer = ({color, mode, logoUrl}) => {
+const Customizer = ({productId, color, mode, logoUrl}) => {
   const snap = useSnapshot(state);
 
   const [file, setFile] = useState('');
   const [prompt, setPrompt] = useState("");
 
   const [generatingImg, setgeneratingImg] = useState(false);
-  const productId = params.get("productId");
+
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
@@ -44,7 +44,7 @@ function handleSave() {
   }
   const png = canvas.toDataURL("image/png");
 
-   const pid = productId;
+  const pid = productId || "tee-001";
   const baseColor = snap.color;
   const isLogoTexture = state.isLogoTexture;
   const isFullTexture = state.isFullTexture;
