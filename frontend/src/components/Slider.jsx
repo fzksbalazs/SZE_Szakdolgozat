@@ -125,7 +125,7 @@ const Slider = () => {
           <Slide bg={item.bg} key={item.id}>
             <IframeContainer>
               <Iframe
-                src={`${DESIGNER_URL}?productId=${item.id}&color=white&mode=preview`}
+                src={`${DESIGNER_URL}/?mode=preview`}
                 title={`3D T-Shirt ${item.title}`}
               />
             </IframeContainer>
