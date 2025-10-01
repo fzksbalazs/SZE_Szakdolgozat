@@ -48,13 +48,16 @@ const Slide = styled.div`
   background-color: #${(props) => props.bg};
 `;
 
-const ImgContainer = styled.div`
-  height: 100%;
+const IframeContainer = styled.div`
   flex: 1;
+  height: 100%;
+  border: none;
 `;
 
-const Image = styled.img`
-  height: 80%;
+const Iframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+  border: none;
 `;
 
 const InfoContainer = styled.div`
@@ -80,25 +83,22 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-
 const DESIGNER_URL =
-  process.env.REACT_APP_DESIGNER_URL|| "https://wearable-3d.vercel.app";
-
+  process.env.REACT_APP_DESIGNER_URL || "https://wearable-3d.vercel.app";
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const history = useHistory();
+
   const handleClick = (direction) => {
     if (direction === "left") {
-      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : sliderItems.length - 1);
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      setSlideIndex(slideIndex < sliderItems.length - 1 ? slideIndex + 1 : 0);
     }
   };
 
-
-  const history = useHistory();
-
- const openDesigner = (product) => {
+  const openDesigner = (product) => {
     if (!product || (!product._id && !product.id)) {
       console.error("openDesigner: hiányzó product vagy _id/id", product);
       return;
@@ -123,9 +123,12 @@ const Slider = () => {
       <Wrapper slideIndex={slideIndex}>
         {sliderItems.map((item) => (
           <Slide bg={item.bg} key={item.id}>
-            <ImgContainer>
-              <Image src={item.img} />
-            </ImgContainer>
+            <IframeContainer>
+              <Iframe
+                src={`${DESIGNER_URL}?productId=${item.id}&color=white&mode=preview`}
+                title={`3D T-Shirt ${item.title}`}
+              />
+            </IframeContainer>
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
