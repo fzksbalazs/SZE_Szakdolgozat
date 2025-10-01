@@ -5,6 +5,10 @@
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
+    "@react-spring/core": "^9.2.4",
+    "@react-spring/three": "^9.2.4",
+    "@react-three/drei": "^7.25.3",
+    "@react-three/fiber": "^7.0.27",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -13,14 +17,18 @@
     "dotenv": "^16.0.0",
     "email-validator": "^2.0.4",
     "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
+    "gsap": "^3.13.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^5.5.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-stripe-checkout": "^2.6.3",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.3",
+    "three": "^0.136.0",
     "web-vitals": "^1.0.1",
     "yup": "^0.32.11"
   },
@@ -47,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0"
   }
 }
