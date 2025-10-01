@@ -3,8 +3,21 @@ import Customizer from "./pages/Customizer"
 import { useEffect } from "react";
 import state from "./store"; // nálad már van valtio store
 import Home from "./pages/Home";
+import { useSnapshot } from "valtio";
 
 function App() {
+
+  const snap = useSnapshot(state);
+  
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("mode") === "preview") {
+    state.preview = true;
+    state.intro = false;
+  }
+}, []);
+
+
    useEffect(() => {
     function onMessage(e) {
       const allowedOrigins = [
@@ -28,6 +41,11 @@ function App() {
           state.logoDecal = payload.initialLogoUrl;
         }
         state.productId = payload.productId || "tee-001";
+
+        if (payload.mode === "preview") {
+          state.preview = true;
+          state.intro = false;
+        }
       }
     }
     window.addEventListener("message", onMessage);
@@ -35,11 +53,17 @@ function App() {
   }, []);
 
   return (
-    <main className="app trarnsition-all-ease-in">
-      <Home></Home>
-      <Canvas></Canvas>
-      <Customizer></Customizer>
-
+     <main className="transition-all ease-in app">
+      {snap.preview ? (
+        // csak preview → csak a póló
+        <Canvas />
+      ) : (
+        <>
+          <Home />
+          <Canvas />
+          <Customizer />
+        </>
+      )}
     </main>
   )
 }
