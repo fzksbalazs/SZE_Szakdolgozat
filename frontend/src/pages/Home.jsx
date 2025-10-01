@@ -9,10 +9,12 @@ import PillNav from '../components/Navbar';
 
 
 
+
 const Home = () => {
   return (
     <div>
       <PillNav/>
+     
       <Slider />
       <Categories />
       <Newsletter/>
