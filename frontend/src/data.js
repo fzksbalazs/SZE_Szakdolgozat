@@ -2,8 +2,8 @@ export const sliderItems = [
     {
       id: 1,
       img: "https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      title: "AKCIÓS PÓLONK",
-      desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
+      title: "KÉSZITSD EL SAJÁT POLÓDAT!",
+      desc: "KREATIVITÁSODNAK NINCS HATÁRA! VÁLASSZ EGY POLÓT, ÉS KEZD EL A TERVEZÉST.",
       bg: "f5fafd",
     },
     {
@@ -25,7 +25,7 @@ export const sliderItems = [
   export const categories = [
     {
       id: 1,
-      img: "https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      img: "https://png.pngtree.com/thumb_back/fh260/background/20230625/pngtree-collection-of-t-shirt-designs-in-3d-illustration-image_3669955.jpg",
       title: "POLÓK",
       cat: "polo"
     },
