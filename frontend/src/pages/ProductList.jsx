@@ -7,53 +7,79 @@ import { mobile } from "../responsive";
 import { useLocation } from "react-router";
 import { useState } from "react";
 
-const Container = styled.div``;
+const Container = styled.div`
+  background: #fff;
+  color: #000;
+  min-height: 100vh;
+`;
 
 const Title = styled.h1`
-  margin: 20px;
+  margin: 40px 20px 20px;
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 2px;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+  padding-bottom: 8px;
 `;
 
 const FilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid #ddd;
+  ${mobile({ flexDirection: "column", gap: "15px", padding: "15px 20px" })}
 `;
 
 const Filter = styled.div`
-  margin: 20px;
-  ${mobile({ width: "0px 20px", display: "flex", flexDirection: "column" })}
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  ${mobile({ flexDirection: "column", alignItems: "flex-start", gap: "8px" })}
 `;
 
 const FilterText = styled.span`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  margin-right: 20px;
-  ${mobile({ marginRight: "0px" })}
+  text-transform: uppercase;
 `;
 
 const Select = styled.select`
-  padding: 10px;
-  margin-right: 20px;
-  ${mobile({ margin: "10px 0px" })}
+  padding: 10px 14px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  ${mobile({ width: "100%" })}
 `;
 
-const Option = styled.option``;
+const Option = styled.option`
+  font-size: 14px;
+`;
 
 const ProductList = () => {
   const location = useLocation();
   const cat = location.pathname.split("/")[2];
 
-  // Állapotok a szűréshez és rendezéshez
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState("newest");
 
-  // Szűrőválasztás kezelése
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
-    // Ha az érték "Szin" vagy "Méret", akkor töröljük a filtert
     if (value === "" || value === "Szin" || value === "Méret") {
       const newFilters = { ...filters };
-      delete newFilters[name]; // Töröljük az adott szűrőt
+      delete newFilters[name];
       setFilters(newFilters);
     } else {
       setFilters({
@@ -63,8 +89,6 @@ const ProductList = () => {
     }
   };
 
-
-  // Rendezés kezelése
   const handleSortChange = (e) => {
     setSort(e.target.value);
   };
@@ -72,11 +96,21 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Announcement />
-      <Title>Dresses</Title>
+    
+      <div style={{ textAlign: "center" }}>
+        <Title>
+          {cat === "polo"
+            ? "POLÓK"
+            : cat === "cipo"
+            ? "CIPŐK"
+            : cat === "kiegeszito"
+            ? "KIEGÉSZÍTŐK"
+            : "TERMÉKEK"}
+        </Title>
+      </div>
       <FilterContainer>
         <Filter>
-          <FilterText>Szürés:</FilterText>
+          <FilterText>Szűrés:</FilterText>
           <Select name="color" onChange={handleFilterChange}>
             <Option value="">Szin</Option>
             <Option value="Fehér">Fehér</Option>
@@ -84,23 +118,17 @@ const ProductList = () => {
             <Option value="Piros">Piros</Option>
             <Option value="Kék">Kék</Option>
             <Option value="Sárga">Sárga</Option>
-            <Option value="Rózsaszin">Rózsaszin</Option>
+            <Option value="Rózsaszin">Rózsaszín</Option>
           </Select>
           <Select name="size" onChange={handleFilterChange}>
             <Option value="">Méret</Option>
             {cat === "cipo" ? (
               <>
-                <Option value="36">36</Option>
-                <Option value="37">37</Option>
-                <Option value="38">38</Option>
-                <Option value="39">39</Option>
-                <Option value="40">40</Option>
-                <Option value="41">41</Option>
-                <Option value="42">42</Option>
-                <Option value="43">43</Option>
-                <Option value="44">44</Option>
-                <Option value="45">45</Option>
-                <Option value="46">46</Option>
+                {[36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46].map((num) => (
+                  <Option key={num} value={num}>
+                    {num}
+                  </Option>
+                ))}
               </>
             ) : (
               <>
@@ -117,8 +145,8 @@ const ProductList = () => {
           <FilterText>Rendezés:</FilterText>
           <Select onChange={handleSortChange}>
             <Option value="newest">Legújabb</Option>
-            <Option value="asc">Ár szerint növekvő </Option>
-            <Option value="desc">Ár szerint csökkenő </Option>
+            <Option value="asc">Ár szerint növekvő</Option>
+            <Option value="desc">Ár szerint csökkenő</Option>
           </Select>
         </Filter>
       </FilterContainer>

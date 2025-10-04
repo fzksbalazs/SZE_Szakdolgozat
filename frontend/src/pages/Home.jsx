@@ -6,7 +6,6 @@ import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import Slider from "../components/Slider";
 import PillNav from '../components/Navbar';
-import { StrictMode } from "react";
 
 
 
@@ -19,7 +18,7 @@ const Home = () => {
      
       <Slider />
       <Categories />
-      <Newsletter/>
+      
       <Footer/>
     </div>
   );
