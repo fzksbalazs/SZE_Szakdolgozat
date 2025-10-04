@@ -24,19 +24,19 @@ const Home = () => {
                     <motion.div className='home-content' {...headContainerAnimation}>
                         <motion.div {...headTextAnimation}>
                             <h1 className='head-text'>
-                                LETS <br className='hidden xl:block' /> DO IT.
+                                3D-S <br className='hidden xl:block' />DESIGN.
 
                             </h1>
                         </motion.div>
                         <motion.div {...headContentAnimation} className='flex flex-col gap-5'>
                             <p className='max-w-md text-base font-normal text-gray-600'>
-                                Create your unique and exclussive shirt with our brand-new 3D customization tool. <strong>
-                                    Unleash your imagination</strong> {" "} and define your own style.
+                               Készítsd el a saját, egyedi és exkluzív pólódat vadonatúj 3D testreszabó eszközünkkel. Engedd szabadjára a <strong>
+                                    fantáziád </strong> {" "} , és alakítsd ki a saját stílusod.
 
 
                             </p>
 
-                            <CustomButton type="filled" title="Customize It" handleClick={() => state.intro = false}
+                            <CustomButton type="filled" title="Szerkesztés" handleClick={() => state.intro = false}
                                 customStyles="w-fit px-4 py-2.5 font-bold text-smm" />
                         </motion.div>
                     </motion.div>
