@@ -25,19 +25,19 @@ export const sliderItems = [
   export const categories = [
     {
       id: 1,
-      img: "https://png.pngtree.com/thumb_back/fh260/background/20230625/pngtree-collection-of-t-shirt-designs-in-3d-illustration-image_3669955.jpg",
+      img: "/img/T-shirt-icon.png",
       title: "POLÓK",
       cat: "polo"
     },
     {
       id: 2,
-      img: "https://images.pexels.com/photos/6153367/pexels-photo-6153367.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      img: "/img/shoe-icon-11015.png",
       title: "CIPŐK",
       cat: "cipo"
     },
     {
       id: 3,
-      img: "https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      img: "/img/7695937.png",
       title: "KIEGÉSZITŐK",
       cat: "kiegeszito"
     },

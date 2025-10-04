@@ -3,9 +3,10 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  flex: 1;
+  flex: 1 1 30%;
   margin: 10px;
-  height: 70vh;
+  height: 60vh;
+  min-height: 250px;
   position: relative;
   border-radius: 16px;
   overflow: hidden;
@@ -18,86 +19,135 @@ const Container = styled.div`
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
 
-  ${mobile({ height: "30vh" })}
+  ${mobile({
+    flex: "1 1 100%",
+    height: "35vh",
+    minHeight: "200px",
+    margin: "5px 0"
+  })}
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
+const WaveBackground = styled.div`
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
 
-  ${Container}:hover & {
-    transform: scale(1.1);
+  span {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -75%);
+  }
+
+  span:nth-child(1) {
+    border-radius: 45%;
+    background: rgba(0, 20, 20, 1);
+    animation: rotate 5s linear infinite;
+  }
+  span:nth-child(2) {
+    border-radius: 40%;
+    background: rgba(0, 20, 20, 0.5);
+    animation: rotate 10s linear infinite;
+  }
+  span:nth-child(3) {
+    border-radius: 42.5%;
+    background: rgba(0, 20, 20, 0.5);
+    animation: rotate 15s linear infinite;
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: translate(-50%, -75%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -75%) rotate(360deg);
+    }
   }
 `;
 
 const Overlay = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0.6)
-  );
-  opacity: 0;
-  transition: opacity 0.5s ease;
-
-  ${Container}:hover & {
-    opacity: 1;
-  }
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(100, 20, 20, 0.6));
+  z-index: 1;
 `;
 
 const Info = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
   text-align: center;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-
-  ${Container}:hover & {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.05);
-  }
 `;
 
 const Title = styled.h1`
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 28px;
   letter-spacing: 1.5px;
+
+  ${mobile({
+    fontSize: "20px"
+  })}
 `;
 
 const Button = styled.button`
   border: none;
-  padding: 12px 24px;
+  padding: 10px 20px;
   background-color: #ffffff;
   color: #333;
   cursor: pointer;
   font-weight: 600;
   border-radius: 8px;
   transition: all 0.3s ease;
+  margin-bottom: 15px;
 
   &:hover {
-    background-color: #716eef;
+    background-color: #000000;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
+
+  ${mobile({
+    padding: "8px 16px",
+    fontSize: "14px"
+  })}
+`;
+
+const Image = styled.img`
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  margin-top: 100px;
+  border-radius: 8px;
+  background
+
+  ${mobile({
+    width: "90px"
+  })}
 `;
 
 const CategoryItem = ({ item }) => {
   return (
     <Container>
       <Link to={`/products/${item.cat}`}>
-        <Image src={item.img} alt={item.title} />
+        <WaveBackground>
+          <span></span>
+          <span></span>
+          <span></span>
+        </WaveBackground>
         <Overlay />
         <Info>
           <Title>{item.title}</Title>
           <Button>BÖNGÉSZÉS</Button>
+          <Image src={item.img} alt={item.title} />
         </Info>
       </Link>
     </Container>
