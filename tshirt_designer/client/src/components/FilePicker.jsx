@@ -19,10 +19,10 @@ const FilePicker = ({ file, setFile, readFile }) => {
       <label
         htmlFor='file-upload' className='filepicker-label' 
       >
-        Upload File
+        Fájl Feltöltése
       </label>
       <p className='mt-2 text-xs text-gray-500 truncate'>
-        {file ? file.name : "No file selected"}
+        {file ? file.name : "Nincs feltöltött fájl"}
       </p>
       </div>
       <div className="flex flex-wrap gap-3 mt-4">
@@ -34,7 +34,7 @@ const FilePicker = ({ file, setFile, readFile }) => {
       />
       <CustomButton
         type='filled'
-        title='Full'
+        title='Minta'
         handleClick={() => readFile('full')}
         customStyles="text-xs"
       />
