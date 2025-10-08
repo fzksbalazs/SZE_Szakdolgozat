@@ -3,6 +3,7 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
+background-color: white;
   flex: 1 1 30%;
   margin: 10px;
   height: 60vh;
@@ -13,6 +14,7 @@ const Container = styled.div`
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  
 
   &:hover {
     transform: translateY(-8px);
@@ -71,8 +73,9 @@ const WaveBackground = styled.div`
 const Overlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(100, 20, 20, 0.6));
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(92, 32, 134));
   z-index: 1;
+  
 `;
 
 const Info = styled.div`

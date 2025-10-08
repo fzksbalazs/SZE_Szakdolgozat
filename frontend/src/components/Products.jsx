@@ -4,11 +4,20 @@ import { publicRequest } from "../requestMethods";
 import { useEffect, useState } from "react";
 
 const Container = styled.div`
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `;
+
 
 const Products = ({ cat, filters, sort }) => {
   const [products, setProducts] = useState([]);

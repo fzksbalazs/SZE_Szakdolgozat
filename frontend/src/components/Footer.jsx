@@ -13,7 +13,7 @@ const fadeIn = keyframes`
 `;
 
 const Container = styled.footer`
-  background: #111;
+  background: linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f);
   color: #f1f1f1;
   display: flex;
   justify-content: space-between;
