@@ -5,24 +5,80 @@ const jwt = require("jsonwebtoken");
 
 
 //REGISTER
-router.post("/register", async (req, res) => {
-  const newUser = new User({
-    username: req.body.username,
-    email: req.body.email,
-    password: CryptoJS.AES.encrypt(
-      req.body.password,
-      process.env.PASS_SEC
-    ).toString(),
-  });
+function validatePassword(password) {
+  const errors = [];
 
+  if (!password) errors.push("A jelszó megadása kötelező.");
+  else {
+    if (password.length < 8)
+      errors.push("A jelszónak legalább 8 karakter hosszúnak kell lennie.");
+    if (!/[A-Z]/.test(password))
+      errors.push("A jelszónak tartalmaznia kell legalább egy nagybetűt.");
+    if (!/[a-z]/.test(password))
+      errors.push("A jelszónak tartalmaznia kell legalább egy kisbetűt.");
+    if (!/[0-9]/.test(password))
+      errors.push("A jelszónak tartalmaznia kell legalább egy számjegyet.");
+  
+  }
+
+  return errors;
+}
+
+// ✅ REGISTER
+router.post("/register", async (req, res) => {
   try {
+    const { username, email, password } = req.body;
+
+    // 1️⃣ Alap mezőellenőrzés
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "Az összes mező kitöltése kötelező!" });
+    }
+
+    // 2️⃣ Ellenőrizd, hogy az email vagy a felhasználónév foglalt-e
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }],
+    });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ message: "Felhasználónév vagy email már létezik" });
+    }
+
+    // 3️⃣ Jelszó validáció
+    const passwordErrors = validatePassword(password);
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({
+        message: "Password validation failed",
+        errors: passwordErrors,
+      });
+    }
+
+    // 4️⃣ Új user létrehozása és titkosítás
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      password,
+      process.env.PASS_SEC
+    ).toString();
+
+    const newUser = new User({
+      username,
+      email,
+      password: encryptedPassword,
+    });
+
     const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+
+    // 5️⃣ Ne küldjük vissza a jelszót
+    const { password: pw, ...others } = savedUser._doc;
+
+    res.status(201).json({
+      message: "User registered successfully",
+      user: others,
+    });
   } catch (err) {
-    res.status(500).json(err);
+    console.error("Registration error:", err);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
-
 //LOGIN
 
 router.post("/login", async (req, res) => {

@@ -6,7 +6,7 @@ import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import Slider from "../components/Slider";
 import PillNav from '../components/Navbar';
-
+import styled, { keyframes } from "styled-components";
 
 
 
@@ -14,9 +14,11 @@ import PillNav from '../components/Navbar';
 const Home = () => {
   return (
     <div>
-      <PillNav/>
      
+      <PillNav sharedBackground={true} />
       <Slider />
+    
+      
       <Categories />
       
       <Footer/>

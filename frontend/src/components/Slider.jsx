@@ -5,11 +5,13 @@ import { useHistory } from "react-router-dom";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
+position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
   position: relative;
   overflow: hidden;
+  
   
   
 
@@ -43,6 +45,7 @@ const IframeContainer = styled.div`
   flex: 1;
   height: 100%;
   border: none;
+  background-color: white;
 
   ${mobile({
     width: "100%",
@@ -62,13 +65,20 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000000;
   color: #fff;
+  position: relative;
+  overflow: hidden;
+
+  background: transparent; 
 
   ${mobile({
     width: "100%",
+    padding: "40px 0",
   })}
 `;
+
+
+
 
 const InfoContainer = styled.div`
   flex: 1;

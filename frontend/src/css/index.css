@@ -1,0 +1,11 @@
+:root {
+  --gradient-bg: linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f);
+  --gradient-size: 400% 400%;
+  --gradient-animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

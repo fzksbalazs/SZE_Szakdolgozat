@@ -8,10 +8,18 @@ import { useLocation } from "react-router";
 import { useState } from "react";
 
 const Container = styled.div`
+ 
+  color: #000;
+  
+`;
+
+const Wrapper = styled.div`
   background: #fff;
   color: #000;
-  min-height: 100vh;
+  
 `;
+
+
 
 const Title = styled.h1`
   margin: 40px 20px 20px;
@@ -96,6 +104,8 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
+
+      <Wrapper>
     
       <div style={{ textAlign: "center" }}>
         <Title>
@@ -151,6 +161,7 @@ const ProductList = () => {
         </Filter>
       </FilterContainer>
       <Products cat={cat} filters={filters} sort={sort} />
+      </Wrapper>
       <Footer />
     </Container>
   );

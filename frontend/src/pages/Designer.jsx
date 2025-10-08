@@ -82,7 +82,7 @@ export default function Designer() {
   }, [dispatch, history]);
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div style={{ height: "100vh", width: "100%", backgroundColor: "#fff" }}>
       <iframe
         ref={iframeRef}
         title="T-Shirt Designer"

@@ -1,0 +1,22 @@
+:root {
+  --gradient-bg: linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f);
+  --gradient-size: 400% 400%;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--gradient-bg);
+  background-size: var(--gradient-size);
+  animation: gradientMove 4s ease infinite;
+  background-attachment: fixed;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}

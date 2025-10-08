@@ -1,11 +1,11 @@
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Auth from "./pages/Auth";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
 import { useSelector } from "react-redux";
+
 
 
 import {
@@ -19,6 +19,10 @@ import Designer from "./pages/Designer";
 
 const App = () => {
   const user = useSelector(state=> state.user.currentUser);
+ 
+
+
+
   return (
     <Router>
     <Switch>
@@ -26,10 +30,10 @@ const App = () => {
         <Home />
       </Route>
       <Route path="/login">
-          {user ? <Redirect to="/" /> : <Login />}
+          {user ? <Redirect to="/" /> : <Auth />}
         </Route>
       <Route path="/register">
-          {user ? <Redirect to="/" /> : <Register />}
+          {user ? <Redirect to="/" /> : <Auth />}
         </Route>
      
         {user ? (

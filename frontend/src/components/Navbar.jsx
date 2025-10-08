@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import logos from '../img/logo.png';
 
 const Navbar = ({
+  sharedBackground = false,
   logo = logos,
   logoAlt = 'Logo',
   className = '',
@@ -179,7 +180,7 @@ const Navbar = ({
   // Menü összeállítása user alapján
   const guestItems = [
     { label: 'KEZDŐLAP', href: '/' },
-    { label: 'REGISZTRÁCIÓ', href: '/register' },
+    
     { label: 'BEJELENTKEZÉS', href: '/login' },
   ];
 
@@ -193,7 +194,7 @@ const Navbar = ({
   const items = user ? userItems : guestItems;
 
   return (
-    <div className="nav-wrapper">
+    <div className={`nav-wrapper ${sharedBackground ? "shared-bg" : ""}`}>
       <div className="pill-nav-container">
         <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
           <Link
