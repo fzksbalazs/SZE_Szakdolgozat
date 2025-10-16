@@ -42,7 +42,7 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-app.post("/api/debug/echo", (req, res) => {
+app.post("https://wearable-rira.onrender.com/api/debug/echo", (req, res) => {
   return res.json({
     hasBody: !!req.body,
     keys: req.body ? Object.keys(req.body) : null,
@@ -50,7 +50,7 @@ app.post("/api/debug/echo", (req, res) => {
   });
 });
 
-app.post("/api/custom/upload", async (req, res) => {
+app.post("https://wearable-rira.onrender.com/api/custom/upload", async (req, res) => {
   try {
     console.log("Upload hit. headers:", req.headers);
 
