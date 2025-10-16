@@ -31,7 +31,7 @@ const Customizer = ({ productId }) => {
   });
 
   const [size, setSize] = useState("M");
-   const handleSizeChange = (event) => {
+  const handleSizeChange = (event) => {
     setSize(event.target.value);
   };
 
@@ -57,7 +57,12 @@ const Customizer = ({ productId }) => {
       }
     })();
 
-    console.log("posting DONE to parent", { pid, baseColor, isLogoTexture, isFullTexture });
+    console.log("posting DONE to parent", {
+      pid,
+      baseColor,
+      isLogoTexture,
+      isFullTexture,
+    });
 
     window.parent?.postMessage(
       {
@@ -71,7 +76,7 @@ const Customizer = ({ productId }) => {
           size: selectedSize,
         },
       },
-      parentOrigin
+      parentOrigin,
     );
   }
 
@@ -101,14 +106,18 @@ const Customizer = ({ productId }) => {
 
     try {
       setgeneratingImg(true);
-      const response = await fetch("https://szak-3d-backend.onrender.com/api/v1/dalle", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
+      const response = await fetch(
+        "https://szak-3d-backend.onrender.com/api/v1/dalle",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt }),
+        },
+      );
 
       const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.message || `HTTP ${response.status}`);
+      if (!response.ok)
+        throw new Error(data?.message || `HTTP ${response.status}`);
       if (!data?.photo) throw new Error("Missing image in response");
 
       handleDecals(type, `data:image/png;base64,${data.photo}`);
@@ -158,7 +167,6 @@ const Customizer = ({ productId }) => {
   };
 
   return (
-   
     <AnimatePresence>
       {!snap.intro && (
         <>
@@ -179,17 +187,11 @@ const Customizer = ({ productId }) => {
                 ))}
                 {generateTabContent()}
               </div>
-              
             </div>
-
-            
           </motion.div>
 
           {/* Vissza gomb bal felül */}
-          <motion.div
-            className="absolute z-10 top-5 left-5"
-            {...fadeAnimation}
-          >
+          <motion.div className="absolute z-10 top-5 left-5" {...fadeAnimation}>
             <CustomButton
               type="filled"
               title="Vissza"
@@ -211,8 +213,6 @@ const Customizer = ({ productId }) => {
             />
           </motion.div>
 
-          
-
           {/* Filter tabok és letöltés */}
           <motion.div
             className="filtertabs-container"
@@ -227,7 +227,6 @@ const Customizer = ({ productId }) => {
                 handleClick={() => handleActiveFilterTab(tab.name)}
               />
             ))}
-             
 
             <button className="download-btn" onClick={downloadCanvasToImage}>
               <img
@@ -236,20 +235,23 @@ const Customizer = ({ productId }) => {
                 className="object-contain w-3/5 h-3/5"
               />
             </button>
-<motion.div>
-        <label className= "p-3" htmlFor="size"></label>
-        <select id="size" value={size} onChange={handleSizeChange} className="p-2 text-xl bg-transparent rounded-full">
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-      </motion.div>
-            
+            <motion.div>
+              <label className="p-3" htmlFor="size"></label>
+              <select
+                id="size"
+                value={size}
+                onChange={handleSizeChange}
+                className="p-2 text-xl bg-transparent rounded-full"
+              >
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+              </select>
+            </motion.div>
           </motion.div>
         </>
       )}
-      
     </AnimatePresence>
   );
 };
