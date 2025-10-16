@@ -81,6 +81,17 @@ export default function Designer() {
     return () => window.removeEventListener("message", onMessage);
   }, [dispatch, history]);
 
+  window.addEventListener("message", (event) => {
+    // Ellenőrizzük, hogy az üzenet a várt origin-től jött
+    if (event.origin === "http://localhost:3000") { // Itt a szülő origin-je
+        if (event.data.type === "NAVIGATE_TO_HOME") {
+            // Átirányítás a főoldalra
+            window.location.href = 'http://localhost:3000'; // Vagy window.location.replace()
+        }
+    }
+});
+
+
   return (
     <div style={{ height: "100vh", width: "100%", backgroundColor: "#fff" }}>
       <iframe
