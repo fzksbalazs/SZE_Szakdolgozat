@@ -57,10 +57,12 @@ export default function Designer() {
         dispatch(
           addProduct({
             _id: payload.productId,
-            title: "Custom T-shirt",
+            title: "Egyedi Poló",
             price: 5000,
             quantity: 1,
             customImageUrl: url, 
+            color: payload.baseColor,
+            size: payload.size || "M",  
             
             variant: {
               color: payload.baseColor,
