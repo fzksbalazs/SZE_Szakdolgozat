@@ -207,7 +207,7 @@ const Navbar = ({
 
   const userItems = [
     { label: "KEZDŐLAP", href: "/" },
-    { label: "TERMÉKEK", href: "/products" },
+   
     { label: "KOSÁR", href: "/cart", isCart: true },
     { label: "KIJELENTKEZÉS", href: "#logout", isLogout: true },
   ];
