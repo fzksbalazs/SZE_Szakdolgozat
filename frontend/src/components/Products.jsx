@@ -26,7 +26,7 @@ const Products = ({ cat, filters, sort }) => {
   const getProducts = async () => {
     try {
       const res = await publicRequest.get(
-        cat ? `api/products?category=${cat}` : "api/products"
+        cat ? `products?category=${cat}` : "products"
       );
       setProducts(res.data);
     } catch (err) {
