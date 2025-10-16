@@ -1,4 +1,4 @@
-// server/routes/dalle.routes.js
+
 import express from "express";
 import axios from "axios";
 const router = express.Router();
