@@ -27,24 +27,24 @@ export default function Designer() {
   }, [query]);
 
   useEffect(() => {
-    const allowedOrigin = new URL(DESIGNER_URL).origin;
+  const allowedOrigin = new URL(DESIGNER_URL).origin;
 
-    async function uploadToCloudinary(dataUrl, productId) {
-      const resp = await fetch(`${API_BASE}/api/custom/upload`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageDataUrl: dataUrl, productId }),
-      });
-      if (!resp.ok) throw new Error("Upload failed");
-      return resp.json(); // { url, public_id, productId }
-    }
+  async function uploadToCloudinary(dataUrl, productId) {
+    const resp = await fetch(`${API_BASE}/api/custom/upload`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imageDataUrl: dataUrl, productId }),
+    });
+    if (!resp.ok) throw new Error("Upload failed");
+    return resp.json();
+  }
 
-    async function onMessage(e) {
-      // if (e.origin !== allowedOrigin) return;
-      const { type, payload } = e.data || {};
-      if (type !== "DONE") return;
+  async function onMessage(e) {
+    // if (e.origin !== allowedOrigin) return; // ha akarsz biztonságot
+    const { type, payload } = e.data || {};
 
-      // őr: csak egyszer dolgozzuk fel
+    // 🔹 1️⃣ Ha a designer befejezte a mentést
+    if (type === "DONE") {
       if (handledRef.current) return;
       handledRef.current = true;
 
@@ -54,10 +54,9 @@ export default function Designer() {
           payload.productId
         );
 
-        // kosárba rakás (szükség szerint állítsd a struktúrát)
         dispatch(
           addProduct({
-            _id: payload.productId, // ha kell az _id a reduceredhez
+            _id: payload.productId,
             title: "Custom T-shirt",
             price: 5000,
             quantity: 1,
@@ -73,24 +72,21 @@ export default function Designer() {
       } catch (err) {
         console.error("Mentés hiba:", err);
         alert("Nem sikerült elmenteni a mintát. Próbáld újra!");
-        handledRef.current = false; // engedjük újrapróbálni
+        handledRef.current = false;
       }
     }
 
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, [dispatch, history]);
-
-  window.addEventListener("message", (event) => {
-    // Ellenőrizzük, hogy az üzenet a várt origin-től jött
-    if (event.origin === "http://localhost:3000") { // Itt a szülő origin-je
-        if (event.data.type === "NAVIGATE_TO_HOME") {
-            // Átirányítás a főoldalra
-            window.location.href = 'http://localhost:3000'; // Vagy window.location.replace()
-        }
+    // 🔹 2️⃣ Ha a logóra kattintott (vissza a főoldalra)
+    if (type === "GO_HOME") {
+      history.replace("/"); // visszanavigál a főoldalra
     }
-});
+  }
 
+  window.addEventListener("message", onMessage);
+  return () => window.removeEventListener("message", onMessage);
+}, [dispatch, history]);
+
+  
 
   return (
     <div style={{ height: "100vh", width: "100%", backgroundColor: "#fff" }}>
