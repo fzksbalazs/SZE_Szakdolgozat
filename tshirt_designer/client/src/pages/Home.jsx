@@ -16,11 +16,11 @@ const Home = () => {
   const snap = useSnapshot(state);
   const navigate = useNavigate();
   const handleLogoClick = () => {
-    // Ha iframe-ben fut, üzenünk a szülőnek
+    
     if (window.parent !== window) {
       window.parent.postMessage({ type: "GO_HOME" }, "*");
     } else {
-      // Ha nem iframe-ben fut, közvetlenül megyünk a főoldalra
+      
       window.location.href = "http://localhost:3000";
     }
   };
@@ -30,21 +30,21 @@ const Home = () => {
       {snap.intro && (
         <motion.section className="home" {...slideAnimation("left")}>
           <motion.header {...slideAnimation("down")}>
-            {/* Flexbox használata a logó középre igazításához */}
+           
 
             <motion.div
               key="logo"
               initial={{ opacity: 1 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }} // Animáció, hogy a logó eltűnjön
-              transition={{ duration: 0.2 }} // Animáció időtartama
+              exit={{ opacity: 0 }} 
+              transition={{ duration: 0.2 }} 
             >
               <img
                 src="./logo.png"
                 alt="logo"
                 className="object-contain w-32 h-32 cursor-pointer"
                 onClick={handleLogoClick}
-                parentOrigin // Itt állíthatod a logó méretét
+                parentOrigin 
               />
             </motion.div>
           </motion.header>

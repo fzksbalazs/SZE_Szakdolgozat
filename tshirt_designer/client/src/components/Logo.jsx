@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 import { useSnapshot } from "valtio";
-import state from "../store"; // Feltételezve, hogy itt tárolódik az állapot
+import state from "../store"; 
 
 const Logo = () => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate("/"); // Navigálás a főoldalra
+    navigate("/"); 
   };
 
   return (
@@ -19,10 +19,10 @@ const Logo = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      onClick={handleLogoClick} // Kattintáskor visszavisz a főoldalra
+      onClick={handleLogoClick} 
     >
       <img
-        src="/logo" // Itt cseréld ki a logó képének helyét
+        src="/logo" 
         alt="Wearable Logo"
         className="object-contain w-1/4 cursor-pointer h-1/4"
       />

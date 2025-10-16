@@ -53,7 +53,7 @@ const Customizer = ({ productId }) => {
       try {
         return new URL(document.referrer).origin;
       } catch {
-        return "*"; // fejlesztéshez jó
+        return "*"; 
       }
     })();
 
@@ -170,7 +170,7 @@ const Customizer = ({ productId }) => {
     <AnimatePresence>
       {!snap.intro && (
         <>
-          {/* Bal oldali tabok */}
+          
           <motion.div
             key="custom"
             className="absolute top-0 left-0 z-10"
@@ -190,7 +190,7 @@ const Customizer = ({ productId }) => {
             </div>
           </motion.div>
 
-          {/* Vissza gomb bal felül */}
+       
           <motion.div className="absolute z-10 top-5 left-5" {...fadeAnimation}>
             <CustomButton
               type="filled"
@@ -200,7 +200,7 @@ const Customizer = ({ productId }) => {
             />
           </motion.div>
 
-          {/* Megrendelés gomb jobb felül */}
+         
           <motion.div
             className="absolute z-10 top-5 right-5"
             {...fadeAnimation}
@@ -213,7 +213,7 @@ const Customizer = ({ productId }) => {
             />
           </motion.div>
 
-          {/* Filter tabok és letöltés */}
+       
           <motion.div
             className="filtertabs-container"
             {...slideAnimation("up")}
