@@ -1,8 +1,4 @@
-import {
-  MailOutline,
-  Phone,
-  Room,
-} from "@material-ui/icons";
+import { MailOutline, Phone, Room } from "@material-ui/icons";
 import styled, { keyframes } from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
@@ -29,8 +25,6 @@ const Container = styled.footer`
   flex-wrap: wrap;
   ${mobile({ flexDirection: "column", padding: "30px 20px" })}
 `;
-
-
 
 const Column = styled.div`
   flex: 1;
@@ -63,7 +57,7 @@ const Title = styled.h3`
     display: block;
     width: 40px;
     height: 2px;
-    background: #FFFFFF;
+    background: #ffffff;
     margin-top: 6px;
     border-radius: 4px;
   }
@@ -90,7 +84,7 @@ const ListItem = styled.li`
       bottom: -3px;
       width: 0%;
       height: 2px;
-      background: #FFFFFF;
+      background: #ffffff;
       transition: width 0.3s ease;
     }
 
@@ -114,8 +108,10 @@ const ContactItem = styled.div`
 
   svg {
     margin-right: 10px;
-    color: #FFFFFF;
-    transition: transform 0.3s ease, color 0.3s ease;
+    color: #ffffff;
+    transition:
+      transform 0.3s ease,
+      color 0.3s ease;
   }
 
   &:hover {
@@ -144,8 +140,8 @@ const Footer = () => {
           <Logo>WEARABLE.</Logo>
           <Desc>
             Egyedi pólótervező és webshop, ahol saját stílusod szerint
-            alkothatsz. Készítsd el designodat 3D szerkesztőnk segítségével,
-            és rendeld meg könnyedén!
+            alkothatsz. Készítsd el designodat 3D szerkesztőnk segítségével, és
+            rendeld meg könnyedén!
           </Desc>
         </Column>
 
@@ -166,9 +162,6 @@ const Footer = () => {
             </ListItem>
             <ListItem>
               <Link to="/products/kiegeszito">Kiegészítők</Link>
-            </ListItem>
-            <ListItem>
-              <Link to="/account">Fiókom</Link>
             </ListItem>
           </List>
         </Column>

@@ -11,36 +11,36 @@ const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 const emailRoutes = require("./routes/emailRoutes");
 
-const cloudinary= require("cloudinary");
+const cloudinary = require("cloudinary");
 
 const allowedOrigins = [
-  "http://localhost:3000",            // helyi CRA
-  "http://localhost:5173",            // ha a designer is helyben fut
-  "https://wearable-3d.vercel.app/",   // Vercel designer
-  "https://<A_TE_WEBHOP_DOMAINOD>"    // (ha van saját domain)
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://wearable-3d.vercel.app/",
+  "https://<A_TE_WEBHOP_DOMAINOD>",
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // engedjük a same-origin/no-origin kéréseket is (pl. Postman, curl)
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    return callback(new Error("CORS blocked: " + origin));
-  },
-  credentials: false, // nincs cookie/jwt header itt, maradhat false
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin))
+        return callback(null, true);
+      return callback(new Error("CORS blocked: " + origin));
+    },
+    credentials: false,
+  }),
+);
 
-  app.use(express.json({limit: "30mb"}));
-  app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+app.use(express.json({ limit: "30mb" }));
+app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
-
-dotenv.config(); //env fileból toltes
+dotenv.config();
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 
 app.post("/api/debug/echo", (req, res) => {
   return res.json({
@@ -53,18 +53,20 @@ app.post("/api/debug/echo", (req, res) => {
 app.post("/api/custom/upload", async (req, res) => {
   try {
     console.log("Upload hit. headers:", req.headers);
-    // FONTOS: itt MINDIG legyen req.body!
+
     const { imageDataUrl, productId } = req.body || {};
-    if (!imageDataUrl || !/^data:image\/(png|jpeg);base64,/.test(imageDataUrl)) {
+    if (
+      !imageDataUrl ||
+      !/^data:image\/(png|jpeg);base64,/.test(imageDataUrl)
+    ) {
       return res.status(400).json({ message: "Invalid imageDataUrl" });
     }
 
-    // Egyszerűbb: a dataURL-t közvetlenül feltöltjük
     const result = await cloudinary.uploader.upload(imageDataUrl, {
       folder: "custom-prints",
       overwrite: true,
       resource_type: "image",
-      format: "png", // vagy hagyd el, ha jpeg-et is elfogadsz
+      format: "png",
       public_id: `custom_${Date.now()}`,
     });
 
@@ -80,8 +82,6 @@ app.post("/api/custom/upload", async (req, res) => {
   }
 });
 
-
-
 mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGO_URL)
@@ -90,18 +90,14 @@ mongoose
     console.log(err);
   });
 
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/checkout", stripeRoute);
+app.use("/api/emails", emailRoutes);
 
-
-  
-  app.use("/api/auth", authRoute);
-  app.use("/api/users", userRoute);
-  app.use("/api/products", productRoute);
-  app.use("/api/carts", cartRoute);
-  app.use("/api/orders", orderRoute);
-  app.use("/api/checkout", stripeRoute);
-  app.use("/api/emails", emailRoutes);
-  
-
-  app.listen(process.env.PORT || 5000, () => {
-    console.log("Backend szerver fut!");
-  });
+app.listen(process.env.PORT || 5000, () => {
+  console.log("Backend szerver fut!");
+});

@@ -12,7 +12,8 @@ router.post("/", async (req, res) => {
 
     const r = await axios.post(PY_AI_URL, { prompt }, { timeout: 180000000 });
     const photo = r.data?.photo;
-    if (!photo) return res.status(502).json({ message: "No image from generator" });
+    if (!photo)
+      return res.status(502).json({ message: "No image from generator" });
 
     res.status(200).json({ photo });
   } catch (err) {

@@ -1,7 +1,7 @@
 import { loginFailure, loginStart, loginSuccess, logout } from "./userRedux";
-import { publicRequest, } from "../requestMethods";
-import { clearCart, } from "./cartRedux";
-import { userRequest} from "../requestMethods"; 
+import { publicRequest } from "../requestMethods";
+import { clearCart } from "./cartRedux";
+import { userRequest } from "../requestMethods";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
@@ -9,9 +9,9 @@ export const login = async (dispatch, user) => {
     const res = await publicRequest.post("/auth/login", user);
     dispatch(loginSuccess(res.data));
 
-    localStorage.setItem("currentUser", JSON.stringify(res.data)); 
+    localStorage.setItem("currentUser", JSON.stringify(res.data));
 
-    // Az accessToken mentése külön a localStorage-ba
+  
     if (res.data.accessToken) {
       localStorage.setItem("accessToken", res.data.accessToken);
     }
@@ -24,7 +24,7 @@ export const Logout = async (dispatch) => {
   try {
     dispatch(logout());
     dispatch(clearCart());
-    // Kilépés után töröljük a felhasználót a localStorage-ból
+    
     localStorage.removeItem("currentUser");
     userRequest.defaults.headers.Authorization = "";
   } catch (err) {
@@ -39,5 +39,3 @@ export const SuccessFullOrder = async (dispatch) => {
     console.log(err);
   }
 };
-
-

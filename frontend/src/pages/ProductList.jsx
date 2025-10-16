@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
@@ -80,7 +79,12 @@ const ProductList = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
-    if (value === "" || value === "Szin" || value === "Méret" || value === "Márka") {
+    if (
+      value === "" ||
+      value === "Szin" ||
+      value === "Méret" ||
+      value === "Márka"
+    ) {
       const newFilters = { ...filters };
       delete newFilters[name];
       setFilters(newFilters);
@@ -106,16 +110,16 @@ const ProductList = () => {
             {cat === "polo"
               ? "POLÓK"
               : cat === "cipo"
-              ? "CIPŐK"
-              : cat === "kiegeszito"
-              ? "KIEGÉSZÍTŐK"
-              : "TERMÉKEK"}
+                ? "CIPŐK"
+                : cat === "kiegeszito"
+                  ? "KIEGÉSZÍTŐK"
+                  : "TERMÉKEK"}
           </Title>
         </div>
         <FilterContainer>
           <Filter>
             <FilterText>Szűrés:</FilterText>
-             <Select name="color" onChange={handleFilterChange}>
+            <Select name="color" onChange={handleFilterChange}>
               <Option value="">Szin</Option>
               <Option value="Fehér">Fehér</Option>
               <Option value="Fekete">Fekete</Option>
@@ -124,7 +128,7 @@ const ProductList = () => {
               <Option value="Sárga">Sárga</Option>
               <Option value="Rózsaszin">Rózsaszín</Option>
             </Select>
-          
+
             <Select name="size" onChange={handleFilterChange}>
               <Option value="">Méret</Option>
               {cat === "cipo" ? (
@@ -145,7 +149,7 @@ const ProductList = () => {
                 </>
               )}
             </Select>
-            {/* Márka szűrő hozzáadása */}
+          
             <Select name="Brand" onChange={handleFilterChange}>
               <Option value="">Márka</Option>
               <Option value="Adidas">Adidas</Option>

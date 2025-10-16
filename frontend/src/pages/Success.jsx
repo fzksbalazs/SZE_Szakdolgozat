@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { clearCart } from "../redux/cartRedux";
-import { userRequest } from "../requestMethods"; 
+import { userRequest } from "../requestMethods";
 
 const Success = () => {
   const location = useLocation();
@@ -20,11 +20,12 @@ const Success = () => {
     history.push("/");
   };
 
-
   useEffect(() => {
-    
     console.log("Current User:", currentUser);
-    console.log("Token in userRequest:", userRequest.defaults.headers.Authorization);
+    console.log(
+      "Token in userRequest:",
+      userRequest.defaults.headers.Authorization,
+    );
 
     const createOrder = async () => {
       try {

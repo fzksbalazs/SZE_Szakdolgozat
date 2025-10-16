@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import { publicRequest } from "../requestMethods";  // API hívások
+import { publicRequest } from "../requestMethods";
 import styled, { keyframes } from "styled-components";
-
-// Stílusok
-
 
 const moveBg = keyframes`
   0% { background-position: 0% 50%; }
@@ -32,9 +29,9 @@ const Card = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
   display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
 
@@ -46,12 +43,10 @@ const Card = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   width: 50%;
-  gap: 20px; 
+  gap: 20px;
 `;
-
-
 
 const Title = styled.h1`
   font-size: clamp(28px, 4.2vw, 40px);
@@ -109,7 +104,7 @@ const PasswordChecklist = styled.div`
   padding: 10px 14px;
   width: 80%;
   box-sizing: border-box;
-  
+
   @media (max-width: 768px) {
     width: 90%;
   }
@@ -206,8 +201,8 @@ const ResetPassword = () => {
         token,
         newPassword,
       });
-      alert(response.data.message); // Sikeres üzenet
-      history.push("/login"); // Vissza a bejelentkezéshez
+      alert(response.data.message);
+      history.push("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Hiba történt.");
     }
@@ -233,8 +228,7 @@ const ResetPassword = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          
-          {/* Jelszó erősségi ellenőrzés */}
+
           <PasswordChecklist>
             <h4>Jelszó követelmények:</h4>
             <ul>
@@ -259,7 +253,9 @@ const ResetPassword = () => {
           <SubmitBtn type="submit">Jelszó visszaállítása</SubmitBtn>
           {error && <ErrorMsg>{error}</ErrorMsg>}
         </Form>
-        <BackButton onClick={() => history.push("/login")}>Vissza a bejelentkezéshez</BackButton>
+        <BackButton onClick={() => history.push("/login")}>
+          Vissza a bejelentkezéshez
+        </BackButton>
       </Card>
     </Page>
   );
