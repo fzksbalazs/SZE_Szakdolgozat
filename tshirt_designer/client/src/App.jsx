@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import state from "./store"; // nálad már van valtio store
 import Home from "./pages/Home";
 import { useSnapshot } from "valtio";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
 
@@ -53,6 +54,7 @@ useEffect(() => {
   }, []);
 
   return (
+     <Router>
      <main className="transition-all ease-in app">
       {snap.preview ? (
         // csak preview → csak a póló
@@ -65,6 +67,7 @@ useEffect(() => {
         </>
       )}
     </main>
+    </Router>
   )
 }
 

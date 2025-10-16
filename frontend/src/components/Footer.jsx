@@ -7,6 +7,12 @@ import styled, { keyframes } from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 
+const moveBg = keyframes`
+  0% { background-position: 50% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 50% 0%; }
+`;
+
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -14,6 +20,8 @@ const fadeIn = keyframes`
 
 const Container = styled.footer`
   background: linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f);
+  background-size: 400% 400%;
+  animation: ${moveBg} 4s ease infinite;
   color: #f1f1f1;
   display: flex;
   justify-content: space-between;
@@ -21,6 +29,8 @@ const Container = styled.footer`
   flex-wrap: wrap;
   ${mobile({ flexDirection: "column", padding: "30px 20px" })}
 `;
+
+
 
 const Column = styled.div`
   flex: 1;

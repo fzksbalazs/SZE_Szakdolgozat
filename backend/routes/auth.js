@@ -2,6 +2,9 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
 
 
 //REGISTER
@@ -111,6 +114,76 @@ router.post("/login", async (req, res) => {
     res.status(200).json({ ...others, accessToken });
   } catch (err) {
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // 1️⃣ Ellenőrizzük, hogy létezik-e a felhasználó az email cím alapján
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Nincs felhasználó ezzel az email címmel." });
+    }
+
+    // 2️⃣ Generálunk egy egyedi reset token-t
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    user.resetToken = resetToken;
+    user.resetTokenExpiration = Date.now() + 3600000; // A token 1 órán belül lejár
+    await user.save();
+
+    // 3️⃣ Beállítjuk a nodemailer küldést (smtp konfiguráció)
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // 4️⃣ Reset link küldése az emailhez
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+    
+    await transporter.sendMail({
+      to: email,
+      subject: 'Jelszó visszaállítása',
+      html: `<p>Kattints az alábbi linkre a jelszó visszaállításához:</p><p><a href="${resetUrl}">Visszaállítás</a></p>`,
+    });
+
+    res.status(200).json({ message: "Egy emailt küldtünk a jelszó visszaállításához." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Hiba történt a jelszó visszaállítása során." });
+  }
+});
+
+// 2. Jelszó visszaállítása (új jelszó beállítása)
+router.post("/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    // 1️⃣ Ellenőrizzük a reset token érvényességét
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiration: { $gt: Date.now() }, // Győződjünk meg róla, hogy a token nem járt le
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Érvénytelen vagy lejárt token." });
+    }
+
+    // 2️⃣ Titkosítjuk az új jelszót
+    const encryptedPassword = CryptoJS.AES.encrypt(newPassword, process.env.PASS_SEC).toString();
+    user.password = encryptedPassword;
+    user.resetToken = undefined; // Token törlése
+    user.resetTokenExpiration = undefined; // Token lejárati idő törlése
+    await user.save();
+
+    res.status(200).json({ message: "A jelszót sikeresen visszaállítottuk." });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Hiba történt a jelszó visszaállítása során." });
   }
 });
 

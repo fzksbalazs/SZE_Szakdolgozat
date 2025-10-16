@@ -5,8 +5,6 @@ import { publicRequest } from "../requestMethods";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
 
-
-
 // ====== ANIMÁLT HÁTTÉR ======
 const moveBg = keyframes`
   0% { background-position: 0% 50%; }
@@ -28,7 +26,6 @@ const Page = styled.div`
   padding: 20px 0;
 `;
 
-
 const Card = styled.div`
   width: min(980px, 96vw);
   min-height: 600px;
@@ -42,7 +39,6 @@ const Card = styled.div`
   grid-template-columns: 1fr 380px;
   transition: all 0.3s ease;
 
-
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -54,7 +50,6 @@ const Card = styled.div`
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
 `;
-
 
 const FormsViewport = styled.div`
   position: relative;
@@ -89,7 +84,6 @@ const Pane = styled.div`
     padding: 24px 16px;
   }
 `;
-
 
 const Title = styled.h1`
   font-size: clamp(28px, 4.2vw, 40px);
@@ -172,10 +166,8 @@ const Input = styled.input`
     padding: 12px;
     font-size: 14px;
     width: 10%;
-    
   }
 `;
-
 
 const ErrorMsg = styled.div`
   color: #ff8aa6;
@@ -184,7 +176,6 @@ const ErrorMsg = styled.div`
   margin-top: 6px;
   white-space: pre-line; /* fontos a több sorhoz */
 `;
-
 
 const PrimaryBtn = styled.button`
   display: flex;
@@ -224,7 +215,6 @@ const PrimaryBtn = styled.button`
   }
 `;
 
-
 const Overlay = styled.div`
   position: relative;
   overflow: hidden;
@@ -237,7 +227,6 @@ const Overlay = styled.div`
     display: none; /* 💥 mobilon teljesen elrejtjük */
   }
 `;
-
 
 const OverlayInner = styled.div`
   position: relative;
@@ -280,6 +269,20 @@ const SwitchBtn = styled.button`
     transform: translateY(-1px);
   }
 `;
+
+const ForgotPasswordBtn = styled.button`
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  text-decoration: underline;
+  font-weight: 600;
+`;
+
+
+
 
 const PasswordChecklist = styled.div`
   font-size: 13px;
@@ -327,16 +330,107 @@ const PasswordChecklist = styled.div`
   }
 `;
 
+// ====== FORGOTTEN PASSWORD MODAL ======
+const BackButton = styled.button`
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  text-decoration: underline;
+  font-weight: 600;
+`;
 
+const ForgotPasswordModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
 
+const ForgotPasswordContent = styled.div`
+  background: #0e0f13;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  color: #fff;
+`;
 
-// ====== COMPONENT ======
+const CloseButton = styled.button`
+  background: transparent;
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;
+
+const EmailInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+`;
+
+const SubmitBtn = styled.button`
+  width: 100%;
+  padding: 10px;
+  background: #dd648a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
+
+const ForgotPasswordForm = ({ closeModal, closeForgotPassword }) => {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await publicRequest.post("/auth/forgot-password", { email });
+      alert(res.data.message); // Success message
+      closeModal(); // Close modal after success
+    } catch (err) {
+      alert(err.response.data.message || "Hiba történt.");
+    }
+  };
+
+  return (
+    <ForgotPasswordContent>
+      <CloseButton onClick={closeModal}>×</CloseButton>
+      <h3>Jelszó visszaállítás</h3>
+      <EmailInput
+        type="email"
+        placeholder="Írd be az email címed"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <SubmitBtn onClick={handleSubmit}>Visszaállítás</SubmitBtn>
+
+      {/* Vissza gomb */}
+      <BackButton onClick={closeForgotPassword}>Vissza a bejelentkezéshez</BackButton>
+    </ForgotPasswordContent>
+  );
+};
+
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  
-
-
-  
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
   // --- Redux + router ---
   const dispatch = useDispatch();
@@ -346,6 +440,8 @@ const Auth = () => {
   // --- LOGIN mezők ---
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+    const closeForgotPassword = () => setIsForgotPasswordOpen(false);
 
   // --- REGISZTER mezők ---
   const [firstname, setFirstname] = useState("");
@@ -374,72 +470,69 @@ const Auth = () => {
   };
 
   const [passwordChecks, setPasswordChecks] = useState({
-  length: false,
-  upper: false,
-  lower: false,
-  number: false,
-  special: false,
-});
+    length: false,
+    upper: false,
+    lower: false,
+    number: false,
+    special: false,
+  });
 
-const validatePasswordLive = (pwd) => {
-  const checks = {
-    length: pwd.length >= 8,
-    upper: /[A-Z]/.test(pwd),
-    lower: /[a-z]/.test(pwd),
-    number: /[0-9]/.test(pwd),
+  const validatePasswordLive = (pwd) => {
+    const checks = {
+      length: pwd.length >= 8,
+      upper: /[A-Z]/.test(pwd),
+      lower: /[a-z]/.test(pwd),
+      number: /[0-9]/.test(pwd),
+    };
+    setPasswordChecks(checks);
+    return checks;
   };
-  setPasswordChecks(checks);
-  return checks;
-};
-
 
   // --- REGISTER ---
-const handleRegister = async (e) => {
-  e.preventDefault();
-  setLocalError("");
-  setInfo("");
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLocalError("");
+    setInfo("");
 
-  let errors = [];
-  if (!firstname) errors.push("A felhasználónév megadása kötelező.");
-  if (!email) errors.push("Az email megadása kötelező.");
-  if (!regPassword) errors.push("A jelszó megadása kötelező.");
-  if (regPassword !== repeatPassword)
-    errors.push("A jelszavak nem egyeznek.");
+    let errors = [];
+    if (!firstname) errors.push("A felhasználónév megadása kötelező.");
+    if (!email) errors.push("Az email megadása kötelező.");
+    if (!regPassword) errors.push("A jelszó megadása kötelező.");
+    if (regPassword !== repeatPassword)
+      errors.push("A jelszavak nem egyeznek.");
 
-  if (errors.length > 0) {
-    setLocalError(errors.join("\n"));
-    return;
-  }
-
-  try {
-    const res = await publicRequest.post("/auth/register", {
-      username: firstname,
-      email,
-      password: regPassword,
-    });
-
-    if (res.data.message) setInfo(res.data.message);
-
-    setIsLogin(true);
-    setFirstname("");
-    setEmail("");
-    setRegPassword("");
-    setRepeatPassword("");
-  } catch (err) {
-    if (err.response && err.response.data) {
-      const data = err.response.data;
-      if (data.errors && Array.isArray(data.errors)) {
-        setLocalError(data.errors.join("\n"));
-      } else {
-        setLocalError(data.message || "Hiba történt a regisztráció során.");
-      }
-    } else {
-      setLocalError("Hiba történt a regisztráció során.");
+    if (errors.length > 0) {
+      setLocalError(errors.join("\n"));
+      return;
     }
-  }
-};
 
+    try {
+      const res = await publicRequest.post("/auth/register", {
+        username: firstname,
+        email,
+        password: regPassword,
+      });
 
+      if (res.data.message) setInfo(res.data.message);
+
+      setIsLogin(true);
+      setFirstname("");
+      setEmail("");
+      setRegPassword("");
+      setRepeatPassword("");
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const data = err.response.data;
+        if (data.errors && Array.isArray(data.errors)) {
+          setLocalError(data.errors.join("\n"));
+        } else {
+          setLocalError(data.message || "Hiba történt a regisztráció során.");
+        }
+      } else {
+        setLocalError("Hiba történt a regisztráció során.");
+      }
+    }
+  };
 
   return (
     <Page>
@@ -476,6 +569,9 @@ const handleRegister = async (e) => {
                 </Field>
 
                 <PrimaryBtn type="submit">Belépés</PrimaryBtn>
+                <ForgotPasswordBtn onClick={() => setIsForgotPasswordOpen(true)}>
+                  Elfelejtetted a jelszavad?
+                </ForgotPasswordBtn>
               </Form>
             </Pane>
 
@@ -512,48 +608,48 @@ const handleRegister = async (e) => {
                 <Field error={!isLogin && !!localError && (!regPassword || regPassword.length < 8)}>
                   <FieldIcon>🔒</FieldIcon>
                   <Input
-  type="password"
-  placeholder="Jelszó (min. 8 karakter)"
-  value={regPassword}
-  onChange={(e) => {
-    setRegPassword(e.target.value);
-    validatePasswordLive(e.target.value);
-  }}
-/>
-
-                  
+                    type="password"
+                    placeholder="Jelszó (min. 8 karakter)"
+                    value={regPassword}
+                    onChange={(e) => {
+                      setRegPassword(e.target.value);
+                      validatePasswordLive(e.target.value);
+                    }}
+                  />
                 </Field>
 
                 <Field error={!isLogin && !!localError && repeatPassword !== regPassword}>
                   <FieldIcon>🔁</FieldIcon>
-                  <Input type="password" placeholder="Jelszó ismét" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
+                  <Input
+                    type="password"
+                    placeholder="Jelszó ismét"
+                    value={repeatPassword}
+                    onChange={(e) => setRepeatPassword(e.target.value)}
+                  />
                 </Field>
 
-                {/* Jelszó valós idejű ellenőrzés */}
-{!isLogin && (
-  <PasswordChecklist>
-    <h4>Jelszó követelmények:</h4>
-    <ul>
-      <li className={passwordChecks.length ? "ok" : ""}>
-        {passwordChecks.length ? "✅" : "❌"} Legalább 8 karakter
-      </li>
-      <li className={passwordChecks.upper ? "ok" : ""}>
-        {passwordChecks.upper ? "✅" : "❌"} Legalább egy nagybetű
-      </li>
-      <li className={passwordChecks.lower ? "ok" : ""}>
-        {passwordChecks.lower ? "✅" : "❌"} Legalább egy kisbetű
-      </li>
-      <li className={passwordChecks.number ? "ok" : ""}>
-        {passwordChecks.number ? "✅" : "❌"} Legalább egy számjegy
-      </li>
-    
-    </ul>
-    {Object.values(passwordChecks).every(Boolean) && (
-      <p className="strong">💪 Erős jelszó!</p>
-    )}
-  </PasswordChecklist>
-)}
-
+                {!isLogin && (
+                  <PasswordChecklist>
+                    <h4>Jelszó követelmények:</h4>
+                    <ul>
+                      <li className={passwordChecks.length ? "ok" : ""}>
+                        {passwordChecks.length ? "✅" : "❌"} Legalább 8 karakter
+                      </li>
+                      <li className={passwordChecks.upper ? "ok" : ""}>
+                        {passwordChecks.upper ? "✅" : "❌"} Legalább egy nagybetű
+                      </li>
+                      <li className={passwordChecks.lower ? "ok" : ""}>
+                        {passwordChecks.lower ? "✅" : "❌"} Legalább egy kisbetű
+                      </li>
+                      <li className={passwordChecks.number ? "ok" : ""}>
+                        {passwordChecks.number ? "✅" : "❌"} Legalább egy számjegy
+                      </li>
+                    </ul>
+                    {Object.values(passwordChecks).every(Boolean) && (
+                      <p className="strong">💪 Erős jelszó!</p>
+                    )}
+                  </PasswordChecklist>
+                )}
 
                 <PrimaryBtn type="submit">Regisztrálok</PrimaryBtn>
               </Form>
@@ -586,6 +682,14 @@ const handleRegister = async (e) => {
           </OverlayInner>
         </Overlay>
       </Card>
+
+      {/* Forgot Password Modal */}
+      {isForgotPasswordOpen && (
+        <ForgotPasswordModal>
+          <ForgotPasswordForm closeModal={() => setIsForgotPasswordOpen(false)}
+          closeForgotPassword={closeForgotPassword} />
+        </ForgotPasswordModal>
+      )}
     </Page>
   );
 };
