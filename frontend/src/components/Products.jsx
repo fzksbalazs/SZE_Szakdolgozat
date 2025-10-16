@@ -23,18 +23,19 @@ const Products = ({ cat, filters, sort }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const res = await publicRequest.get(
-          cat
-            ? `/api/products?category=${cat}`
-    : "/api/products"
-        );
-        setProducts(res.data);
-      } catch (err) {}
-    };
-    getProducts();
-  }, [cat]);
+  const getProducts = async () => {
+    try {
+      const res = await publicRequest.get(
+        cat ? `api/products?category=${cat}` : "api/products"
+      );
+      setProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  getProducts();
+}, [cat]);
+
 
   useEffect(() => {
     cat &&
