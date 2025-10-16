@@ -27,8 +27,8 @@ const Products = ({ cat, filters, sort }) => {
       try {
         const res = await publicRequest.get(
           cat
-            ? `https://wearable-rira.onrender.com/products?category=${cat}`
-            : "https://wearable-rira.onrender.com/api/products",
+            ? `/api/products?category=${cat}`
+    : "/api/products"
         );
         setProducts(res.data);
       } catch (err) {}
