@@ -12,7 +12,7 @@ export const sliderItems = [
 export const categories = [
   {
     id: 1,
-    img: "/img/T-shirt-icon.png",
+    img: "/img/tshirticon.png",
     title: "POLÓK",
     cat: "polo",
   },
