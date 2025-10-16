@@ -15,7 +15,7 @@ const Home = () => {
     const snap = useSnapshot(state);
 
      const handleLogoClick = () => {
-        window.location.href = "http://localhost:3000"; // Helyi főoldalra irányít
+        window.location.replace = "http://localhost:3000"; // Helyi főoldalra irányít
     };
     return (
         <AnimatePresence>
