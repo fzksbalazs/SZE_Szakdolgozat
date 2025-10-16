@@ -5,6 +5,7 @@ import Auth from "./pages/Auth";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
 import { useSelector } from "react-redux";
+import ResetPassword from './components/ResetPassword';  
 
 
 
@@ -31,7 +32,9 @@ const App = () => {
       </Route>
       <Route path="/login">
           {user ? <Redirect to="/" /> : <Auth />}
+          
         </Route>
+         <Route path="/reset-password" component={ResetPassword} />
       <Route path="/register">
           {user ? <Redirect to="/" /> : <Auth />}
         </Route>
