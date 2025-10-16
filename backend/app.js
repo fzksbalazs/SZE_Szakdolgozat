@@ -16,9 +16,10 @@ const cloudinary = require("cloudinary");
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
-  "https://wearable-3d.vercel.app/",
+  "https://wearable-3d.vercel.app",
   "https://wearable-rust.vercel.app",
 ];
+
 
 app.use(
   cors({
