@@ -60,7 +60,8 @@ export default function Designer() {
             title: "Custom T-shirt",
             price: 5000,
             quantity: 1,
-            customImageUrl: url,
+            customImageUrl: url, 
+            
             variant: {
               color: payload.baseColor,
               mode: payload.isFullTexture ? "full" : "logo",
