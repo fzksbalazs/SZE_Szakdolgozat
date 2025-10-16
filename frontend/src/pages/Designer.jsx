@@ -58,7 +58,7 @@ export default function Designer() {
             addProduct({
               _id: payload.productId,
               title: "Egyedi Poló",
-              price: 5000,
+              price: 9999,
               quantity: 1,
               customImageUrl: url,
               color: payload.baseColor,
