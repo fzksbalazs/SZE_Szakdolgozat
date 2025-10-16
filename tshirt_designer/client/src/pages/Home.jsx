@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useSnapshot } from 'valtio';
 import state from '../store';
 import { CustomButton } from '../components';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import {
@@ -13,10 +14,9 @@ import {
 
 const Home = () => {
     const snap = useSnapshot(state);
-
+const navigate = useNavigate();
      const handleLogoClick = () => {
-        window.history.pushState({}, '', '/');
-    window.location.reload();   // Helyi főoldalra irányít
+        navigate('/localhost:3000', { replace: true }); // Helyi főoldalra irányít
     };
     return (
         <AnimatePresence>
