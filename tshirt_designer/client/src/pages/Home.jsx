@@ -15,7 +15,7 @@ const Home = () => {
     const snap = useSnapshot(state);
 
      const handleLogoClick = () => {
-        window.location.replace = "http://localhost:3000"; // Helyi főoldalra irányít
+        window.location.assign('http://localhost:3000'); // Helyi főoldalra irányít
     };
     return (
         <AnimatePresence>
@@ -35,7 +35,7 @@ const Home = () => {
                                     <img 
                                         src='./logo.png' 
                                         alt='logo' 
-                                        className='object-contain w-32 h-32' 
+                                        className='object-contain w-32 h-32 cursor-pointer' 
                                         onClick={handleLogoClick} // Itt állíthatod a logó méretét
                                     />
                                
