@@ -65,7 +65,7 @@ const Customizer = ({ productId }) => {
         payload: {
           imageDataUrl: png,
           productId: pid,
-          baseColor,
+          baseColor: state.color,
           isLogoTexture,
           isFullTexture,
           size: selectedSize,
