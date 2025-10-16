@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
 
 const DESIGNER_URL = "https://wearable-3d.vercel.app"; 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
+const API_BASE = process.env.REACT_APP_API_BASE || "https://wearable-rust.vercel.app";
 
 function useQuery() {
   const { search } = useLocation();
