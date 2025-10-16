@@ -7,6 +7,7 @@ import { download } from "../assets";
 import { downloadCanvasToImage, reader } from "../config/helpers";
 import { EditorTabs, FilterTabs, DecalTypes } from "../config/constants";
 import { fadeAnimation, slideAnimation } from "../config/motion";
+import { exportShirtToPNG } from "../config/exportShirt";
 
 import {
   AIPicker,
@@ -35,45 +36,42 @@ const Customizer = ({ productId }) => {
     setSize(event.target.value);
   };
 
-  function handleSave() {
-    const canvas = document.querySelector("canvas");
-    if (!canvas) {
-      alert("Canvas not found");
-      return;
+const handleSave = () => {
+  // scene és camera a 3D pólóhoz
+  const scene = yourThreeScene;     // ahol a pólót renderled
+  const camera = yourThreeCamera;   // a megfelelő kamera nézet
+
+  const png = exportShirtToPNG(scene, camera);
+
+  const pid = productId || `custom_shirt_${Date.now()}`;
+  const baseColor = snap.color;
+  const isLogoTexture = state.isLogoTexture;
+  const isFullTexture = state.isFullTexture;
+  const selectedSize = size;
+
+  const parentOrigin = (() => {
+    try {
+      return new URL(document.referrer).origin;
+    } catch {
+      return "*";
     }
-    const png = canvas.toDataURL("image/png");
+  })();
 
-    const pid = productId || `custom_shirt_${Date.now()}`;
-    const baseColor = snap.color;
-    const isLogoTexture = state.isLogoTexture;
-    const isFullTexture = state.isFullTexture;
-    const selectedSize = size;
-
-    const parentOrigin = (() => {
-      try {
-        return new URL(document.referrer).origin;
-      } catch {
-        return "*"; // fejlesztéshez jó
-      }
-    })();
-
-    console.log("posting DONE to parent", { pid, baseColor, isLogoTexture, isFullTexture });
-
-    window.parent?.postMessage(
-      {
-        type: "DONE",
-        payload: {
-          imageDataUrl: png,
-          productId: pid,
-          baseColor: state.color,
-          isLogoTexture,
-          isFullTexture,
-          size: selectedSize,
-        },
+  window.parent?.postMessage(
+    {
+      type: "DONE",
+      payload: {
+        imageDataUrl: png,
+        productId: pid,
+        baseColor,
+        isLogoTexture,
+        isFullTexture,
+        size: selectedSize,
       },
-      parentOrigin
-    );
-  }
+    },
+    parentOrigin
+  );
+};
 
   const generateTabContent = () => {
     switch (activeEditorTab) {
