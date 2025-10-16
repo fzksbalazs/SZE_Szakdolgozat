@@ -271,6 +271,20 @@ const Cart = () => {
     Szürke: "gray",
   };
 
+  const getDisplayColor = (color) => {
+  // Ha a color hex kód, adjuk vissza direkt
+  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
+  // Ha név, nézzük meg a colorMapben
+  return colorMap[color] || "gray";
+};
+
+const getDisplayName = (color) => {
+  // Ha hex kód, írjuk ki hex formában
+  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
+  // Ha név, írjuk ki névként
+  return color || "-";
+};
+
   return (
     <Container>
       <Navbar />
@@ -321,8 +335,8 @@ const Cart = () => {
                         gap: "10px",
                       }}
                     >
-                      <ProductColor color={colorMap[product.color] || "gray"} />
-                      <span>{product.color}</span>
+                      <ProductColor color={getDisplayColor(product.color)} />
+  <span>{getDisplayName(product.color)}</span>
                     </div>
                   </Details>
                 </ProductDetail>
