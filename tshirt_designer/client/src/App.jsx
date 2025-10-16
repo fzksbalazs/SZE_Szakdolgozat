@@ -1,29 +1,27 @@
-import Canvas from "./canvas"
-import Customizer from "./pages/Customizer"
+import Canvas from "./canvas";
+import Customizer from "./pages/Customizer";
 import { useEffect } from "react";
 import state from "./store"; // nálad már van valtio store
 import Home from "./pages/Home";
 import { useSnapshot } from "valtio";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-
   const snap = useSnapshot(state);
-  
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("mode") === "preview") {
-    state.preview = true;
-    state.intro = false;
-  }
-}, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("mode") === "preview") {
+      state.preview = true;
+      state.intro = false;
+    }
+  }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     function onMessage(e) {
       const allowedOrigins = [
-        "http://localhost:3000",           // webshop lokál
-        "https://wearable-3d.vercel.app",  
+        "http://localhost:3000", // webshop lokál
+        "https://wearable-3d.vercel.app",
       ];
       if (!allowedOrigins.includes(e.origin)) return;
 
@@ -54,21 +52,21 @@ useEffect(() => {
   }, []);
 
   return (
-     <Router>
-     <main className="transition-all ease-in app">
-      {snap.preview ? (
-        // csak preview → csak a póló
-        <Canvas />
-      ) : (
-        <>
-          <Home />
+    <Router>
+      <main className="transition-all ease-in app">
+        {snap.preview ? (
+          // csak preview → csak a póló
           <Canvas />
-          <Customizer />
-        </>
-      )}
-    </main>
+        ) : (
+          <>
+            <Home />
+            <Canvas />
+            <Customizer />
+          </>
+        )}
+      </main>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

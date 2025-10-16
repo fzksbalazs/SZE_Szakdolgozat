@@ -6,7 +6,7 @@ const userSlice = createSlice({
     currentUser: null,
     isFetching: false,
     error: false,
-    accessToken: null,  // Token hozzáadása a state-hez
+    accessToken: null, 
   },
   reducers: {
     loginStart: (state) => {
@@ -17,8 +17,8 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.currentUser = action.payload;
       state.error = false;
+
     
-      // Mentjük az accessToken-t a localStorage-ba
       if (action.payload.accessToken) {
         localStorage.setItem("accessToken", action.payload.accessToken);
       }
@@ -29,13 +29,19 @@ const userSlice = createSlice({
     },
     logout: (state) => {
       state.currentUser = null;
-      state.accessToken = null;  // Kilépéskor a token törlése
+      state.accessToken = null; 
     },
     updateUserToken: (state, action) => {
-      state.accessToken = action.payload;  // Token frissítése
+      state.accessToken = action.payload; 
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, updateUserToken } = userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  updateUserToken,
+} = userSlice.actions;
 export default userSlice.reducer;

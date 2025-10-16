@@ -10,22 +10,20 @@ router.post("/send", async (req, res) => {
   }
 
   try {
-    
     const transporter = nodemailer.createTransport({
-      service: "gmail", 
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
     });
 
-    // E-mail tartalma
     const mailOptions = {
-      from: "your-email@gmail.com", // Feladó
-      to: email, // Címzett
+      from: "your-email@gmail.com",
+      to: email,
       subject: "Kapcsolatfelvétel - Gofit",
       text: `
-      Kedves ${email.split('@')[0]}!
+      Kedves ${email.split("@")[0]}!
       
       Köszönjük, hogy feliratkoztál a WearAble hírlevelére! Örömmel értesítünk a legfrissebb hírekről, termékekről és szolgáltatásainkról.
       
@@ -34,8 +32,7 @@ router.post("/send", async (req, res) => {
       Sportos üdvözlettel,  
       A WeareAble Csapata
         `,
-      };
-
+    };
 
     await transporter.sendMail(mailOptions);
 

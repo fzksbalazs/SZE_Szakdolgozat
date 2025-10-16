@@ -5,15 +5,12 @@ import { useHistory } from "react-router-dom";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
-position: relative;
+  position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
   position: relative;
   overflow: hidden;
-  
-  
-  
 
   ${mobile({ height: "auto" })}
 `;
@@ -59,7 +56,6 @@ const Iframe = styled.iframe`
   border: none;
 `;
 
-/* 🔥 ÚJ wrapper a jobb oldalnak külön háttérrel */
 const InfoWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -69,16 +65,13 @@ const InfoWrapper = styled.div`
   position: relative;
   overflow: hidden;
 
-  background: transparent; 
+  background: transparent;
 
   ${mobile({
     width: "100%",
     padding: "40px 0",
   })}
 `;
-
-
-
 
 const InfoContainer = styled.div`
   flex: 1;
@@ -130,7 +123,11 @@ const PlayButton = styled.a`
   &:hover {
     background: #ffffff;
     color: #000000;
-    box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 200px #fff;
+    box-shadow:
+      0 0 5px #fff,
+      0 0 25px #fff,
+      0 0 50px #fff,
+      0 0 200px #fff;
     -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
   }
 
@@ -216,6 +213,18 @@ const PlayButton = styled.a`
   }
 `;
 
+const PriceNote = styled.p`
+  font-size: 15px;
+  font-weight: 300;
+  color: #fff; /* vagy #ccc, ha szürkére szeretnéd */
+  margin-top: 1px;
+
+  ${mobile({
+    fontSize: "12px",
+    marginTop: "8px",
+  })}
+`;
+
 const DESIGNER_URL =
   process.env.REACT_APP_DESIGNER_URL || "https://wearable-3d.vercel.app";
 
@@ -252,11 +261,11 @@ const Slider = () => {
               />
             </IframeContainer>
 
-            {/* 🔥 külön wrapper háttérrel */}
-            <InfoWrapper bg="#222"> 
+            <InfoWrapper bg="#222">
               <InfoContainer>
                 <Title>{item.title}</Title>
                 <Desc>{item.desc}</Desc>
+                <PriceNote>Minden egyedi poló 9999 Ft!</PriceNote>
                 <PlayButton href="#" onClick={() => openDesigner(item)}>
                   <span></span>
                   <span></span>

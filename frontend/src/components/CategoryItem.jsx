@@ -13,7 +13,9 @@ const Container = styled.div`
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 
   &:hover {
     transform: translateY(-8px);
@@ -137,7 +139,6 @@ const Image = styled.img`
   object-fit: contain;
   margin-top: 100px;
   border-radius: 8px;
-  
 
   ${mobile({
     width: "90px",

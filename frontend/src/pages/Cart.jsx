@@ -13,23 +13,20 @@ import { Link } from "react-router-dom";
 const KEY =
   "pk_test_51KTYWpB1bb1VrKRi8D6WQYnKbZ02r2Jp7evDytQUhbIatPZTSWs7An0BeVDTYzqVDM7DsDXoIcBeZwDmQXRaY2fe00pb87wOeq";
 
-// ============ STYLED COMPONENTS =============
+
 
 const Container = styled.div`
   min-height: 100vh;
 
-  
   color: #1a1633;
 `;
 
 const Wrapper = styled.div`
   width: 95%;
-  
-  
-  
+
   padding: 40px 60px;
   background: white;
-  
+
   border-radius: 10px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   ${mobile({ padding: "20px" })}
@@ -69,7 +66,7 @@ const TopButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
 
-   &:hover {
+  &:hover {
     background-color: #000000;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -115,10 +112,9 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* arányosan illeszkedik, nem torzul */
+  object-fit: contain; 
   display: block;
 `;
-
 
 const Details = styled.div`
   padding: 20px;
@@ -225,7 +221,7 @@ const Button = styled.button`
   }
 `;
 
-// ============ MAIN COMPONENT =============
+
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -272,18 +268,18 @@ const Cart = () => {
   };
 
   const getDisplayColor = (color) => {
-  // Ha a color hex kód, adjuk vissza direkt
-  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
-  // Ha név, nézzük meg a colorMapben
-  return colorMap[color] || "gray";
-};
+    
+    if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
+    
+    return colorMap[color] || "gray";
+  };
 
-const getDisplayName = (color) => {
-  // Ha hex kód, írjuk ki hex formában
-  if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
-  // Ha név, írjuk ki névként
-  return color || "-";
-};
+  const getDisplayName = (color) => {
+    
+    if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
+   
+    return color || "-";
+  };
 
   return (
     <Container>
@@ -308,12 +304,14 @@ const getDisplayName = (color) => {
               <Product key={`${product._id}-${index}`}>
                 <ProductDetail>
                   <ImageWrapper>
-                  <Image
-                    src={
-                      product.customImageUrl ? product.customImageUrl : product.img
-                    }
-                    alt={product.title}
-                  />
+                    <Image
+                      src={
+                        product.customImageUrl
+                          ? product.customImageUrl
+                          : product.img
+                      }
+                      alt={product.title}
+                    />
                   </ImageWrapper>
                   <Details>
                     <ProductId>
@@ -336,7 +334,7 @@ const getDisplayName = (color) => {
                       }}
                     >
                       <ProductColor color={getDisplayColor(product.color)} />
-  <span>{getDisplayName(product.color)}</span>
+                      <span>{getDisplayName(product.color)}</span>
                     </div>
                   </Details>
                 </ProductDetail>
@@ -344,7 +342,9 @@ const getDisplayName = (color) => {
                   <ProductAmountContainer>
                     <ProductAmount>{product.quantity}</ProductAmount>
                   </ProductAmountContainer>
-                  <ProductPrice>{product.price * product.quantity} Ft</ProductPrice>
+                  <ProductPrice>
+                    {product.price * product.quantity} Ft
+                  </ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
@@ -384,7 +384,6 @@ const getDisplayName = (color) => {
       </Wrapper>
       <Footer />
     </Container>
-    
   );
 };
 

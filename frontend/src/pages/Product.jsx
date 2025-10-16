@@ -1,5 +1,5 @@
 import { Add, Remove } from "@material-ui/icons";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
@@ -9,19 +9,16 @@ import { publicRequest } from "../requestMethods";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
 
-// animált háttér (összhangban a Navbar / Slider stílussal)
 
 
 const Container = styled.div`
   min-height: 100vh;
- 
-  
 `;
 
 const Wrapper = styled.div`
   display: flex;
   padding: 60px 80px;
-  
+
   align-items: flex-start;
   background-color: white;
   color: black;
@@ -34,12 +31,12 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  perspective: 1000px; /* kis 3D mélység */
+  perspective: 1000px;
 `;
 
 const ImageFrame = styled.div`
   position: relative;
- 
+
   overflow: hidden;
   background: #fff;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
@@ -49,7 +46,7 @@ const ImageFrame = styled.div`
     content: "";
     position: absolute;
     inset: 0;
-    
+
     background: linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f);
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -66,15 +63,13 @@ const ImageFrame = styled.div`
   }
 `;
 
-
 const Image = styled.img`
-    width: 100%;
+  width: 100%;
   height: auto;
   max-width: 500px;
   border-radius: 24px;
   object-fit: cover;
   transition: transform 0.5s ease;
-
 
   ${mobile({
     maxWidth: "100%",
@@ -87,7 +82,6 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  
 `;
 
 const Title = styled.h1`
@@ -95,7 +89,7 @@ const Title = styled.h1`
   font-weight: 700;
   letter-spacing: 1px;
   margin-bottom: 10px;
-  text-decoration:  underline #5d0aab 4px;
+  text-decoration: underline #5d0aab 4px;
 `;
 
 const Desc = styled.p`
@@ -116,8 +110,6 @@ const FilterContainer = styled.div`
   flex-wrap: wrap;
   gap: 20px;
   margin-top: 30px;
-  
-  
 `;
 
 const Filter = styled.div`
@@ -139,7 +131,9 @@ const FilterColor = styled.div`
   background-color: ${(props) => props.color};
   border: ${(props) => (props.color === "white" ? "1px solid #ccc" : "none")};
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   &:hover {
     transform: scale(1.15);
     box-shadow: 0 0 10px ${(props) => props.color};
@@ -264,7 +258,7 @@ const Product = () => {
       <Wrapper>
         <ImgContainer>
           <ImageFrame>
-          <Image src={product.img} alt={product.title} />
+            <Image src={product.img} alt={product.title} />
           </ImageFrame>
         </ImgContainer>
         <InfoContainer>

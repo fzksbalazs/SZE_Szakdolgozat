@@ -18,7 +18,6 @@ const Container = styled.div`
   }
 `;
 
-
 const Products = ({ cat, filters, sort }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -29,7 +28,7 @@ const Products = ({ cat, filters, sort }) => {
         const res = await publicRequest.get(
           cat
             ? `http://localhost:5000/api/products?category=${cat}`
-            : "http://localhost:5000/api/products"
+            : "http://localhost:5000/api/products",
         );
         setProducts(res.data);
       } catch (err) {}
@@ -42,24 +41,24 @@ const Products = ({ cat, filters, sort }) => {
       setFilteredProducts(
         products.filter((item) =>
           Object.entries(filters).every(([key, value]) =>
-            item[key].includes(value)
-          )
-        )
+            item[key].includes(value),
+          ),
+        ),
       );
   }, [products, cat, filters]);
 
   useEffect(() => {
     if (sort === "newest") {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.createdAt - b.createdAt)
+        [...prev].sort((a, b) => a.createdAt - b.createdAt),
       );
     } else if (sort === "asc") {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.price - b.price)
+        [...prev].sort((a, b) => a.price - b.price),
       );
     } else {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => b.price - a.price)
+        [...prev].sort((a, b) => b.price - a.price),
       );
     }
   }, [sort]);

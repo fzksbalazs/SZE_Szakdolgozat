@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { publicRequest } from "../requestMethods";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/apiCalls";
 
-// ====== ANIMÁLT HÁTTÉR ======
+
 const moveBg = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -22,7 +22,7 @@ const Page = styled.div`
   animation: ${moveBg} 7s ease infinite;
   font-family: "Poppins", sans-serif;
   color: #fff;
-  overflow-y: auto; /* engedjük a görgetést */
+  overflow-y: auto; 
   padding: 20px 0;
 `;
 
@@ -30,11 +30,11 @@ const Card = styled.div`
   width: min(980px, 96vw);
   min-height: 600px;
   background: #0e0f13;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
   display: grid;
   grid-template-columns: 1fr 380px;
   transition: all 0.3s ease;
@@ -47,7 +47,7 @@ const Card = styled.div`
 
   @media (max-width: 600px) {
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -60,8 +60,9 @@ const FormsTrack = styled.div`
   width: 200%;
   height: 100%;
   display: flex;
-  transition: transform 600ms cubic-bezier(.22,.61,.36,1);
-  transform: ${(props) => (props.isLogin ? "translateX(0%)" : "translateX(-50%)")};
+  transition: transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: ${(props) =>
+    props.isLogin ? "translateX(0%)" : "translateX(-50%)"};
 
   @media (max-width: 900px) {
     transform: translateX(0%);
@@ -77,7 +78,7 @@ const Pane = styled.div`
   @media (max-width: 900px) {
     width: 100%;
     padding: 32px 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   @media (max-width: 480px) {
@@ -88,13 +89,13 @@ const Pane = styled.div`
 const Title = styled.h1`
   font-size: clamp(28px, 4.2vw, 40px);
   font-weight: 800;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   margin: 6px 0 18px;
 `;
 
 const Subtitle = styled.p`
   color: #cfcfe1;
-  opacity: .8;
+  opacity: 0.8;
   margin-bottom: 28px;
 `;
 
@@ -105,7 +106,7 @@ const Form = styled.form`
   width: 100%;
 
   @media (max-width: 480px) {
-    width: 90%
+    width: 90%;
   }
 `;
 
@@ -113,7 +114,8 @@ const Field = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  border: 2px solid ${(props) => (props.error ? "#dd648a" : "rgba(255,255,255,0.1)")};
+  border: 2px solid
+    ${(props) => (props.error ? "#dd648a" : "rgba(255,255,255,0.1)")};
   background: rgba(255, 255, 255, 0.05);
   border-radius: 14px;
   overflow: hidden;
@@ -174,13 +176,13 @@ const ErrorMsg = styled.div`
   font-size: 14px;
   line-height: 1.4;
   margin-top: 6px;
-  white-space: pre-line; /* fontos a több sorhoz */
+  white-space: pre-line; 
 `;
 
 const PrimaryBtn = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center; /* 🔥 szöveg tökéletesen középen */
+  justify-content: center; 
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -193,7 +195,7 @@ const PrimaryBtn = styled.button`
   font-weight: 600;
   font-size: 15px;
   letter-spacing: 0.4px;
-  text-align: center; /* biztos ami biztos */
+  text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 8px 22px rgba(113, 110, 239, 0.25);
@@ -211,20 +213,21 @@ const PrimaryBtn = styled.button`
   @media (max-width: 480px) {
     padding: 14px 0;
     font-size: 14px;
-    justify-content: center; /* 💪 középre mobilon is */
+    justify-content: center; 
   }
 `;
 
 const Overlay = styled.div`
   position: relative;
   overflow: hidden;
-  background: radial-gradient(600px 300px at 80% 10%, #2a2778 0%, transparent 60%),
-              radial-gradient(600px 300px at 0% 100%, #7f2d58 0%, transparent 60%),
-              linear-gradient(135deg, #1a1941 0%, #291b2c 100%);
-  border-left: 1px solid rgba(255,255,255,0.06);
+  background:
+    radial-gradient(600px 300px at 80% 10%, #2a2778 0%, transparent 60%),
+    radial-gradient(600px 300px at 0% 100%, #7f2d58 0%, transparent 60%),
+    linear-gradient(135deg, #1a1941 0%, #291b2c 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
 
   @media (max-width: 900px) {
-    display: none; /* 💥 mobilon teljesen elrejtjük */
+    display: none; 
   }
 `;
 
@@ -250,18 +253,18 @@ const OverlayTitle = styled.h2`
 
 const OverlayText = styled.p`
   color: #e8e7ff;
-  opacity: .85;
+  opacity: 0.85;
   margin-bottom: 18px;
 `;
 
 const SwitchBtn = styled.button`
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   color: #fff;
   padding: 10px 16px;
   border-radius: 999px;
   cursor: pointer;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   font-weight: 600;
 
   &:hover {
@@ -280,9 +283,6 @@ const ForgotPasswordBtn = styled.button`
   text-decoration: underline;
   font-weight: 600;
 `;
-
-
-
 
 const PasswordChecklist = styled.div`
   font-size: 13px;
@@ -330,7 +330,7 @@ const PasswordChecklist = styled.div`
   }
 `;
 
-// ====== FORGOTTEN PASSWORD MODAL ======
+
 const BackButton = styled.button`
   background: transparent;
   color: #fff;
@@ -403,8 +403,8 @@ const ForgotPasswordForm = ({ closeModal, closeForgotPassword }) => {
     e.preventDefault();
     try {
       const res = await publicRequest.post("/auth/forgot-password", { email });
-      alert(res.data.message); // Success message
-      closeModal(); // Close modal after success
+      alert(res.data.message); 
+      closeModal(); 
     } catch (err) {
       alert(err.response.data.message || "Hiba történt.");
     }
@@ -422,8 +422,10 @@ const ForgotPasswordForm = ({ closeModal, closeForgotPassword }) => {
       />
       <SubmitBtn onClick={handleSubmit}>Visszaállítás</SubmitBtn>
 
-      {/* Vissza gomb */}
-      <BackButton onClick={closeForgotPassword}>Vissza a bejelentkezéshez</BackButton>
+     
+      <BackButton onClick={closeForgotPassword}>
+        Vissza a bejelentkezéshez
+      </BackButton>
     </ForgotPasswordContent>
   );
 };
@@ -432,18 +434,18 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
-  // --- Redux + router ---
+  
   const dispatch = useDispatch();
   const history = useHistory();
   const { error: reduxError, currentUser } = useSelector((state) => state.user);
 
-  // --- LOGIN mezők ---
+ 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-    const closeForgotPassword = () => setIsForgotPasswordOpen(false);
+  const closeForgotPassword = () => setIsForgotPasswordOpen(false);
 
-  // --- REGISZTER mezők ---
+  
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
@@ -453,11 +455,11 @@ const Auth = () => {
 
   useEffect(() => {
     if (currentUser) {
-      history.push("/"); // ha be van jelentkezve, irány a főoldal
+      history.push("/"); 
     }
   }, [currentUser, history]);
 
-  // --- LOGIN ---
+  
   const handleLogin = (e) => {
     e.preventDefault();
     setLocalError("");
@@ -488,7 +490,7 @@ const Auth = () => {
     return checks;
   };
 
-  // --- REGISTER ---
+  
   const handleRegister = async (e) => {
     e.preventDefault();
     setLocalError("");
@@ -539,12 +541,14 @@ const Auth = () => {
       <Card>
         <FormsViewport>
           <FormsTrack isLogin={isLogin}>
-            {/* LOGIN */}
+           
             <Pane>
               <Title>Bejelentkezés</Title>
               <Subtitle>Üdv újra! Lépj be a fiókodba.</Subtitle>
               {(localError || reduxError) && isLogin && (
-                <ErrorMsg>{localError || "Hibás felhasználónév vagy jelszó."}</ErrorMsg>
+                <ErrorMsg>
+                  {localError || "Hibás felhasználónév vagy jelszó."}
+                </ErrorMsg>
               )}
 
               <Form onSubmit={handleLogin}>
@@ -569,13 +573,15 @@ const Auth = () => {
                 </Field>
 
                 <PrimaryBtn type="submit">Belépés</PrimaryBtn>
-                <ForgotPasswordBtn onClick={() => setIsForgotPasswordOpen(true)}>
+                <ForgotPasswordBtn
+                  onClick={() => setIsForgotPasswordOpen(true)}
+                >
                   Elfelejtetted a jelszavad?
                 </ForgotPasswordBtn>
               </Form>
             </Pane>
 
-            {/* REGISTER */}
+           
             <Pane>
               <Title>Regisztráció</Title>
               <Subtitle>Hozz létre egy fiókot és kezdj alkotni!</Subtitle>
@@ -605,7 +611,13 @@ const Auth = () => {
                   />
                 </Field>
 
-                <Field error={!isLogin && !!localError && (!regPassword || regPassword.length < 8)}>
+                <Field
+                  error={
+                    !isLogin &&
+                    !!localError &&
+                    (!regPassword || regPassword.length < 8)
+                  }
+                >
                   <FieldIcon>🔒</FieldIcon>
                   <Input
                     type="password"
@@ -618,7 +630,11 @@ const Auth = () => {
                   />
                 </Field>
 
-                <Field error={!isLogin && !!localError && repeatPassword !== regPassword}>
+                <Field
+                  error={
+                    !isLogin && !!localError && repeatPassword !== regPassword
+                  }
+                >
                   <FieldIcon>🔁</FieldIcon>
                   <Input
                     type="password"
@@ -633,16 +649,20 @@ const Auth = () => {
                     <h4>Jelszó követelmények:</h4>
                     <ul>
                       <li className={passwordChecks.length ? "ok" : ""}>
-                        {passwordChecks.length ? "✅" : "❌"} Legalább 8 karakter
+                        {passwordChecks.length ? "✅" : "❌"} Legalább 8
+                        karakter
                       </li>
                       <li className={passwordChecks.upper ? "ok" : ""}>
-                        {passwordChecks.upper ? "✅" : "❌"} Legalább egy nagybetű
+                        {passwordChecks.upper ? "✅" : "❌"} Legalább egy
+                        nagybetű
                       </li>
                       <li className={passwordChecks.lower ? "ok" : ""}>
-                        {passwordChecks.lower ? "✅" : "❌"} Legalább egy kisbetű
+                        {passwordChecks.lower ? "✅" : "❌"} Legalább egy
+                        kisbetű
                       </li>
                       <li className={passwordChecks.number ? "ok" : ""}>
-                        {passwordChecks.number ? "✅" : "❌"} Legalább egy számjegy
+                        {passwordChecks.number ? "✅" : "❌"} Legalább egy
+                        számjegy
                       </li>
                     </ul>
                     {Object.values(passwordChecks).every(Boolean) && (
@@ -657,7 +677,7 @@ const Auth = () => {
           </FormsTrack>
         </FormsViewport>
 
-        {/* Jobb oldali váltó panel */}
+       
         <Overlay>
           <OverlayInner>
             <div>
@@ -683,11 +703,13 @@ const Auth = () => {
         </Overlay>
       </Card>
 
-      {/* Forgot Password Modal */}
+     
       {isForgotPasswordOpen && (
         <ForgotPasswordModal>
-          <ForgotPasswordForm closeModal={() => setIsForgotPasswordOpen(false)}
-          closeForgotPassword={closeForgotPassword} />
+          <ForgotPasswordForm
+            closeModal={() => setIsForgotPasswordOpen(false)}
+            closeForgotPassword={closeForgotPassword}
+          />
         </ForgotPasswordModal>
       )}
     </Page>

@@ -7,8 +7,6 @@ const {
 
 const router = require("express").Router();
 
-//CREATE
-
 router.post("/create", verifyTokenAndAdmin, async (req, res) => {
   const newProduct = new Product(req.body);
 
@@ -20,7 +18,6 @@ router.post("/create", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-//UPDATE
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -28,7 +25,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
       {
         $set: req.body,
       },
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedProduct);
   } catch (err) {
@@ -36,7 +33,6 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-//DELETE
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
@@ -46,7 +42,6 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-//GET PRODUCT
 router.get("/find/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -56,7 +51,6 @@ router.get("/find/:id", async (req, res) => {
   }
 });
 
-//GET ALL PRODUCTS
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;

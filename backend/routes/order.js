@@ -7,20 +7,15 @@ const {
 
 const router = require("express").Router();
 
-//CREATE
-
-router.post("/",  async (req, res) => {
+router.post("/", async (req, res) => {
   const newOrder = new Order(req.body);
 
   try {
     const savedOrder = await newOrder.save();
     res.status(200).json(savedOrder);
-  } catch (err) {
-    
-  }
+  } catch (err) {}
 });
 
-//UPDATE
 router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -28,7 +23,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
       {
         $set: req.body,
       },
-      { new: true }
+      { new: true },
     );
     res.status(200).json(updatedOrder);
   } catch (err) {
@@ -36,7 +31,6 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
-//DELETE
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
@@ -66,6 +60,5 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 module.exports = router;

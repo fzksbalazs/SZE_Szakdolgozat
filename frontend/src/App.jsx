@@ -5,40 +5,29 @@ import Auth from "./pages/Auth";
 import Cart from "./pages/Cart";
 import Success from "./pages/Success";
 import { useSelector } from "react-redux";
-import ResetPassword from './components/ResetPassword';  
-
-
+import ResetPassword from "./components/ResetPassword";
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 import Designer from "./pages/Designer";
 
-
 const App = () => {
-  const user = useSelector(state=> state.user.currentUser);
- 
-
-
+  const user = useSelector((state) => state.user.currentUser);
 
   return (
     <Router>
-    <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route path="/login">
-          {user ? <Redirect to="/" /> : <Auth />}
-          
+      <Switch>
+        <Route exact path="/">
+          <Home />
         </Route>
-         <Route path="/reset-password" component={ResetPassword} />
-      <Route path="/register">
-          {user ? <Redirect to="/" /> : <Auth />}
-        </Route>
-     
+        <Route path="/login">{user ? <Redirect to="/" /> : <Auth />}</Route>
+        <Route path="/reset-password" component={ResetPassword} />
+        <Route path="/register">{user ? <Redirect to="/" /> : <Auth />}</Route>
+
         {user ? (
           <>
             <Route path="/products/:category">
@@ -52,14 +41,14 @@ const App = () => {
             </Route>
             <Route path="/success">
               <Success />
-            </Route>       
-            <Route path="/designer" component={Designer}/>                 
+            </Route>
+            <Route path="/designer" component={Designer} />
           </>
         ) : (
           <Redirect to="/login" />
         )}
-    </Switch>
-  </Router>
+      </Switch>
+    </Router>
   );
 };
 

@@ -23,7 +23,7 @@ const Container = styled.div`
   flex: 1;
   margin: 5px;
   min-width: 280px;
-  height: 450px;  // Increase height for better spacing
+  height: 450px; // Increase height for better spacing
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@ const Circle = styled.div`
   border-radius: 50%;
   background: ${(props) =>
     props.isShirtCategory
-      ? "linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5)" // Light gradient for shirt
+      ? "linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5)"
       : "linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f)"}; // Default dark gradient
   position: absolute;
 `;
@@ -115,10 +115,8 @@ const InfoContainer = styled.div`
 `;
 
 const Product = ({ item }) => {
-  // Use the useParams hook to get the category from the URL
   const { category } = useParams();
 
-  // Determine if the category is "polo"
   const isShirtCategory = category === "polo";
 
   return (
@@ -129,7 +127,7 @@ const Product = ({ item }) => {
         <ImageWrapper>
           <Image src={item.img} />
         </ImageWrapper>
-        <Price>{item.price} Ft</Price> {/* Display price below the image */}
+        <Price>{item.price} Ft</Price>
         <Info>
           <Icon>
             <Link to={`/product/${item._id}`}>
