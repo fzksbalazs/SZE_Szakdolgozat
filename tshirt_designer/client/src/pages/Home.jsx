@@ -57,7 +57,7 @@ const navigate = useNavigate();
                                         src='./logo.png' 
                                         alt='logo' 
                                         className='object-contain w-32 h-32 cursor-pointer' 
-                                        onClick={handleLogoClick} parentOrigin // Itt állíthatod a logó méretét
+                                        handleClick={handleLogoClick} parentOrigin // Itt állíthatod a logó méretét
                                     />
                                
                             </motion.div>
