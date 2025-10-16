@@ -13,6 +13,10 @@ import {
 
 const Home = () => {
     const snap = useSnapshot(state);
+
+     const handleLogoClick = () => {
+        window.location.href = "http://localhost:3000"; // Helyi főoldalra irányít
+    };
     return (
         <AnimatePresence>
             {snap.intro && (
@@ -27,13 +31,14 @@ const Home = () => {
                                 exit={{ opacity: 0 }} // Animáció, hogy a logó eltűnjön
                                 transition={{ duration: 0.2 }} // Animáció időtartama
                             >
-                                <Link to="localhost:3000">
+                                
                                     <img 
                                         src='./logo.png' 
                                         alt='logo' 
-                                        className='object-contain w-32 h-32'  // Itt állíthatod a logó méretét
+                                        className='object-contain w-32 h-32' 
+                                        onClick={handleLogoClick} // Itt állíthatod a logó méretét
                                     />
-                                </Link>
+                               
                             </motion.div>
                         
                     </motion.header>
