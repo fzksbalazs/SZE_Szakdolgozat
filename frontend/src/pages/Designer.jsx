@@ -64,6 +64,7 @@ export default function Designer() {
             variant: {
               color: payload.baseColor,
               mode: payload.isFullTexture ? "full" : "logo",
+              size: payload.size || "M",
             },
           })
         );

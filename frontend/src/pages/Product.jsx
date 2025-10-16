@@ -254,6 +254,8 @@ const Product = () => {
     Narancs: "orange",
     Lila: "purple",
     Szürke: "gray",
+    Barna: "brown",
+    Bézs: "beige",
   };
 
   return (
