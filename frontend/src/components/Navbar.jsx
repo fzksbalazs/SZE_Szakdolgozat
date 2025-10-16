@@ -151,18 +151,41 @@ const Navbar = ({
     });
   };
 
-  const handleLogoEnter = () => {
-    const img = logoImgRef.current;
-    if (!img) return;
-    logoTweenRef.current?.kill();
-    gsap.set(img, { rotate: 0 });
-    logoTweenRef.current = gsap.to(img, {
-      rotate: 360,
-      duration: 0.2,
-      ease,
-      overwrite: "auto",
-    });
-  };
+const handleLogoEnter = () => {
+  const img = logoImgRef.current;
+  if (!img) return;
+
+  logoTweenRef.current?.kill();
+
+  gsap.set(img, { scale: 1, opacity: 0.8 });
+
+  logoTweenRef.current = gsap.to(img, {
+    scale: 1.2, // A logó megnövekedése
+    opacity: 1, // Teljes láthatóság
+    duration: 0.6, // Rövid animáció
+    ease: "power2.out", // Lassan lelassuló mozgás
+    onComplete: () => {
+      gsap.to(img, {
+        scale: 1,  // Vissza a normál méretbe
+        opacity: 0.8, // Vissza az áttetszőséghez
+        duration: 0.4, // Gyors visszaállás
+        ease: "power2.in", // Simább visszaállás
+      });
+    },
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+
 
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
