@@ -17,7 +17,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
   "https://wearable-3d.vercel.app/",
-  "https://wearable-rust.vercel.app/",
+  "https://wearable-rust.vercel.app",
 ];
 
 app.use(
@@ -27,7 +27,7 @@ app.use(
         return callback(null, true);
       return callback(new Error("CORS blocked: " + origin));
     },
-    credentials: false,
+    credentials: true,
   }),
 );
 
