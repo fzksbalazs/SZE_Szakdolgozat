@@ -33,7 +33,7 @@ app.add_middleware(
 
 class GenerateBody(BaseModel):
     prompt: str
-    steps: Optional[int] = 30
+    steps: Optional[int] = 20
     guidance_scale: Optional[float] = 7.5
     seed: Optional[int] = None
     height: Optional[int] = 512

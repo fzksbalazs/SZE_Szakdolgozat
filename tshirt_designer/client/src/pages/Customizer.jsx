@@ -107,7 +107,7 @@ const Customizer = ({ productId }) => {
     try {
       setgeneratingImg(true);
       const response = await fetch(
-        "https://szak-3d-backend.onrender.com/api/v1/dalle",
+        "http://localhost:8080/api/v1/dalle",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
