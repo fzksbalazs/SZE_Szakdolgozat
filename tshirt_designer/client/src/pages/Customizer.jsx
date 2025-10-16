@@ -30,6 +30,11 @@ const Customizer = ({ productId }) => {
     stylishShirt: false,
   });
 
+  const [size, setSize] = useState("M");
+   const handleSizeChange = (event) => {
+    setSize(event.target.value);
+  };
+
   function handleSave() {
     const canvas = document.querySelector("canvas");
     if (!canvas) {
@@ -62,6 +67,7 @@ const Customizer = ({ productId }) => {
           baseColor,
           isLogoTexture,
           isFullTexture,
+          size,
         },
       },
       parentOrigin
@@ -151,6 +157,7 @@ const Customizer = ({ productId }) => {
   };
 
   return (
+   
     <AnimatePresence>
       {!snap.intro && (
         <>
@@ -171,7 +178,10 @@ const Customizer = ({ productId }) => {
                 ))}
                 {generateTabContent()}
               </div>
+              
             </div>
+
+            
           </motion.div>
 
           {/* Vissza gomb bal felül */}
@@ -200,6 +210,8 @@ const Customizer = ({ productId }) => {
             />
           </motion.div>
 
+          
+
           {/* Filter tabok és letöltés */}
           <motion.div
             className="filtertabs-container"
@@ -214,6 +226,7 @@ const Customizer = ({ productId }) => {
                 handleClick={() => handleActiveFilterTab(tab.name)}
               />
             ))}
+             
 
             <button className="download-btn" onClick={downloadCanvasToImage}>
               <img
@@ -222,9 +235,20 @@ const Customizer = ({ productId }) => {
                 className="object-contain w-3/5 h-3/5"
               />
             </button>
+<motion.div>
+        <label className= "p-3" htmlFor="size"></label>
+        <select id="size" value={size} onChange={handleSizeChange} className="p-2 text-xl bg-transparent rounded-full">
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select>
+      </motion.div>
+            
           </motion.div>
         </>
       )}
+      
     </AnimatePresence>
   );
 };

@@ -8,18 +8,13 @@ import { useLocation } from "react-router";
 import { useState } from "react";
 
 const Container = styled.div`
- 
   color: #000;
-  
 `;
 
 const Wrapper = styled.div`
   background: #fff;
   color: #000;
-  
 `;
-
-
 
 const Title = styled.h1`
   margin: 40px 20px 20px;
@@ -85,7 +80,7 @@ const ProductList = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
-    if (value === "" || value === "Szin" || value === "Méret") {
+    if (value === "" || value === "Szin" || value === "Méret" || value === "Márka") {
       const newFilters = { ...filters };
       delete newFilters[name];
       setFilters(newFilters);
@@ -106,61 +101,76 @@ const ProductList = () => {
       <Navbar />
 
       <Wrapper>
-    
-      <div style={{ textAlign: "center" }}>
-        <Title>
-          {cat === "polo"
-            ? "POLÓK"
-            : cat === "cipo"
-            ? "CIPŐK"
-            : cat === "kiegeszito"
-            ? "KIEGÉSZÍTŐK"
-            : "TERMÉKEK"}
-        </Title>
-      </div>
-      <FilterContainer>
-        <Filter>
-          <FilterText>Szűrés:</FilterText>
-          <Select name="color" onChange={handleFilterChange}>
-            <Option value="">Szin</Option>
-            <Option value="Fehér">Fehér</Option>
-            <Option value="Fekete">Fekete</Option>
-            <Option value="Piros">Piros</Option>
-            <Option value="Kék">Kék</Option>
-            <Option value="Sárga">Sárga</Option>
-            <Option value="Rózsaszin">Rózsaszín</Option>
-          </Select>
-          <Select name="size" onChange={handleFilterChange}>
-            <Option value="">Méret</Option>
-            {cat === "cipo" ? (
-              <>
-                {[36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46].map((num) => (
-                  <Option key={num} value={num}>
-                    {num}
-                  </Option>
-                ))}
-              </>
-            ) : (
-              <>
-                <Option value="XS">XS</Option>
-                <Option value="S">S</Option>
-                <Option value="M">M</Option>
-                <Option value="L">L</Option>
-                <Option value="XL">XL</Option>
-              </>
-            )}
-          </Select>
-        </Filter>
-        <Filter>
-          <FilterText>Rendezés:</FilterText>
-          <Select onChange={handleSortChange}>
-            <Option value="newest">Legújabb</Option>
-            <Option value="asc">Ár szerint növekvő</Option>
-            <Option value="desc">Ár szerint csökkenő</Option>
-          </Select>
-        </Filter>
-      </FilterContainer>
-      <Products cat={cat} filters={filters} sort={sort} />
+        <div style={{ textAlign: "center" }}>
+          <Title>
+            {cat === "polo"
+              ? "POLÓK"
+              : cat === "cipo"
+              ? "CIPŐK"
+              : cat === "kiegeszito"
+              ? "KIEGÉSZÍTŐK"
+              : "TERMÉKEK"}
+          </Title>
+        </div>
+        <FilterContainer>
+          <Filter>
+            <FilterText>Szűrés:</FilterText>
+             <Select name="color" onChange={handleFilterChange}>
+              <Option value="">Szin</Option>
+              <Option value="Fehér">Fehér</Option>
+              <Option value="Fekete">Fekete</Option>
+              <Option value="Piros">Piros</Option>
+              <Option value="Kék">Kék</Option>
+              <Option value="Sárga">Sárga</Option>
+              <Option value="Rózsaszin">Rózsaszín</Option>
+            </Select>
+          
+            <Select name="size" onChange={handleFilterChange}>
+              <Option value="">Méret</Option>
+              {cat === "cipo" ? (
+                <>
+                  {[36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46].map((num) => (
+                    <Option key={num} value={num}>
+                      {num}
+                    </Option>
+                  ))}
+                </>
+              ) : (
+                <>
+                  <Option value="XS">XS</Option>
+                  <Option value="S">S</Option>
+                  <Option value="M">M</Option>
+                  <Option value="L">L</Option>
+                  <Option value="XL">XL</Option>
+                </>
+              )}
+            </Select>
+            {/* Márka szűrő hozzáadása */}
+            <Select name="Brand" onChange={handleFilterChange}>
+              <Option value="">Márka</Option>
+              <Option value="Adidas">Adidas</Option>
+              <Option value="Puma">Puma</Option>
+              <Option value="Nike">Nike</Option>
+              <Option value="Under Armour">Under Armour</Option>
+              <Option value="Reebok">Reebok</Option>
+              <Option value="New Balance">New Balance</Option>
+              <Option value="Converse">Converse</Option>
+              <Option value="Asics">Asics</Option>
+              <Option value="Calvin Klein">Calvin Klein</Option>
+              <Option value="Oakley">Oakley</Option>
+              <Option value="The North Face">The North Face</Option>
+            </Select>
+          </Filter>
+          <Filter>
+            <FilterText>Rendezés:</FilterText>
+            <Select onChange={handleSortChange}>
+              <Option value="newest">Legújabb</Option>
+              <Option value="asc">Ár szerint növekvő</Option>
+              <Option value="desc">Ár szerint csökkenő</Option>
+            </Select>
+          </Filter>
+        </FilterContainer>
+        <Products cat={cat} filters={filters} sort={sort} />
       </Wrapper>
       <Footer />
     </Container>

@@ -3,18 +3,17 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-background-color: white;
+  background-color: white;
   flex: 1 1 30%;
   margin: 10px;
   height: 60vh;
   min-height: 250px;
   position: relative;
-  border-radius: 16px;
+  border-radius: 0px;
   overflow: hidden;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  
 
   &:hover {
     transform: translateY(-8px);
@@ -23,9 +22,9 @@ background-color: white;
 
   ${mobile({
     flex: "1 1 100%",
-    height: "35vh",
+    height: "40vh",
     minHeight: "200px",
-    margin: "5px 0"
+    margin: "6px 0",
   })}
 `;
 
@@ -68,6 +67,14 @@ const WaveBackground = styled.div`
       transform: translate(-50%, -75%) rotate(360deg);
     }
   }
+
+  ${mobile({
+    span: {
+      width: "150%",
+      height: "250%",
+      transform: "translate(-50%, -70%) scale(0.8)",
+    },
+  })}
 `;
 
 const Overlay = styled.div`
@@ -75,7 +82,6 @@ const Overlay = styled.div`
   inset: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(92, 32, 134));
   z-index: 1;
-  
 `;
 
 const Info = styled.div`
@@ -97,7 +103,8 @@ const Title = styled.h1`
   letter-spacing: 1.5px;
 
   ${mobile({
-    fontSize: "20px"
+    marginTop: "20px",
+    fontSize: "20px",
   })}
 `;
 
@@ -120,7 +127,7 @@ const Button = styled.button`
 
   ${mobile({
     padding: "8px 16px",
-    fontSize: "14px"
+    fontSize: "14px",
   })}
 `;
 
@@ -130,10 +137,11 @@ const Image = styled.img`
   object-fit: contain;
   margin-top: 100px;
   border-radius: 8px;
-  background
+  
 
   ${mobile({
-    width: "90px"
+    width: "90px",
+    marginTop: "5px",
   })}
 `;
 
