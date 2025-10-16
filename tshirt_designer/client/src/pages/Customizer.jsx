@@ -47,6 +47,7 @@ const Customizer = ({ productId }) => {
     const baseColor = snap.color;
     const isLogoTexture = state.isLogoTexture;
     const isFullTexture = state.isFullTexture;
+    const selectedSize = size;
 
     const parentOrigin = (() => {
       try {
@@ -67,7 +68,7 @@ const Customizer = ({ productId }) => {
           baseColor,
           isLogoTexture,
           isFullTexture,
-          size,
+          size: selectedSize,
         },
       },
       parentOrigin
