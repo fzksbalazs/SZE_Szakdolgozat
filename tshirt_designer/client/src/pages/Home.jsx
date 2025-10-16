@@ -16,8 +16,28 @@ const Home = () => {
     const snap = useSnapshot(state);
 const navigate = useNavigate();
      const handleLogoClick = () => {
-        navigate('/localhost:3000', { replace: true }); // Helyi főoldalra irányít
-    };
+    // Az aktuális szülő ablak origin-jének meghatározása
+    const parentOrigin = (() => {
+        try {
+            return new URL(document.referrer).origin;
+        } catch {
+            return "*"; // Fejlesztéshez vagy ha nem tudjuk az origin-t
+        }
+    })();
+
+    // Üzenet küldése a szülő ablaknak, hogy navigáljon a főoldalra
+    window.parent?.postMessage(
+        {
+            type: "NAVIGATE_TO_HOME",  // Egyéni üzenet típus
+            payload: {
+                // Paraméterek, amelyeket továbbíthatunk
+                message: "Vissza a főoldalra",
+            },
+        },
+        parentOrigin  // Üzenet küldése a megfelelő origin-re
+    );
+};
+
     return (
         <AnimatePresence>
             {snap.intro && (
@@ -37,7 +57,7 @@ const navigate = useNavigate();
                                         src='./logo.png' 
                                         alt='logo' 
                                         className='object-contain w-32 h-32 cursor-pointer' 
-                                        onClick={handleLogoClick} // Itt állíthatod a logó méretét
+                                        onClick={handleLogoClick} parentOrigin // Itt állíthatod a logó méretét
                                     />
                                
                             </motion.div>
