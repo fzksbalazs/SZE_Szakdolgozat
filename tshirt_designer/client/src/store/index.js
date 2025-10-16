@@ -8,6 +8,7 @@ const state = proxy({
   logoDecal: "./threejs.png",
   fullDecal: "./threejs.png",
   preview: false,
+  size: "M",
 
   // Logó pozíció és méret
   logoPosition: { x: 0, y: 0.05, z: 0.15 },
