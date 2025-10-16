@@ -27,7 +27,7 @@ const Home = () => {
                                 exit={{ opacity: 0 }} // Animáció, hogy a logó eltűnjön
                                 transition={{ duration: 0.2 }} // Animáció időtartama
                             >
-                                <Link to="/">
+                                <Link to="localhost:3000">
                                     <img 
                                         src='./logo.png' 
                                         alt='logo' 
