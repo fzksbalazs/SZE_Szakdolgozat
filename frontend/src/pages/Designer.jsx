@@ -30,7 +30,7 @@ export default function Designer() {
    
 
     async function uploadToCloudinary(dataUrl, productId) {
-      const resp = await fetch(`https://wearable-rust.vercel.app/api/custom/upload`, {
+      const resp = await fetch(`https://wearable-rira.onrender.com/api/custom/upload`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageDataUrl: dataUrl, productId }),
