@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from diffusers import StableDiffusionPipeline, EulerDiscreteScheduler
 
 MODEL_ID = "stable-diffusion-v1-5/stable-diffusion-v1-5"
-USE_SAFETY_CHECKER = False  # publikusan érdemes True
+USE_SAFETY_CHECKER = False  
 
 DEFAULT_QUALITY = "high detail, high resolution, ultra sharp, clean edges"
 DEFAULT_NEGATIVE = "blurry, low quality, deformed, artefacts, watermark, text, logo artifacts"
@@ -19,10 +19,10 @@ STYLE_PRESETS = {
     "pattern": "seamless repeating pattern, tiling, textile print, balanced density"
 }
 
-# -- Kényszerített CUDA ellenőrzés --
+
 assert torch.cuda.is_available(), "CUDA nem elérhető! Telepíts CUDA-s PyTorch-ot (cu118) és/vagy frissítsd a GPU drivert."
 DEVICE = "cuda"
-DTYPE = torch.float16  # GTX 980-hoz fp16 javasolt
+DTYPE = torch.float16  
 
 app = FastAPI(title="Stable Diffusion v1.5 (GPU forced)")
 app.add_middleware(
@@ -38,9 +38,9 @@ class GenerateBody(BaseModel):
     seed: Optional[int] = None
     height: Optional[int] = 512
     width: Optional[int] = 768
-    mode: Optional[str] = "logo"          # "logo" vagy "pattern"
-    negative_prompt: Optional[str] = None # ha küldesz saját negatív promptot, azt használjuk
-    use_defaults: Optional[bool] = True   # ha False, nem fűzzük hozzá az alap stringeket
+    mode: Optional[str] = "logo"         
+    negative_prompt: Optional[str] = None 
+    use_defaults: Optional[bool] = True   
 
 print("GPU:", torch.cuda.get_device_name(0))
 print("Loading SD v1.5 to CUDA...")
@@ -52,10 +52,10 @@ pipe = StableDiffusionPipeline.from_pretrained(
 )
 pipe.scheduler = EulerDiscreteScheduler.from_config(pipe.scheduler.config)
 
-# Átköltöztetés GPU-ra + memóriatakarékosság
+
 pipe.to(DEVICE)
 pipe.enable_attention_slicing()
-pipe.enable_vae_tiling()  # kevés VRAM-nál segít textúrázott VAE-ben
+pipe.enable_vae_tiling() 
 
 torch.backends.cudnn.benchmark = True
 print("Pipeline ready on CUDA.")
@@ -69,24 +69,24 @@ def generate(body: GenerateBody):
     if not body.prompt or not body.prompt.strip():
         return {"error": "Missing prompt"}
 
-    # Seed
+    
     gen = None
     if body.seed is not None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
         gen = torch.Generator(device=device).manual_seed(int(body.seed))
 
-    # Méret
+  
     h = max(256, min(768, int(body.height or 512)))
     w = max(256, min(768, int(body.width or 512)))
 
     steps = max(5, min(50, int(body.steps or 20)))
     guidance = float(body.guidance_scale or 7.5)
 
-    # -- ÚJ: végső promptok felépítése --
+   
     base = body.prompt.strip()
     if (body.use_defaults is None) or body.use_defaults:
         style = STYLE_PRESETS.get((body.mode or "logo").lower(), "")
-        # minőség + stílus + felhasználó promptja
+       
         final_prompt = ", ".join([p for p in [style, base, DEFAULT_QUALITY] if p])
         final_negative = body.negative_prompt.strip() if body.negative_prompt else DEFAULT_NEGATIVE
     else:
@@ -96,7 +96,7 @@ def generate(body: GenerateBody):
     with torch.inference_mode():
         image = pipe(
             prompt=final_prompt,
-            negative_prompt=final_negative,   # <-- diffusers támogatja
+            negative_prompt=final_negative,  
             num_inference_steps=steps,
             guidance_scale=guidance,
             height=h, width=w,

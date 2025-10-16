@@ -13,7 +13,7 @@ const CameraRig = ({ children }) => {
     const isBreakpoint = window.innerWidth <= 1260;
     const isMobile = window.innerWidth <= 600;
 
-    //Pozicionalasa a modellnek
+   
     let targetPosition = [0, 0, 2];
     if (snap.intro) {
       if (isBreakpoint) targetPosition = [0, 0, 2];
@@ -24,10 +24,10 @@ const CameraRig = ({ children }) => {
       }
     }
 
-    //kamera pozicio
+    
     easing.damp3(state.camera.position, targetPosition, 0.25, delta);
 
-    // model rotacio
+   
     easing.dampE(
       group.current.rotation,
       [state.pointer.y / 10, -state.pointer.x / 5, 0],

@@ -1,5 +1,4 @@
 import React from "react";
-import { easing } from "maath";
 import { useSnapshot } from "valtio";
 import { useFrame } from "@react-three/fiber";
 import { Decal, useGLTF, useTexture } from "@react-three/drei";
@@ -22,7 +21,7 @@ const Shirt = () => {
     <group>
       <mesh castShadow geometry={nodes.T_Shirt_male.geometry} dispose={null}>
         <meshStandardMaterial
-          color={snap.color} // use Valtio state for dynamic tint
+          color={snap.color} 
           roughness={1}
           metalness={0.3}
         />
