@@ -76,7 +76,7 @@ const Button = styled(Link)`
   }
 `;
 
-const NotFound = () => {
+const Notfound = () => {
   const [countdown, setCountdown] = useState(3);
   const history = useHistory();
 
@@ -109,4 +109,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default Notfound;
