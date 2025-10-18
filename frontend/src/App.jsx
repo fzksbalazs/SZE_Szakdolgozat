@@ -7,7 +7,7 @@ import Success from "./pages/Success";
 import { useSelector } from "react-redux";
 import ResetPassword from "./components/ResetPassword";
 import Designer from "./pages/Designer";
-import NotFound from "./pages/NotFound";
+import Notfound from "./pages/Notfound";
 
 import {
   BrowserRouter as Router,
@@ -23,50 +23,45 @@ const App = () => {
     <Router>
       <Switch>
         {/* Publikus oldalak */}
-        <Route exact path="/">
-          <Home />
-        </Route>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Auth />)} />
+        <Route path="/register" render={() => (user ? <Redirect to="/" /> : <Auth />)} />
+        <Route path="/reset-password" component={ResetPassword} />
 
-        <Route path="/login">
-          {user ? <Redirect to="/" /> : <Auth />}
-        </Route>
+        {/* ✅ A designer oldal mindig elérhető */}
+        <Route
+          path="/designer"
+          render={(props) => <Designer {...props} />}
+        />
 
-        <Route path="/register">
-          {user ? <Redirect to="/" /> : <Auth />}
-        </Route>
+        {/* 🔒 Privát oldalak (csak ha van user) */}
+        <Route
+          path="/products/:category"
+          render={(props) =>
+            user ? <ProductList {...props} /> : <Redirect to="/login" />
+          }
+        />
+        <Route
+          path="/product/:id"
+          render={(props) =>
+            user ? <Product {...props} /> : <Redirect to="/login" />
+          }
+        />
+        <Route
+          path="/cart"
+          render={(props) =>
+            user ? <Cart {...props} /> : <Redirect to="/login" />
+          }
+        />
+        <Route
+          path="/success"
+          render={(props) =>
+            user ? <Success {...props} /> : <Redirect to="/login" />
+          }
+        />
 
-        <Route path="/reset-password">
-          <ResetPassword />
-        </Route>
-
-       
-      {user ? (
-  <>
-    <Route path="/products/:category">
-      <ProductList />
-    </Route>
-    <Route path="/product/:id">
-      <Product />
-    </Route>
-    <Route path="/cart">
-      <Cart />
-    </Route>
-    <Route path="/success">
-      <Success />
-    </Route>
-    <Route path="/designer">
-      <Designer />
-    </Route>
-    <Route component={NotFound} /> 
-  </>
-) : (
-  <Redirect to="/login" />
-)}
-
-        <Route>
-          <NotFound />
-        </Route>
-       
+        {/* ⚠️ 404-es oldal mindig legvégül */}
+        <Route component={Notfound} />
       </Switch>
     </Router>
   );
