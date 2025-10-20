@@ -14,6 +14,7 @@ const state = proxy({
   logoPosition: { x: 0, y: 0.05, z: 0.15 },
   logoScale: 0.15,
   isDraggingLogo: false,
+  startPreview: null,
 });
 
 export default state;
