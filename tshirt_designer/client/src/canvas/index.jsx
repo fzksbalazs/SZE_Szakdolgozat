@@ -10,15 +10,16 @@ const CanvasModel = () => {
     <Canvas
       shadows
       dpr={[1, 2]}
-      camera={{ position: [0, 0, 0], fov: 30 }}
+      camera={{ position: [0, 0, 0], fov: 28 }}
       gl={{ preserveDrawingBuffer: true }}
       className="w-full h-full max-w-full transition-all ease-in"
     >
       <ambientLight intensity={0.5} />
       <Environment preset="city" />
+       <Backdrop />
 
       <CameraRig>
-        <Backdrop />
+       
         <Center>
           <Shirt />
         </Center>

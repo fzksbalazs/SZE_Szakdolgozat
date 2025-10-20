@@ -159,12 +159,17 @@ const Customizer = ({ productId }) => {
     }));
   };
 
-  const readFile = (type) => {
-    reader(file).then((result) => {
-      handleDecals(type, result);
-      setActiveEditorTab("");
-    });
-  };
+  const readFile = (type, customFile = null) => {
+  const targetFile = customFile || file;
+  if (!targetFile) return alert("Nincs kiválasztott kép!");
+
+  reader(targetFile).then((result) => {
+    handleDecals(type, result);
+    setActiveEditorTab("");
+  });
+};
+
+
 
   return (
     <AnimatePresence>
@@ -212,6 +217,25 @@ const Customizer = ({ productId }) => {
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
           </motion.div>
+          <motion.div
+  className="absolute z-50 bottom-5 right-5 pointer-events-auto"  // ⬅️ z-50 + pointer
+  {...fadeAnimation}
+>
+  <CustomButton
+    type="outline"
+    title="Preview"
+    handleClick={() => {
+      if (typeof state.startPreview === "function") {
+        state.startPreview();
+      } else {
+        console.warn("startPreview még nem elérhető (CameraRig nem mountolt?)");
+      }
+    }}
+    customStyles="w-fit px-4 py-2.5 font-bold text-sm cursor-pointer" // ⬅️ cursor
+  />
+</motion.div>
+
+
 
        
           <motion.div

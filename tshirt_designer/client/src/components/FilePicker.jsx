@@ -1,36 +1,117 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomButton from "./CustomButton";
 
-const FilePicker = ({ file, setFile, readFile }) => {
+const FilePicker = ({ readFile }) => {
+  const [logoFile, setLogoFile] = useState(null);
+  const [patternFile, setPatternFile] = useState(null);
+  const [activeType, setActiveType] = useState("logo");
+
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setLogoFile(file);
+    setActiveType("logo");
+  };
+
+  const handlePatternUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setPatternFile(file);
+    setActiveType("pattern");
+  };
+
+  const handleApply = () => {
+    const fileToRead = activeType === "logo" ? logoFile : patternFile;
+    if (!fileToRead) return alert("Kérlek, tölts fel egy képet!");
+    readFile(activeType === "logo" ? "logo" : "full", fileToRead);
+  };
+
+  const handleApplyBoth = () => {
+    if (!logoFile || !patternFile)
+      return alert("Tölts fel mindkét képet először!");
+    readFile("full", patternFile);
+    readFile("logo", logoFile);
+  };
+
   return (
-    <div className="filepicker-container">
-      <div className="flex flex-col flex-1">
+    <div className="filepicker-container flex flex-col items-start">
+    
+      <div className="flex flex-col flex-1 mb-3 w-full">
+        <label
+          className="filepicker-label text-sm font-semibold"
+          htmlFor="logo-upload"
+        >
+          Logó feltöltése
+        </label>
         <input
-          id="file-upload"
+          id="logo-upload"
           type="file"
           accept="image/*"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={handleLogoUpload}
         />
-        <label htmlFor="file-upload" className="filepicker-label">
-          Fájl Feltöltése
-        </label>
-        <p className="mt-2 text-xs text-gray-500 truncate">
-          {file ? file.name : "Nincs feltöltött fájl"}
+        <p className="mt-1 text-xs text-gray-500 truncate">
+          {logoFile ? logoFile.name : "Nincs logó feltöltve"}
         </p>
       </div>
-      <div className="flex flex-wrap gap-3 mt-4">
-        <CustomButton
-          type="outline"
-          title="Logo"
-          handleClick={() => readFile("logo")}
-          customStyles={"text-xs"}
+
+     
+      <div className="flex flex-col flex-1 mb-3 w-full">
+        <label
+          className="filepicker-label text-sm font-semibold"
+          htmlFor="pattern-upload"
+        >
+          Minta feltöltése
+        </label>
+        <input
+          id="pattern-upload"
+          type="file"
+          accept="image/*"
+          onChange={handlePatternUpload}
         />
-        <CustomButton
-          type="filled"
-          title="Minta"
-          handleClick={() => readFile("full")}
-          customStyles="text-xs"
-        />
+        <p className="mt-1 text-xs text-gray-500 truncate">
+          {patternFile ? patternFile.name : "Nincs minta feltöltve"}
+        </p>
+      </div>
+
+    
+      <div className="flex flex-col gap-2 w-full">
+        <div className="flex gap-2">
+          <button
+            className={`px-4 py-1 rounded-full border transition-all duration-300 ${
+              activeType === "logo"
+                ? "bg-black text-white border-black"
+                : "bg-transparent text-black border-gray-500"
+            }`}
+            onClick={() => setActiveType("logo")}
+          >
+            Logó
+          </button>
+          <button
+            className={`px-4 py-1 rounded-full border transition-all duration-300 ${
+              activeType === "pattern"
+                ? "bg-black text-white border-black"
+                : "bg-transparent text-black border-gray-500"
+            }`}
+            onClick={() => setActiveType("pattern")}
+          >
+            Minta
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-2 mt-3 w-full">
+          <CustomButton
+            type="filled"
+            title="Aktuális alkalmazása"
+            handleClick={handleApply}
+            customStyles="text-xs w-full"
+          />
+          <CustomButton
+            type="outline"
+            title="Mindkettő alkalmazása"
+            handleClick={handleApplyBoth}
+            customStyles="text-xs w-full"
+          />
+        </div>
       </div>
     </div>
   );
