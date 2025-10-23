@@ -43,6 +43,10 @@ cloudinary.v2.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+app.get("/api/v1/health", (req, res) => {
+  res.status(200).json({ status: "ok", uptime: process.uptime() });
+});
+
 app.post("/api/debug/echo", (req, res) => {
   return res.json({
     hasBody: !!req.body,
@@ -50,6 +54,8 @@ app.post("/api/debug/echo", (req, res) => {
     preview: req.body?.imageDataUrl?.slice(0, 30),
   });
 });
+
+
 
 app.post("/api/custom/upload", async (req, res) => {
   try {
