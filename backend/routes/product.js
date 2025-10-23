@@ -54,26 +54,39 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qNew = req.query.new;
   const qCategory = req.query.category;
+  const qGender = req.query.gender; // 🔹 új: nem szerinti szűrés
 
   try {
     let products;
 
     if (qNew) {
+      // 🔹 Legújabb termék
       products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
+    } else if (qCategory && qGender) {
+      // 🔹 Kategória ÉS nem alapján
       products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
+        categories: { $in: [qCategory] },
+        gender: qGender,
       });
+    } else if (qCategory) {
+      // 🔹 Csak kategória alapján
+      products = await Product.find({
+        categories: { $in: [qCategory] },
+      });
+    } else if (qGender) {
+      // 🔹 Csak nem alapján
+      products = await Product.find({ gender: qGender });
     } else {
+      // 🔹 Alapértelmezett: összes termék
       products = await Product.find();
     }
 
     res.status(200).json(products);
   } catch (err) {
+    console.error("❌ Product GET error:", err);
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;

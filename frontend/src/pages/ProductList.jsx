@@ -119,6 +119,13 @@ const ProductList = () => {
         <FilterContainer>
           <Filter>
             <FilterText>Szűrés:</FilterText>
+            {cat === "polo" && (
+  <Select name="gender" onChange={handleFilterChange}>
+    <Option value="">Nem</Option>
+    <Option value="ferfi">Férfi</Option>
+    <Option value="noi">Női</Option>
+  </Select>
+)}
             <Select name="color" onChange={handleFilterChange}>
               <Option value="">Szin</Option>
               <Option value="Fehér">Fehér</Option>
