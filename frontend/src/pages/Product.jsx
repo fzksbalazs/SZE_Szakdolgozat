@@ -31,7 +31,54 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  perspective: 1000px;
+  padding: 40px;
+`;
+
+
+const Circle = styled.div`
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5);
+  position: absolute;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  z-index: 1;
+  transition: transform 0.5s ease;
+
+  ${mobile({
+    width: "260px",
+    height: "260px",
+  })}
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  z-index: 2;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ${mobile({
+    width: "240px",
+    height: "240px",
+  })}
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  &:hover ~ ${Circle} {
+    transform: scale(1.05);
+  }
 `;
 
 const ImageFrame = styled.div`
@@ -205,6 +252,74 @@ const Button = styled.button`
   }
 `;
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  color: black;
+  padding: 40px 50px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  width: 90%;
+  animation: popIn 0.3s ease;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-decoration: underline #5d0aab 3px;
+  }
+
+  p {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  button {
+    flex: 1;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 1px solid black;
+    background: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: black;
+      color: white;
+    }
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+`;
+
+
 const Product = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -213,9 +328,12 @@ const Product = () => {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+
 
   const handleClick = () => {
     dispatch(addProduct({ ...product, quantity, color, size }));
+      setShowModal(true);
   };
 
   useEffect(() => {
@@ -257,10 +375,11 @@ const Product = () => {
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <ImageFrame>
-            <Image src={product.img} alt={product.title} />
-          </ImageFrame>
-        </ImgContainer>
+  <Circle />
+  <ImageWrapper>
+    <Image src={product.img} alt={product.title} />
+  </ImageWrapper>
+</ImgContainer>
         <InfoContainer>
           <Title>{product.title}</Title>
           <Desc>{product.desc}</Desc>
@@ -309,6 +428,19 @@ const Product = () => {
           </AddContainer>
         </InfoContainer>
       </Wrapper>
+      {showModal && (
+  <ModalOverlay  onClick={() => setShowModal(false)}>
+    <ModalContent onClick={(e) => e.stopPropagation()}>
+      <h2>Kosárhoz hozzáadva!</h2>
+      <p>A terméket hozzáadtuk a kosaradhoz.</p>
+      <div className="buttons">
+        <button onClick={() => setShowModal(false)}>Folytatom a vásárlást</button>
+        <button onClick={() => (window.location.href = "/cart")}>Tovább a kosárhoz</button>
+      </div>
+    </ModalContent>
+  </ModalOverlay>
+)}
+
       <Footer />
     </Container>
   );

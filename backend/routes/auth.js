@@ -4,6 +4,11 @@ const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
+const dotenv = require("dotenv");
+dotenv.config();
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function validatePassword(password) {
   const errors = [];
@@ -122,36 +127,42 @@ router.post("/forgot-password", async (req, res) => {
 
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.resetToken = resetToken;
-    user.resetTokenExpiration = Date.now() + 3600000;
+    user.resetTokenExpiration = Date.now() + 3600000; // 1 óra
     await user.save();
-
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    await transporter.sendMail({
+    const msg = {
       to: email,
-      subject: "Jelszó visszaállítása",
-      html: `<p>Kattints az alábbi linkre a jelszó visszaállításához:</p><p><a href="${resetUrl}">Visszaállítás</a></p>`,
-    });
+      from: process.env.EMAIL_USER, // verified sender
+      subject: "Jelszó visszaállítása - Wearable",
+      html: `
+        <div style="font-family: Arial, sans-serif; color:#222; padding:20px;">
+          <h2>🔐 Jelszó visszaállítása</h2>
+          <p>Kattints az alábbi gombra a jelszó visszaállításához:</p>
+          <a href="${resetUrl}"
+             style="display:inline-block; padding:12px 20px; background:#5d0aab; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">
+             Jelszó visszaállítása
+          </a>
+          <p style="margin-top:20px;">Ez a link 1 órán belül lejár.</p>
+          <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
+          <p style="font-size:13px; color:#777;">Ha nem te kérted ezt az e-mailt, hagyd figyelmen kívül.</p>
+        </div>
+      `,
+    };
 
-    res
-      .status(200)
-      .json({ message: "Egy emailt küldtünk a jelszó visszaállításához." });
+    await sgMail.send(msg);
+
+    res.status(200).json({
+      message: "Egy emailt küldtünk a jelszó visszaállításához.",
+    });
   } catch (err) {
-    console.error(err);
+    console.error("SendGrid error:", err);
     res
       .status(500)
-      .json({ message: "Hiba történt a jelszó visszaállítása során." });
+      .json({ message: "Hiba történt az email küldése során." });
   }
 });
-
 router.post("/reset-password", async (req, res) => {
   const { token, newPassword } = req.body;
 
