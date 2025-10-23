@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
     Brand: { type: Array },
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
+    gender: { type: String, enum: ["ferfi", "noi", "unisex"], default: "unisex" },
   },
   { timestamps: true },
 );

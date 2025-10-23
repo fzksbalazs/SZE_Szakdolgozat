@@ -23,43 +23,55 @@ const Products = ({ cat, filters, sort }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-  const getProducts = async () => {
-    try {
-      const res = await publicRequest.get(
-        cat ? `products?category=${cat}` : "products"
-      );
-      setProducts(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  getProducts();
-}, [cat]);
+    const getProducts = async () => {
+      try {
+        const res = await publicRequest.get(
+          cat ? `products?category=${cat}` : "products"
+        );
+        setProducts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProducts();
+  }, [cat]);
 
-
+  // ✅ Biztonságos szűrés includes hibák nélkül
   useEffect(() => {
-    cat &&
+    if (cat) {
       setFilteredProducts(
         products.filter((item) =>
-          Object.entries(filters).every(([key, value]) =>
-            item[key].includes(value),
-          ),
-        ),
+          Object.entries(filters).every(([key, value]) => {
+            const field = item[key];
+
+            // nincs ilyen mező
+            if (field === undefined || field === null) return false;
+
+            // ha tömb (pl. color, size, categories, Brand)
+            if (Array.isArray(field)) return field.includes(value);
+
+            // ha string (pl. gender)
+            if (typeof field === "string") return field === value;
+
+            return false;
+          })
+        )
       );
+    }
   }, [products, cat, filters]);
 
   useEffect(() => {
     if (sort === "newest") {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.createdAt - b.createdAt),
+        [...prev].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       );
     } else if (sort === "asc") {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => a.price - b.price),
+        [...prev].sort((a, b) => a.price - b.price)
       );
     } else {
       setFilteredProducts((prev) =>
-        [...prev].sort((a, b) => b.price - a.price),
+        [...prev].sort((a, b) => b.price - a.price)
       );
     }
   }, [sort]);
@@ -67,10 +79,12 @@ const Products = ({ cat, filters, sort }) => {
   return (
     <Container>
       {cat
-        ? filteredProducts.map((item) => <Product item={item} key={item.id} />)
+        ? filteredProducts.map((item) => (
+            <Product key={item._id} item={item} />
+          ))
         : products
             .slice(0, 8)
-            .map((item) => <Product item={item} key={item.id} />)}
+            .map((item) => <Product key={item._id} item={item} />)}
     </Container>
   );
 };
