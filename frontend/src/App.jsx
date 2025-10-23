@@ -22,19 +22,19 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        {/* Publikus oldalak */}
+      
         <Route exact path="/" component={Home} />
         <Route path="/login" render={() => (user ? <Redirect to="/" /> : <Auth />)} />
         <Route path="/register" render={() => (user ? <Redirect to="/" /> : <Auth />)} />
         <Route path="/reset-password" component={ResetPassword} />
 
-        {/* ✅ A designer oldal mindig elérhető */}
+       
         <Route
           path="/designer"
           render={(props) => <Designer {...props} />}
         />
 
-        {/* 🔒 Privát oldalak (csak ha van user) */}
+       
         <Route
           path="/products/:category"
           render={(props) =>
@@ -60,7 +60,7 @@ const App = () => {
           }
         />
 
-        {/* ⚠️ 404-es oldal mindig legvégül */}
+       
         <Route component={Notfound} />
       </Switch>
     </Router>

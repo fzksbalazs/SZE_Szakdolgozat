@@ -32,7 +32,7 @@ const Customizer = ({ productId }) => {
   });
   const [size, setSize] = useState("M");
 
-  // ✅ A helyes helye ennek a useEffect-nek
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       const isMobile = window.innerWidth <= 768;

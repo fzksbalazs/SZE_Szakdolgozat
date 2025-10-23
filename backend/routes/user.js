@@ -25,7 +25,7 @@ router.put("/:id", async (req, res) => {
       { new: true },
     );
     res.status(200).json(updatedUser);
-    return; // Visszatérés a válasz után
+    return; 
   } catch (err) {
     res.status(500).json(err);
   }

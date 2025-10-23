@@ -7,7 +7,7 @@ const Backdrop = () => {
   const [ready, setReady] = React.useState(false);
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 1500); // 1,5s késleltetés
+    const timer = setTimeout(() => setReady(true), 1500); 
     return () => clearTimeout(timer);
   }, []);
 

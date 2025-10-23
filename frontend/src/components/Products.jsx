@@ -36,7 +36,7 @@ const Products = ({ cat, filters, sort }) => {
     getProducts();
   }, [cat]);
 
-  // ✅ Biztonságos szűrés includes hibák nélkül
+  
   useEffect(() => {
     if (cat) {
       setFilteredProducts(
@@ -44,13 +44,13 @@ const Products = ({ cat, filters, sort }) => {
           Object.entries(filters).every(([key, value]) => {
             const field = item[key];
 
-            // nincs ilyen mező
+          
             if (field === undefined || field === null) return false;
 
-            // ha tömb (pl. color, size, categories, Brand)
+           
             if (Array.isArray(field)) return field.includes(value);
 
-            // ha string (pl. gender)
+         
             if (typeof field === "string") return field === value;
 
             return false;

@@ -53,7 +53,7 @@ const Title = styled.h1`
   font-weight: 800;
   letter-spacing: 0.5px;
   margin: 6px 0 18px;
-  text-align: center; /* Középre igazítjuk a címet */
+  text-align: center;
 `;
 
 const Input = styled.input`
@@ -90,7 +90,7 @@ const ErrorMsg = styled.div`
   color: #ff8aa6;
   font-size: 14px;
   margin-top: 10px;
-  text-align: center; /* A hibát középre igazítjuk */
+  text-align: center; 
   white-space: pre-line;
 `;
 
@@ -114,7 +114,7 @@ const PasswordChecklist = styled.div`
     font-weight: 600;
     color: #fff;
     margin-bottom: 4px;
-    text-align: center; /* A h4 középre igazítása */
+    text-align: center; 
   }
 
   ul {
@@ -149,7 +149,7 @@ const BackButton = styled.button`
   margin-top: 10px;
   text-decoration: underline;
   font-weight: 600;
-  text-align: center; /* A vissza gomb középre igazítása */
+  text-align: center; 
 `;
 
 const ResetPassword = () => {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { clearCart } from "../redux/cartRedux";
 import { userRequest } from "../requestMethods";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 const Success = () => {
   const location = useLocation();
@@ -76,7 +76,7 @@ const Success = () => {
 
 export default Success;
 
-// Styled components
+
 const Container = styled.div`
   height: 100vh;
   display: flex;
