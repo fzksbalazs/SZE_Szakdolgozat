@@ -15,7 +15,7 @@ const CameraRig = ({ children }) => {
     const isBreakpoint = window.innerWidth <= 1260;
     const isMobile = window.innerWidth <= 600;
 
-    // alap kamera cél
+  
     let targetPosition = [0, 0, 2.5];
     if (snap.intro) {
       if (isBreakpoint) targetPosition = [0, 0, 2.5];
@@ -26,15 +26,15 @@ const CameraRig = ({ children }) => {
 
     if (isPreviewing) {
       const elapsed = r3fState.clock.getElapsedTime() - rotationStartTime;
-      const t = Math.min(elapsed / 5, 1); // 5 mp
+      const t = Math.min(elapsed / 5, 1); 
       group.current.rotation.y = Math.PI * 2 * t;
 
       if (t >= 1) {
         setIsPreviewing(false);
-        group.current.rotation.y = 0; // vissza alaphelyzet
+        group.current.rotation.y = 0; 
       }
     } else {
-      // egér alap interakció
+      
       easing.dampE(
         group.current.rotation,
         [r3fState.pointer.y / 10, -r3fState.pointer.x / 5, 0],
@@ -44,14 +44,14 @@ const CameraRig = ({ children }) => {
     }
   });
 
-  // publikus indító a Valtio state-en
+ 
   useEffect(() => {
     state.startPreview = () => {
       setRotationStartTime(performance.now() / 1000);
       setIsPreviewing(true);
     };
     return () => {
-      // takarítás, ha unmountol
+   
       state.startPreview = null;
     };
   }, []);

@@ -26,7 +26,7 @@ const Slide = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: stretch; /* kitölti teljesen */
+  align-items: stretch;
   justify-content: center;
   margin: 0;
   padding: 0;
@@ -216,7 +216,7 @@ const PlayButton = styled.a`
 const PriceNote = styled.p`
   font-size: 15px;
   font-weight: 300;
-  color: #fff; /* vagy #ccc, ha szürkére szeretnéd */
+  color: #fff; 
   margin-top: 1px;
 
   ${mobile({

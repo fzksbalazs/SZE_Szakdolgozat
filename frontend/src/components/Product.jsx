@@ -23,7 +23,7 @@ const Container = styled.div`
   flex: 1;
   margin: 5px;
   min-width: 280px;
-  height: 450px; // Increase height for better spacing
+  height: 450px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,7 +44,7 @@ const Circle = styled.div`
   background: ${(props) =>
     props.isShirtCategory
       ? "linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5)"
-      : "linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f)"}; // Default dark gradient
+      : "linear-gradient(-45deg, #0d0d0f, #1b1833, #3a2c72, #0d0d0f)"}; 
   position: absolute;
 `;
 
@@ -104,7 +104,7 @@ const Price = styled.span`
   font-weight: 700;
   margin-top: 10px;
   color: black;
-  margin-bottom: 10px; /* Added margin to separate from button */
+  margin-bottom: 10px; 
 `;
 
 const InfoContainer = styled.div`

@@ -127,14 +127,14 @@ router.post("/forgot-password", async (req, res) => {
 
     const resetToken = crypto.randomBytes(32).toString("hex");
     user.resetToken = resetToken;
-    user.resetTokenExpiration = Date.now() + 3600000; // 1 óra
+    user.resetTokenExpiration = Date.now() + 3600000;
     await user.save();
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_USER, // verified sender
+      from: process.env.EMAIL_USER, 
       subject: "Jelszó visszaállítása - Wearable",
       html: `
         <div style="font-family: Arial, sans-serif; color:#222; padding:20px;">

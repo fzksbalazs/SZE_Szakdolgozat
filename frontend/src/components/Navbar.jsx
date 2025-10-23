@@ -160,16 +160,16 @@ const handleLogoEnter = () => {
   gsap.set(img, { scale: 1, opacity: 0.8 });
 
   logoTweenRef.current = gsap.to(img, {
-    scale: 1.2, // A logó megnövekedése
-    opacity: 1, // Teljes láthatóság
-    duration: 0.6, // Rövid animáció
-    ease: "power2.out", // Lassan lelassuló mozgás
+    scale: 1.2, 
+    opacity: 1, 
+    duration: 0.6, 
+    ease: "power2.out", 
     onComplete: () => {
       gsap.to(img, {
-        scale: 1,  // Vissza a normál méretbe
-        opacity: 0.8, // Vissza az áttetszőséghez
-        duration: 0.4, // Gyors visszaállás
-        ease: "power2.in", // Simább visszaállás
+        scale: 1,  
+        opacity: 0.8, 
+        duration: 0.4, 
+        ease: "power2.in", 
       });
     },
   });
@@ -221,7 +221,7 @@ const handleLogoEnter = () => {
     ["--pill-text"]: resolvedPillTextColor,
   };
 
-  // Menü összeállítása user alapján
+  
   const guestItems = [
     { label: "KEZDŐLAP", href: "/" },
 
