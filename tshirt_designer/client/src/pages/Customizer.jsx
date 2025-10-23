@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSnapshot } from "valtio";
@@ -20,6 +20,7 @@ export { AIPicker, ColorPicker, FilePicker, Tab, CustomButton };
 
 const Customizer = ({ productId }) => {
   const snap = useSnapshot(state);
+  const tabRef = useRef(null);
 
   const [file, setFile] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -29,11 +30,38 @@ const Customizer = ({ productId }) => {
     logoShirt: true,
     stylishShirt: false,
   });
-
   const [size, setSize] = useState("M");
-  const handleSizeChange = (event) => {
-    setSize(event.target.value);
-  };
+
+  // ✅ A helyes helye ennek a useEffect-nek
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const isMobile = window.innerWidth <= 768;
+      if (
+        isMobile &&
+        activeEditorTab &&
+        tabRef.current &&
+        !tabRef.current.contains(event.target)
+      ) {
+        setActiveEditorTab("");
+      }
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth > 768 && activeEditorTab) {
+        setActiveEditorTab("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [activeEditorTab]);
+
+  const handleSizeChange = (event) => setSize(event.target.value);
 
   function handleSave() {
     const canvas = document.querySelector("canvas");
@@ -53,16 +81,9 @@ const Customizer = ({ productId }) => {
       try {
         return new URL(document.referrer).origin;
       } catch {
-        return "*"; 
+        return "*";
       }
     })();
-
-    console.log("posting DONE to parent", {
-      pid,
-      baseColor,
-      isLogoTexture,
-      isFullTexture,
-    });
 
     window.parent?.postMessage(
       {
@@ -76,7 +97,7 @@ const Customizer = ({ productId }) => {
           size: selectedSize,
         },
       },
-      parentOrigin,
+      parentOrigin
     );
   }
 
@@ -106,14 +127,11 @@ const Customizer = ({ productId }) => {
 
     try {
       setgeneratingImg(true);
-      const response = await fetch(
-        "http://localhost:8080/api/v1/dalle",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
-        },
-      );
+      const response = await fetch("http://localhost:8080/api/v1/dalle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
 
       const data = await response.json().catch(() => ({}));
       if (!response.ok)
@@ -160,34 +178,35 @@ const Customizer = ({ productId }) => {
   };
 
   const readFile = (type, customFile = null) => {
-  const targetFile = customFile || file;
-  if (!targetFile) return alert("Nincs kiválasztott kép!");
+    const targetFile = customFile || file;
+    if (!targetFile) return alert("Nincs kiválasztott kép!");
 
-  reader(targetFile).then((result) => {
-    handleDecals(type, result);
-    setActiveEditorTab("");
-  });
-};
-
-
+    reader(targetFile).then((result) => {
+      handleDecals(type, result);
+      setActiveEditorTab("");
+    });
+  };
 
   return (
     <AnimatePresence>
       {!snap.intro && (
         <>
-          
           <motion.div
             key="custom"
             className="absolute top-0 left-0 z-10"
             {...slideAnimation("left")}
           >
             <div className="flex items-center min-h-screen">
-              <div className="editortabs-container tabs">
+              <div ref={tabRef} className="editortabs-container tabs">
                 {EditorTabs.map((tab) => (
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => setActiveEditorTab(tab.name)}
+                    handleClick={() =>
+                      setActiveEditorTab((prev) =>
+                        prev === tab.name ? "" : tab.name
+                      )
+                    }
                   />
                 ))}
                 {generateTabContent()}
@@ -195,7 +214,6 @@ const Customizer = ({ productId }) => {
             </div>
           </motion.div>
 
-       
           <motion.div className="absolute z-10 top-5 left-5" {...fadeAnimation}>
             <CustomButton
               type="filled"
@@ -205,7 +223,6 @@ const Customizer = ({ productId }) => {
             />
           </motion.div>
 
-         
           <motion.div
             className="absolute z-10 top-5 right-5"
             {...fadeAnimation}
@@ -217,27 +234,34 @@ const Customizer = ({ productId }) => {
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
           </motion.div>
+
           <motion.div
-  className="absolute z-50 bottom-5 right-5 pointer-events-auto"  // ⬅️ z-50 + pointer
-  {...fadeAnimation}
->
-  <CustomButton
-    type="outline"
-    title="Preview"
-    handleClick={() => {
-      if (typeof state.startPreview === "function") {
-        state.startPreview();
-      } else {
-        console.warn("startPreview még nem elérhető (CameraRig nem mountolt?)");
-      }
-    }}
-    customStyles="w-fit px-4 py-2.5 font-bold text-sm cursor-pointer" // ⬅️ cursor
-  />
-</motion.div>
+            className="fixed z-50 flex flex-col-reverse items-end gap-3 sm:flex-row sm:items-center sm:gap-4 bottom-5 right-5"
+            {...fadeAnimation}
+          >
+            <select
+              id="size"
+              value={size}
+              onChange={handleSizeChange}
+              className="p-2 text-base text-black transition-all bg-white rounded-full shadow-md cursor-pointer bg-opacity-70 sm:p-2 sm:text-sm hover:bg-white"
+            >
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
 
+            <CustomButton
+              type="outline"
+              title="Forgatás"
+              handleClick={() => {
+                if (typeof state.startPreview === "function")
+                  state.startPreview();
+              }}
+              customStyles="w-fit px-4 py-2.5 font-bold text-sm cursor-pointer shadow-md bg-white/70 hover:bg-white rounded-full transition-all"
+            />
+          </motion.div>
 
-
-       
           <motion.div
             className="filtertabs-container"
             {...slideAnimation("up")}
@@ -259,20 +283,6 @@ const Customizer = ({ productId }) => {
                 className="object-contain w-3/5 h-3/5"
               />
             </button>
-            <motion.div>
-              <label className="p-3" htmlFor="size"></label>
-              <select
-                id="size"
-                value={size}
-                onChange={handleSizeChange}
-                className="p-2 text-xl bg-transparent rounded-full"
-              >
-                <option value="S">S</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-              </select>
-            </motion.div>
           </motion.div>
         </>
       )}
