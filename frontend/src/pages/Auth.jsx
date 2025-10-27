@@ -595,7 +595,7 @@ const Auth = () => {
                   <FieldIcon>👤</FieldIcon>
                   <Input
                     type="text"
-                    placeholder="Firstname"
+                    placeholder="Név"
                     value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                   />
@@ -666,7 +666,7 @@ const Auth = () => {
                       </li>
                     </ul>
                     {Object.values(passwordChecks).every(Boolean) && (
-                      <p className="strong">💪 Erős jelszó!</p>
+                      <p className="strong">Erős jelszó!</p>
                     )}
                   </PasswordChecklist>
                 )}
