@@ -138,7 +138,7 @@ router.post("/forgot-password", async (req, res) => {
       subject: "Jelszó visszaállítása - Wearable",
       html: `
         <div style="font-family: Arial, sans-serif; color:#222; padding:20px;">
-          <h2>🔐 Jelszó visszaállítása</h2>
+          <h2>Jelszó visszaállítása</h2>
           <p>Kattints az alábbi gombra a jelszó visszaállításához:</p>
           <a href="${resetUrl}"
              style="display:inline-block; padding:12px 20px; background:#5d0aab; color:white; border-radius:8px; text-decoration:none; font-weight:bold;">
