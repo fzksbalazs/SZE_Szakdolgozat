@@ -595,7 +595,7 @@ const Auth = () => {
                   <FieldIcon>👤</FieldIcon>
                   <Input
                     type="text"
-                    placeholder="Név"
+                    placeholder="Felhasználónév"
                     value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                   />
