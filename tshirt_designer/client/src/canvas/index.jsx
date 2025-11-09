@@ -11,7 +11,7 @@ const CanvasModel = () => {
       shadows
       dpr={[1, 2]}
       camera={{ position: [0, 0, 0], fov: 28 }}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{ preserveDrawingBuffer: true, alpha: true }}
       className="w-full h-full max-w-full transition-all ease-in"
     >
       <ambientLight intensity={0.5} />
