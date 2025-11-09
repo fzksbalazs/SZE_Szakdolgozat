@@ -3,30 +3,26 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart } from "../redux/cartRedux";
+import { clearCart, removeProduct, updateQuantity } from "../redux/cartRedux";
 import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../requestMethods";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { Add, Remove, Delete } from "@material-ui/icons";
 
 const KEY =
   "pk_test_51KTYWpB1bb1VrKRi8D6WQYnKbZ02r2Jp7evDytQUhbIatPZTSWs7An0BeVDTYzqVDM7DsDXoIcBeZwDmQXRaY2fe00pb87wOeq";
 
-
-
 const Container = styled.div`
   min-height: 100vh;
-
   color: #1a1633;
 `;
 
 const Wrapper = styled.div`
   width: 95%;
-
   padding: 40px 60px;
   background: white;
-
   border-radius: 10px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   ${mobile({ padding: "20px" })}
@@ -63,9 +59,7 @@ const TopButton = styled.button`
   cursor: pointer;
   border-radius: 10px;
   border: 2px solid black;
-  cursor: pointer;
   transition: all 0.3s ease;
-
   &:hover {
     background-color: #000000;
     color: #fff;
@@ -98,21 +92,58 @@ const ProductDetail = styled.div`
   align-items: center;
 `;
 
+const Circle = styled.div`
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  z-index: 0;
+  transition: transform 0.5s ease;
+  ${mobile({
+    width: "150px",
+    height: "150px",
+  })}
+`;
+
 const ImageWrapper = styled.div`
-  width: 180px;
-  height: 180px;
+  position: relative;
+  width: ${(props) => (props.isCustom ? "300px" : "200px")};
+  height: ${(props) => (props.isCustom ? "300px" : "200px")};
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  overflow: visible;
+   background: transparent; 
+  ${mobile({
+    width: "160px",
+    height: "160px",
+  })}
+
+  img {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+    background: transparent;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  &:hover ${Circle} {
+    transform: scale(1.05);
+  }
 `;
 
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; 
+  object-fit: contain;
   display: block;
 `;
 
@@ -139,18 +170,33 @@ const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  gap: 8px;
 `;
 
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
+  width: 40px;
+  text-align: center;
   ${mobile({ margin: "5px 15px" })}
 `;
 
 const ProductPrice = styled.div`
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 500;
   ${mobile({ marginBottom: "20px" })}
+`;
+
+const DeleteIcon = styled(Delete)`
+  margin-top: 10px;
+  cursor: pointer;
+  color: #d9534f;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ff0000;
+    transform: scale(1.2);
+  }
 `;
 
 const Hr = styled.hr`
@@ -204,24 +250,21 @@ const Button = styled.button`
   width: 100%;
   padding: 14px 0;
   background: white;
-  border: 1px solid black
-  color: white;
+  border: 1px solid black;
+  color: black;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
 
-   &:hover {
+  &:hover {
     background-color: #000000;
     color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 `;
-
-
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -250,7 +293,7 @@ const Cart = () => {
     stripeToken && makeRequest();
   }, [stripeToken, cart.total, history, cart]);
 
-  const handleDelete = () => {
+  const handleDeleteAll = () => {
     dispatch(clearCart());
   };
 
@@ -268,16 +311,12 @@ const Cart = () => {
   };
 
   const getDisplayColor = (color) => {
-    
     if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
-    
     return colorMap[color] || "gray";
   };
 
   const getDisplayName = (color) => {
-    
     if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return color;
-   
     return color || "-";
   };
 
@@ -290,10 +329,9 @@ const Cart = () => {
           <Link to="/">
             <TopButton>VÁSÁRLÁS FOLYTATÁSA</TopButton>
           </Link>
-          <TopButton onClick={handleDelete} type="filled">
-            KOSÁR TÖRLÉSE
-          </TopButton>
+          <TopButton onClick={handleDeleteAll}>KOSÁR TÖRLÉSE</TopButton>
         </Top>
+
         <Bottom>
           <Info>
             <Empty style={cart.total !== 0 ? { display: "none" } : {}}>
@@ -303,15 +341,17 @@ const Cart = () => {
             {cart.products.map((product, index) => (
               <Product key={`${product._id}-${index}`}>
                 <ProductDetail>
-                  <ImageWrapper>
+                  <ImageWrapper isCustom={!!product.customImageUrl}>
+                    <Circle />
                     <Image
-                      src={
-                        product.customImageUrl
-                          ? product.customImageUrl
-                          : product.img
-                      }
-                      alt={product.title}
-                    />
+  src={product.customImageUrl ? product.customImageUrl : product.img}
+  alt={product.title}
+  style={{
+    width: product.customImageUrl ? "300px" : "100%",
+    height: product.customImageUrl ? "300px" : "auto",
+    objectFit: "contain",
+  }}
+/>
                   </ImageWrapper>
                   <Details>
                     <ProductId>
@@ -338,13 +378,31 @@ const Cart = () => {
                     </div>
                   </Details>
                 </ProductDetail>
+
                 <PriceDetail>
                   <ProductAmountContainer>
+                    <Remove
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        dispatch(updateQuantity({ id: product._id, type: "dec" }))
+                      }
+                    />
                     <ProductAmount>{product.quantity}</ProductAmount>
+                    <Add
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        dispatch(updateQuantity({ id: product._id, type: "inc" }))
+                      }
+                    />
                   </ProductAmountContainer>
+
                   <ProductPrice>
                     {product.price * product.quantity} Ft
                   </ProductPrice>
+
+                  <DeleteIcon
+                    onClick={() => dispatch(removeProduct(product._id))}
+                  />
                 </PriceDetail>
               </Product>
             ))}
