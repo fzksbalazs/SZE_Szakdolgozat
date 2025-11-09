@@ -94,31 +94,36 @@ const ProductDetail = styled.div`
 
 const Circle = styled.div`
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: ${(props) => (props.isCustom ? "200px" : "200px")};
+  height: ${(props) => (props.isCustom ? "200px" : "200px")};
   border-radius: 50%;
   background: linear-gradient(-45deg, #4f2c72, #5d3e8a, #7155b1, #8e73b5);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
   z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   transition: transform 0.5s ease;
+
   ${mobile({
-    width: "150px",
-    height: "150px",
+    width: (props) => (props.isCustom ? "150px" : "150px"),
+    height: (props) => (props.isCustom ? "150px" : "150px"),
   })}
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
-  width: ${(props) => (props.isCustom ? "300px" : "200px")};
-  height: ${(props) => (props.isCustom ? "300px" : "200px")};
+  width: ${(props) => (props.isCustom ? "200px" : "200px")};
+  height: ${(props) => (props.isCustom ? "200px" : "200px")};
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
-   background: transparent; 
+  background: transparent;
+
   ${mobile({
-    width: "160px",
-    height: "160px",
+    width: (props) => (props.isCustom ? "180px" : "160px"),
+    height: (props) => (props.isCustom ? "160px" : "160px"),
   })}
 
   img {
@@ -126,9 +131,11 @@ const ImageWrapper = styled.div`
     z-index: 2;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: transform 0.4s ease;
+    object-fit: ${(props) => (props.isCustom ? "cover" : "contain")};
+    object-position: center;
+    border-radius: ${(props) => (props.isCustom ? "200px" : "0")};
     background: transparent;
+    transition: transform 0.4s ease;
   }
 
   &:hover img {
@@ -136,9 +143,10 @@ const ImageWrapper = styled.div`
   }
 
   &:hover ${Circle} {
-    transform: scale(1.05);
+    transform: translate(-50%, -50%) scale(1.05);
   }
 `;
+
 
 const Image = styled.img`
   max-width: 100%;
@@ -342,16 +350,29 @@ const Cart = () => {
               <Product key={`${product._id}-${index}`}>
                 <ProductDetail>
                   <ImageWrapper isCustom={!!product.customImageUrl}>
-                    <Circle />
+                    <Circle isCustom={!!product.customImageUrl} />
+
                     <Image
   src={product.customImageUrl ? product.customImageUrl : product.img}
   alt={product.title}
-  style={{
-    width: product.customImageUrl ? "300px" : "100%",
-    height: product.customImageUrl ? "300px" : "auto",
-    objectFit: "contain",
-  }}
+  style={
+    product.customImageUrl
+      ? {
+          objectFit: "cover",
+          objectPosition: "center",
+          borderRadius: "200px",
+          width: "200px",
+          height: "200px",
+          
+        }
+      : {
+          objectFit: "contain",
+          width: "100%",
+          height: "auto",
+        }
+  }
 />
+
                   </ImageWrapper>
                   <Details>
                     <ProductId>
