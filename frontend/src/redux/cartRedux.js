@@ -29,7 +29,7 @@ const cartSlice = createSlice({
       );
     },
 
-    // 🔹 Egy termék törlése
+
     removeProduct: (state, action) => {
       const productId = action.payload;
       const productToRemove = state.products.find((p) => p._id === productId);
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
       }
     },
 
-    // 🔹 Mennyiség növelése / csökkentése
+
     updateQuantity: (state, action) => {
       const { id, type } = action.payload;
       const product = state.products.find((p) => p._id === id);

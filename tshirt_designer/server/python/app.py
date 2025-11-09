@@ -1,4 +1,3 @@
-# app.py — Stable Diffusion v1.5, kényszerített GPU (CUDA)
 import base64
 from io import BytesIO
 from typing import Optional
