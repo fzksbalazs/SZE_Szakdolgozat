@@ -123,7 +123,7 @@ const Customizer = ({ productId }) => {
   };
 
   const handleSubmit = async (type) => {
-    if (!prompt) return alert("Please enter a prompt");
+    if (!prompt) return alert("Kérem irja be a kép leírását");
 
     try {
       setgeneratingImg(true);

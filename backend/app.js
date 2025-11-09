@@ -44,6 +44,7 @@ cloudinary.v2.config({
 });
 
 app.get("/api/v1/health", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).json({ status: "ok", uptime: process.uptime() });
 });
 
