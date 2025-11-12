@@ -218,6 +218,7 @@ const Customizer = ({ productId }) => {
             <CustomButton
               type="filled"
               title="Vissza"
+              color ="black"
               handleClick={() => (state.intro = true)}
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
