@@ -36,7 +36,7 @@ const Shirt = () => {
           <Decal
             position={[0, 0.04, 0.16]}    
             rotation={[0, 0, 0]}
-            scale={0.18}
+            scale={0.20}
             map={logoTexture}
             transparent
             depthTest={true}

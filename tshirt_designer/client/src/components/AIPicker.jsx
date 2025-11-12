@@ -30,7 +30,7 @@ const AIPicker = ({ prompt, setPrompt, generatingImg, handleSubmit }) => {
 
             <CustomButton
               type="filled"
-              title="AI Full"
+              title="AI Minta"
               handleClick={() => handleSubmit("full")}
               customStyles="text-xs"
             />

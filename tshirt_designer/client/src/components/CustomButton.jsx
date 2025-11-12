@@ -10,13 +10,13 @@ function CustomButton({ type, customStyles, handleClick, title }) {
   const generateStyle = (type) => {
     if (type === "filled") {
       return {
-        backgroundColor: snap.color,
-        color: getContrastingColor(snap.color),
+        backgroundColor: "black",
+        color: "white",
       };
     } else if (type === "outline") {
       return {
-        border: `1px solid ${snap.color}`,
-        color: snap.color,
+        border: "1px solid black",
+        color: "black",
       };
     }
   };
