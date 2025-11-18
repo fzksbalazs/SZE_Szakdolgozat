@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
           ${productListHtml}
         </div>
 
-        <h3>Végösszeg:</h3>
+        <h3>Végösszeg: </h3>
         <p style="font-size:20px; font-weight:bold;">${savedOrder.amount} Ft</p>
 
         <br/>
