@@ -46,6 +46,7 @@ const Success = () => {
               productId: item._id,
               title: item.title,
               img: item.img,
+              size: item.size,
               price: item.price,
               quantity: item.quantity,
             };
