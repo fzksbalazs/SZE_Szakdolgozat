@@ -17,6 +17,20 @@ export default function OrdersList() {
     getOrders();
   }, []);
 
+ 
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm("Biztosan törölni szeretnéd ezt a rendelést?")) return;
+
+    try {
+      await userRequest.delete(`/orders/${orderId}`);
+
+     
+      setOrders((prev) => prev.filter((order) => order._id !== orderId));
+    } catch (err) {
+      console.log("Error deleting order:", err);
+    }
+  };
+
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await userRequest.put(`/orders/${orderId}`, {
@@ -59,7 +73,6 @@ export default function OrdersList() {
                     <div>
                       <p><strong>Termék:</strong> {product.title}</p>
                       <p><strong>Mennyiség:</strong> {product.quantity}</p>
-                      <p><strong>Méret:</strong> {product.size}</p>
                       <p><strong>Ár:</strong> {product.price} Ft/db</p>
                     </div>
                   </div>
@@ -79,6 +92,14 @@ export default function OrdersList() {
                 <option value="delivered">Kézbesítve</option>
                 <option value="cancelled">Törölve</option>
               </select>
+
+         
+              <button 
+                className="deleteOrderButton"
+                onClick={() => handleDeleteOrder(order._id)}
+              >
+               Törlés
+              </button>
             </div>
 
           </div>
