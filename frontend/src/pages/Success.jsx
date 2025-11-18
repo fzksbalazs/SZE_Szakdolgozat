@@ -26,6 +26,7 @@ const Success = () => {
       try {
         const res = await userRequest.post("/orders", {
           userId: currentUser._id,
+          email: currentUser.email,
 
         
           products: cart.products.map((item) => {
