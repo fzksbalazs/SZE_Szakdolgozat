@@ -23,22 +23,26 @@ const Success = () => {
 
   useEffect(() => {
     const createOrder = async () => {
-      try {
-        const res = await userRequest.post("/orders", {
-          userId: currentUser._id,
-          products: cart.products.map((item) => ({
-            productId: item._id,
-            quantity: item.quantity,
-          })),
-          amount: cart.total,
-          address: data.billing_details.address,
-        });
-        setOrderId(res.data._id);
-        startProgress();
-      } catch (err) {
-        console.log("Error creating order:", err);
-      }
-    };
+  try {
+    const res = await userRequest.post("/orders", {
+      userId: currentUser._id,
+      products: cart.products.map((item) => ({
+        productId: item._id,
+        title: item.title,
+        img: item.img,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      amount: cart.total,
+      address: data.billing_details.address,
+    });
+    setOrderId(res.data._id);
+    startProgress();
+  } catch (err) {
+    console.log("Error creating order:", err);
+  }
+};
+
     if (data) createOrder();
   }, [cart, data, currentUser]);
 
@@ -50,6 +54,8 @@ const Success = () => {
       if (value >= 100) clearInterval(interval);
     }, 20);
   };
+
+  console.log("CART:", cart.products);
 
   return (
     <Container>
