@@ -60,3 +60,20 @@
   border-radius: 6px;
   border: 1px solid gray;
 }
+
+.deleteOrderButton {
+  background-color: #ff3b3b;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+  margin-left: 15px;
+}
+
+.deleteOrderButton:hover {
+  background-color: #d30f0f;
+}
+
