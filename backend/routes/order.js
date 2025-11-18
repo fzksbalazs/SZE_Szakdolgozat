@@ -4,6 +4,9 @@ const {
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
 } = require("./verifyToken");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 const router = require("express").Router();
 
@@ -12,6 +15,62 @@ router.post("/", async (req, res) => {
 
   try {
     const savedOrder = await newOrder.save();
+    try {
+  const userEmail = req.body.email || req.body.address.email; // ha Stripe címet küld
+
+  const productListHtml = savedOrder.products
+    .map((p) => {
+      return `
+      <div style="display:flex; align-items:center; margin-bottom:12px;">
+        <img src="${p.img}" width="70" style="border-radius:8px; margin-right:14px;" />
+        <div>
+          <div><strong>${p.title}</strong></div>
+          <div>Mennyiség: ${p.quantity} db</div>
+          <div>Ár: ${p.price} Ft/db</div>
+        </div>
+      </div>
+      `;
+    })
+    .join("");
+
+  const msg = {
+    to: userEmail,
+    from: process.env.EMAIL_USER,
+    subject: "Rendelés visszaigazolása - Wearable",
+    html: `
+      <div style="font-family:Arial; padding:20px; color:#222;">
+        <h2>Köszönjük a rendelésed!</h2>
+
+        <p>Kedves Vásárló,</p>
+        <p>Köszönjük, hogy a <strong>Wearable</strong> webshopot választottad!  
+        Az alábbi rendelésedet sikeresen rögzítettük.</p>
+
+        <h3>Rendelés adatai</h3>
+        <p><strong>Rendelés azonosító:</strong> ${savedOrder._id}</p>
+        <p><strong>Dátum:</strong> ${new Date(savedOrder.createdAt).toLocaleString("hu-HU")}</p>
+
+        <h3>Megrendelt termékek:</h3>
+        <div style="margin-top:10px; padding:15px; background:#f7f7f7; border-radius:10px;">
+          ${productListHtml}
+        </div>
+
+        <h3>Végösszeg:</h3>
+        <p style="font-size:20px; font-weight:bold;">${savedOrder.amount} Ft</p>
+
+        <br/>
+        <p>Hamarosan értesítést kapsz, ha a csomagodat átadtuk a futárnak.</p>
+
+        <hr/>
+        <p style="font-size:13px; color:#777;">Ez egy automatikus üzenet. Kérdés esetén vedd fel velünk a kapcsolatot.</p>
+      </div>
+    `,
+  };
+
+  await sgMail.send(msg);
+
+} catch (emailErr) {
+  console.error("❌ Email sending error:", emailErr);
+}
     res.status(200).json(savedOrder);
   } catch (err) {}
 });
