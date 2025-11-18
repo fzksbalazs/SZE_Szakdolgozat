@@ -14,25 +14,34 @@ const Login = () => {
   const admin = currentUser?.isAdmin;
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // <-- fontos, hogy ne frissítsen oldalt
+    e.preventDefault();
     setErrorMsg("");
 
     try {
       await login(dispatch, { username, password });
+
+      // Ha hibás a login
       if (error) {
         setErrorMsg("Hibás felhasználónév vagy jelszó!");
         return;
       }
     } catch (err) {
       setErrorMsg("Hibás felhasználónév vagy jelszó!");
+      return;
     }
   };
 
   useEffect(() => {
+    // Ha van felhasználó, de nem admin
+    if (currentUser && !admin) {
+      setErrorMsg("Nincs admin jogosultságod!");
+    }
+
+    // Ha admin → mehet az admin felületre
     if (admin) {
       history.push("/welcome");
     }
-  }, [admin, history]);
+  }, [currentUser, admin, history]);
 
   return (
     <div
@@ -92,7 +101,7 @@ const Login = () => {
         )}
 
         <button
-          type="submit" // <-- Itt a lényeg!
+          type="submit"
           style={{
             width: "100%",
             padding: 15,
