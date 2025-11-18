@@ -73,6 +73,7 @@ export default function OrdersList() {
                     <div>
                       <p><strong>Termék:</strong> {product.title}</p>
                       <p><strong>Mennyiség:</strong> {product.quantity}</p>
+                      <p><strong>Méret:</strong> {product.size}</p>
                       <p><strong>Ár:</strong> {product.price} Ft/db</p>
                     </div>
                   </div>
