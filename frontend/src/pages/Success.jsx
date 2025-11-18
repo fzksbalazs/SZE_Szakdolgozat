@@ -23,25 +23,44 @@ const Success = () => {
 
   useEffect(() => {
     const createOrder = async () => {
-  try {
-    const res = await userRequest.post("/orders", {
-      userId: currentUser._id,
-      products: cart.products.map((item) => ({
-        productId: item._id,
-        title: item.title,
-        img: item.img,
-        price: item.price,
-        quantity: item.quantity,
-      })),
-      amount: cart.total,
-      address: data.billing_details.address,
-    });
-    setOrderId(res.data._id);
-    startProgress();
-  } catch (err) {
-    console.log("Error creating order:", err);
-  }
-};
+      try {
+        const res = await userRequest.post("/orders", {
+          userId: currentUser._id,
+
+        
+          products: cart.products.map((item) => {
+           
+            if (item.customImageUrl) {
+              return {
+                productId: "custom-" + Date.now(),       
+                title: item.title || "Egyedi póló",
+                img: item.customImageUrl,                
+                price: item.price,
+                size: item.size,
+                quantity: item.quantity,
+              };
+            }
+
+          
+            return {
+              productId: item._id,
+              title: item.title,
+              img: item.img,
+              price: item.price,
+              quantity: item.quantity,
+            };
+          }),
+
+          amount: cart.total,
+          address: data.billing_details.address,
+        });
+
+        setOrderId(res.data._id);
+        startProgress();
+      } catch (err) {
+        console.log("Error creating order:", err);
+      }
+    };
 
     if (data) createOrder();
   }, [cart, data, currentUser]);
@@ -62,7 +81,8 @@ const Success = () => {
       {orderId ? (
         <>
           <Message>
-            A rendelésed sikeres! <br /> Rendelés azonosító: <strong>{orderId}</strong>
+            A rendelésed sikeres! <br /> 
+            Rendelés azonosító: <strong>{orderId}</strong>
           </Message>
 
           <ProgressBar>
@@ -83,13 +103,14 @@ const Success = () => {
 export default Success;
 
 
+
+
 const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
   color: white;
 `;
 
@@ -105,7 +126,6 @@ const Button = styled.button`
   font-weight: bold;
   cursor: pointer;
   background-color: black;
-  color: black;
   border: none;
   border-radius: 5px;
   color: white;
@@ -122,7 +142,6 @@ const ProgressBar = styled.div`
   border: 2px solid white;
   border-radius: 10px;
   overflow: hidden;
- 
 `;
 
 const ProgressFill = styled.div`
