@@ -19,7 +19,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://wearable-3d.vercel.app",
   "https://wearable-rust.vercel.app",
-  "https://adminoldal.vercel.app/"
+  "https://adminoldal.vercel.app"
 ];
 
 app.use(
