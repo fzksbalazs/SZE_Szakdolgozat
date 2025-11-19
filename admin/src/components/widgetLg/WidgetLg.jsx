@@ -20,7 +20,7 @@ export default function WidgetLg() {
     try {
       const res = await userRequest.get("orders");
 
-      // Felhasználók lekérése egyenként
+     
       const ordersWithUsers = await Promise.all(
         res.data.map(async (order) => {
           const user = await getUserById(order.userId);

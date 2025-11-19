@@ -24,7 +24,7 @@ const Success = () => {
    useEffect(() => {
     const createOrder = async () => {
       try {
-        // 🔥 EMAIL JAVÍTÁS
+       
         const emailToSend =
           currentUser?.email ||
           data?.receipt_email ||
@@ -36,7 +36,7 @@ const Success = () => {
           email: emailToSend,
 
           products: cart.products.map((item) => {
-            // 🔥 Egyedi póló kezelése
+        
             if (item.customImageUrl) {
               return {
                 productId: "custom-" + Date.now(),
@@ -48,7 +48,6 @@ const Success = () => {
               };
             }
 
-            // Normál termék
             return {
               productId: item._id,
               title: item.title,
