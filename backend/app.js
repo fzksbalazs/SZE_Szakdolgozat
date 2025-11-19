@@ -10,7 +10,7 @@ const productRoute = require("./routes/product");
 const orderRoute = require("./routes/order");
 const stripeRoute = require("./routes/stripe");
 
-
+dotenv.config();
 const cloudinary = require("cloudinary");
 
 const allowedOrigins = [
@@ -21,31 +21,20 @@ const allowedOrigins = [
   "https://wearable-rust.vercel.app",
 ];
 
-
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS blocked: " + origin));
-      }
-    },
+      if (!origin || allowedOrigins.includes(origin))
+        return callback(null, true);
+      return callback(new Error("CORS blocked: " + origin));
+  },
     credentials: true,
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "token",
-      "X-Requested-With",
-    ],
-    exposedHeaders: ["Authorization", "token"],
-  })
-);
+ }),        );
 
 app.use(express.json({ limit: "30mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
 
-dotenv.config();
+
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
