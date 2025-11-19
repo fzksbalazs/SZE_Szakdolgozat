@@ -230,7 +230,7 @@ const handleLogoEnter = () => {
 
   const userItems = [
     { label: "KEZDŐLAP", href: "/" },
-   
+     { label: "PROFILOM", href: "/profile" },
     { label: "KOSÁR", href: "/cart", isCart: true },
     { label: "KIJELENTKEZÉS", href: "#logout", isLogout: true },
   ];
