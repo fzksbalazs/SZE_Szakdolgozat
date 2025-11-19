@@ -8,6 +8,8 @@ import { useSelector } from "react-redux";
 import ResetPassword from "./components/ResetPassword";
 import Designer from "./pages/Designer";
 import Notfound from "./pages/Notfound";
+import Profile from "./pages/Profile";
+
 
 import {
   BrowserRouter as Router,
@@ -33,6 +35,10 @@ const App = () => {
           path="/designer"
           render={(props) => <Designer {...props} />}
         />
+
+        <Route path="/profile">
+  <Profile />
+</Route>
 
        
         <Route
