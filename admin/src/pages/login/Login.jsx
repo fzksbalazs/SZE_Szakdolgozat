@@ -20,7 +20,7 @@ const Login = () => {
     try {
       await login(dispatch, { username, password });
 
-      // Ha hibás a login
+     
       if (error) {
         setErrorMsg("Hibás felhasználónév vagy jelszó!");
         return;
@@ -32,12 +32,12 @@ const Login = () => {
   };
 
   useEffect(() => {
-    // Ha van felhasználó, de nem admin
+   
     if (currentUser && !admin) {
       setErrorMsg("Nincs admin jogosultságod!");
     }
 
-    // Ha admin → mehet az admin felületre
+   
     if (admin) {
       history.push("/welcome");
     }
