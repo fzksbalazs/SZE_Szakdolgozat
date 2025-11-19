@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import { clearCart } from "../redux/cartRedux";
-import { userRequest } from "../requestMethods";
+import { publicRequest, userRequest } from "../requestMethods";
 import styled from "styled-components";
 
 const Success = () => {
@@ -21,34 +21,40 @@ const Success = () => {
     history.push("/");
   };
 
-  useEffect(() => {
+   useEffect(() => {
     const createOrder = async () => {
       try {
-        const res = await userRequest.post("/orders", {
-          userId: currentUser._id,
-          email: currentUser.email,
+        // 🔥 EMAIL JAVÍTÁS
+        const emailToSend =
+          currentUser?.email ||
+          data?.receipt_email ||
+          data?.billing_details?.email ||
+          "test@localhost.com";
 
-        
+        const res = await publicRequest.post("/orders", {
+          userId: currentUser._id,
+          email: emailToSend,
+
           products: cart.products.map((item) => {
-           
+            // 🔥 Egyedi póló kezelése
             if (item.customImageUrl) {
               return {
-                productId: "custom-" + Date.now(),       
+                productId: "custom-" + Date.now(),
                 title: item.title || "Egyedi póló",
-                img: item.customImageUrl,                
+                img: item.customImageUrl,
                 price: item.price,
                 size: item.size,
                 quantity: item.quantity,
               };
             }
 
-          
+            // Normál termék
             return {
               productId: item._id,
               title: item.title,
               img: item.img,
-              size: item.size,
               price: item.price,
+              size: item.size,
               quantity: item.quantity,
             };
           }),
@@ -76,7 +82,7 @@ const Success = () => {
     }, 20);
   };
 
-  console.log("CART:", cart.products);
+
 
   return (
     <Container>
