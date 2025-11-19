@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
     const newOrder = new Order(req.body);
     const savedOrder = await newOrder.save();
 
-    // 🔥 EMAIL CHECK
+    
     const userEmail = req.body.email;
     if (!userEmail) {
       return res.status(200).json({
@@ -79,7 +79,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ----------------- ORDER UPDATE -----------------
 router.put("/:id", async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -93,7 +92,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// ----------------- DELETE -----------------
+
 router.delete("/:id", async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
@@ -103,7 +102,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// ----------------- USER'S ORDERS -----------------
+
 router.get("/find/:userId", async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.params.userId });
@@ -113,7 +112,7 @@ router.get("/find/:userId", async (req, res) => {
   }
 });
 
-// ----------------- GET ALL -----------------
+
 router.get("/", async (req, res) => {
   try {
     const orders = await Order.find();
@@ -123,7 +122,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ----------------- STATS -----------------
+
 router.get("/stats", async (req, res) => {
   try {
     const data = await Order.aggregate([
