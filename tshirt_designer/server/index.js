@@ -16,7 +16,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://127.0.0.1:5173",
-      "https://ai-szerver.onrender.com",   
+      "https://ai-szerver.onrender.com",  
+      "https://wearable-3d.vercel.app", 
       "https://wearable-rust.vercel.app/designer?productId=1&color=%23ffffff&logoUrl=&mode=logo#",
 
     ],

@@ -9,7 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-console.log("AUTH ROUTE KEY:", process.env.SENDGRID_API_KEY);
+
 
 
 function validatePassword(password) {
