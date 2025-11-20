@@ -446,14 +446,16 @@ const Cart = () => {
               <SummaryItemPrice>{cart.total} Ft</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="WEARABLE."
-              billingAddress
-              shippingAddress
-              description={`A végösszeg ${cart.total} Ft`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
+  name="WEARABLE."
+  billingAddress
+  shippingAddress
+  locale="hu"
+  currency="HUF"
+  description={`A végösszeg ${cart.total} Ft`}
+  amount={cart.total * 100}
+  token={onToken}
+  stripeKey={KEY}
+>
               <Button style={cart.total === 0 ? { display: "none" } : {}}>
                 MEGRENDELÉS
               </Button>
