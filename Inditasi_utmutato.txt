@@ -1,11 +1,11 @@
-WEARABLE – INDÍTÁSI ÚTMUTATÓ A BÍRÁLÓ SZÁMÁRA
+WEARABLE – INDÍTÁSI ÚTMUTATÓ
 
 1.  Telepítendő programok A projekt futtatásához az alábbi két szoftver
     szükséges:
 
-2.  Node.js (LTS verzió) Letöltés: https://nodejs.org/
+2.  Node.js (LTS verzió)
 
-3.  Python 3.10 vagy újabb verzió Letöltés: https://www.python.org/
+3.  Python 3.10 vagy újabb verzió
 
 4.  A projekt indítása
 
@@ -21,17 +21,5 @@ következő szolgáltatásokat:
 -   Backend API: http://localhost:5000
 -   T-shirt designer kliens: http://localhost:5173
 -   T-shirt designer Node.js szerver: http://localhost:8080
--   Python AI szerver (FastAPI): http://localhost:8000/docs
+-   Python AI szerver (FastAPI): http://localhost:8000
 
-A rendszer betöltése után mindegyik szolgáltatás elérhető a fent
-megadott címeken.
-
-Nincs szükség további beállításra vagy manuális indításra.
-
-3.  A rendszer leállítása
-
-A futó ablakok egyszerre történő bezárásához:
-
-Kattintson duplán a „stop_all.bat” fájlra.
-
-Ez automatikusan leállít minden elindított szolgáltatást.

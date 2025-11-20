@@ -9,7 +9,10 @@ const Home = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   // VERCEL admin URL-ed ide jön:
-  const adminUrl = "https://adminoldal.vercel.app";
+   const adminUrl =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3001"
+      : "https://adminoldal.vercel.app";
 
   return (
     <div style={{ position: "relative" }}>
