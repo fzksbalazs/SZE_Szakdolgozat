@@ -1,10 +1,13 @@
-// Designer.jsx (webshop)
 import React, { useEffect, useMemo, useRef} from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
 
-const DESIGNER_URL = "https://wearable-3d.vercel.app"; 
+const DESIGNER_URL =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://127.0.0.1:5173"
+    : "https://wearable-3d.vercel.app";
+
 const API_BASE = process.env.REACT_APP_API_BASE || "https://wearable-rust.vercel.app";
 
 function useQuery() {
