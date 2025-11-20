@@ -8,6 +8,8 @@ import { ShoppingCartOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import logos from "../img/logo.png";
 
+
+
 const Navbar = ({
   sharedBackground = false,
   logo = logos,
@@ -229,11 +231,17 @@ const handleLogoEnter = () => {
   ];
 
   const userItems = [
-    { label: "KEZDŐLAP", href: "/" },
-     { label: "PROFILOM", href: "/profile" },
-    { label: "KOSÁR", href: "/cart", isCart: true },
-    { label: "KIJELENTKEZÉS", href: "#logout", isLogout: true },
-  ];
+  { label: "KEZDŐLAP", href: "/" },
+ { label: "PROFILOM", href: "/profile" },
+  { label: "CIPŐK", href: "/products/cipo" },
+  { label: "PÓLÓK", href: "/products/polo" },
+  { label: "KIEGÉSZÍTŐK", href: "/products/kiegeszito" },
+
+ 
+  { label: "KOSÁR", href: "/cart", isCart: true },
+  { label: "KIJELENTKEZÉS", href: "#logout", isLogout: true },
+];
+
 
   const items = user ? userItems : guestItems;
 
@@ -275,8 +283,15 @@ const handleLogoEnter = () => {
                         }}
                       />
                       <span className="label-stack">
-                        <span className="pill-label">{item.label}</span>
-                        <span className="pill-label-hover">{item.label}</span>
+                        <span className="pill-label">
+  {item.icon && <span style={{ marginRight: "6px" }}>{item.icon}</span>}
+  {item.label}
+</span>
+
+<span className="pill-label-hover">
+  {item.icon && <span style={{ marginRight: "6px" }}>{item.icon}</span>}
+  {item.label}
+</span>
                       </span>
                     </span>
                   ) : item.isCart ? (
@@ -345,40 +360,55 @@ const handleLogoEnter = () => {
           </button>
         </nav>
         <div
-          className="mobile-menu-popover mobile-only"
-          ref={mobileMenuRef}
-          style={cssVars}
-        >
-          <ul className="mobile-menu-list">
-            {items.map((item, i) => (
-              <li key={item.href || `mobile-item-${i}`}>
-                {item.isLogout ? (
-                  <span className="mobile-menu-link" onClick={handleLogout}>
-                    {item.label}
-                  </span>
-                ) : item.isCart ? (
-                  <Link
-                    to={item.href}
-                    className="mobile-menu-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Badge badgeContent={quantity} color="secondary">
-                      <ShoppingCartOutlined />
-                    </Badge>
-                  </Link>
-                ) : (
-                  <Link
-                    to={item.href}
-                    className="mobile-menu-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
+  className="mobile-menu-popover mobile-only"
+  ref={mobileMenuRef}
+  style={cssVars}
+>
+  <ul className="mobile-menu-list">
+    {items.map((item, i) => (
+      <li key={item.href || `mobile-item-${i}`}>
+        {item.isLogout ? (
+          <span
+            className="mobile-menu-link"
+            onClick={() => {
+              handleLogout();
+              setIsMobileMenuOpen(false);
+              toggleMobileMenu();
+            }}
+          >
+            {item.label}
+          </span>
+        ) : item.isCart ? (
+          <Link
+            to={item.href}
+            className="mobile-menu-link"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              toggleMobileMenu();
+            }}
+          >
+            <Badge badgeContent={quantity} color="secondary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </Link>
+        ) : (
+          <Link
+            to={item.href}
+            className="mobile-menu-link"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              toggleMobileMenu();
+            }}
+          >
+            {item.icon && <span style={{ marginRight: "6px" }}>{item.icon}</span>}
+            {item.label}
+          </Link>
+        )}
+      </li>
+    ))}
+  </ul>
+</div>
+
       </div>
     </div>
   );

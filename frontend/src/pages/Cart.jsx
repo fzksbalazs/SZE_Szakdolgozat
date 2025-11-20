@@ -147,7 +147,6 @@ const ImageWrapper = styled.div`
   }
 `;
 
-
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
@@ -353,26 +352,28 @@ const Cart = () => {
                     <Circle isCustom={!!product.customImageUrl} />
 
                     <Image
-  src={product.customImageUrl ? product.customImageUrl : product.img}
-  alt={product.title}
-  style={
-    product.customImageUrl
-      ? {
-          objectFit: "cover",
-          objectPosition: "center",
-          borderRadius: "200px",
-          width: "200px",
-          height: "200px",
-          
-        }
-      : {
-          objectFit: "contain",
-          width: "100%",
-          height: "auto",
-        }
-  }
-/>
-
+                      src={
+                        product.customImageUrl
+                          ? product.customImageUrl
+                          : product.img
+                      }
+                      alt={product.title}
+                      style={
+                        product.customImageUrl
+                          ? {
+                              objectFit: "cover",
+                              objectPosition: "center",
+                              borderRadius: "200px",
+                              width: "200px",
+                              height: "200px",
+                            }
+                          : {
+                              objectFit: "contain",
+                              width: "100%",
+                              height: "auto",
+                            }
+                      }
+                    />
                   </ImageWrapper>
                   <Details>
                     <ProductId>
@@ -405,14 +406,18 @@ const Cart = () => {
                     <Remove
                       style={{ cursor: "pointer" }}
                       onClick={() =>
-                        dispatch(updateQuantity({ id: product._id, type: "dec" }))
+                        dispatch(
+                          updateQuantity({ id: product._id, type: "dec" })
+                        )
                       }
                     />
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Add
                       style={{ cursor: "pointer" }}
                       onClick={() =>
-                        dispatch(updateQuantity({ id: product._id, type: "inc" }))
+                        dispatch(
+                          updateQuantity({ id: product._id, type: "inc" })
+                        )
                       }
                     />
                   </ProductAmountContainer>
@@ -446,16 +451,16 @@ const Cart = () => {
               <SummaryItemPrice>{cart.total} Ft</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-  name="WEARABLE."
-  billingAddress
-  shippingAddress
-  locale="hu"
-  currency="HUF"
-  description={`A végösszeg ${cart.total} Ft`}
-  amount={cart.total * 100}
-  token={onToken}
-  stripeKey={KEY}
->
+              name="WEARABLE."
+              billingAddress
+              shippingAddress
+              locale="hu"
+              currency="HUF"
+              description={`A végösszeg ${cart.total} Ft`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
               <Button style={cart.total === 0 ? { display: "none" } : {}}>
                 MEGRENDELÉS
               </Button>
