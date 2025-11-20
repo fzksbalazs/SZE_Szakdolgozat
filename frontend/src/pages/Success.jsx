@@ -26,10 +26,10 @@ const Success = () => {
       try {
        
         const emailToSend =
-          currentUser?.email ||
-          data?.receipt_email ||
-          data?.billing_details?.email ||
-          "test@localhost.com";
+  data?.receipt_email ||
+  data?.billing_details?.email ||
+  currentUser?.email ||
+  "test@localhost.com";
 
         const res = await publicRequest.post("/orders", {
           userId: currentUser._id,
