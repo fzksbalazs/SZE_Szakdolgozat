@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  admin:
+    build: ./admin
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./admin/.env
+    volumes:
+      - ./admin:/app
+    command: ["npm", "start"]
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "start"]
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    command: ["npm", "start-server"]
+
+  tshirt_client:
+    build: ./tshirt_designer/client
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./tshirt_designer/client/.env
+    volumes:
+      - ./tshirt_designer/client:/app
+    command: ["npm", "run", "dev", "--", "--host"]
+
+  tshirt_server:
+    build: ./tshirt_designer/server
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./tshirt_designer/server/.env
+    volumes:
+      - ./tshirt_designer/server:/app
+    command: ["npm", "start"]
+
+  python_api:
+    build: ./tshirt_designer/server/python
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./tshirt_designer/server/python:/app
+    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
