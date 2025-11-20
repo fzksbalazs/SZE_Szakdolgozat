@@ -6,3 +6,37 @@
     display: flex;
     margin: 20px;
 }
+
+.home {
+  flex: 4;
+  width: 100%;
+}
+
+/* Widgets row */
+.homeWidgets {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .homeWidgets {
+    flex-direction: column;  
+    margin: 10px;
+  }
+
+  .home {
+    padding: 10px;
+  }
+
+  .chart {
+    margin: 10px 0;
+    padding: 10px;
+  }
+
+  .chartTitle {
+    font-size: 18px;
+  }
+}

@@ -57,3 +57,26 @@
     color: #2a7ade;
 
 }
+
+
+@media screen and (max-width: 768px) {
+  .widgetLg {
+    padding: 10px;
+  }
+
+  .widgetLgTable {
+    display: block;
+    width: 100%;
+    overflow-x: auto;       
+    white-space: nowrap;
+  }
+
+  .widgetLgTr {
+    white-space: nowrap;
+  }
+
+  .widgetLgTitle {
+    font-size: 20px;
+  }
+}
+

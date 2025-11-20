@@ -1,9 +1,18 @@
 .sidebar {
   flex: 1;
-  height: calc(100vh - 50px);
+  height: auto;
+  min-height: 100%;
   background-color: rgb(251, 251, 255);
-  position: sticky;
-  top: 50px;
+  padding-bottom: 20px;
+}
+
+@media screen and (min-width: 901px) {
+  .sidebar {
+    max-width: 240px;
+    height: calc(100vh - 50px);
+    position: sticky;
+    top: 50px;
+  }
 }
 
 .sidebarWrapper {
@@ -42,3 +51,25 @@
     margin-right: 5px;
     font-size: 20px !important;
 }
+
+
+@media screen and (max-width: 900px) {
+  .sidebarWrapper {
+    padding: 10px 15px;
+  }
+
+  .sidebarMenu {
+    margin-bottom: 25px;
+  }
+
+  .sidebarTitle {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .sidebarListItem {
+    padding: 8px;
+    font-size: 16px;
+  }
+}
+

@@ -1,12 +1,16 @@
 .product {
   flex: 4;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .productTitleContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .productAddButton {
@@ -22,17 +26,19 @@
 
 .productTop {
   display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .productTopLeft,
 .productTopRight {
   flex: 1;
+  min-width: 300px;
 }
 
 .productTopRight {
   padding: 20px;
-  margin: 20px;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  margin: 20px 0;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
@@ -69,19 +75,22 @@
 
 .productBottom {
   padding: 20px;
-  margin: 20px;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  margin: 20px 0;
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
 .productForm {
   display: flex;
   justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
 }
 
 .productFormLeft {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 260px;
 }
 
 .productFormLeft > label {
@@ -96,11 +105,11 @@
   border-bottom: 1px solid gray;
 }
 
-.productFormLeft >select{
+.productFormLeft > select {
   margin-bottom: 10px;
 }
 
-.productUploadImg{
+.productUploadImg {
   width: 100px;
   height: 100px;
   border-radius: 10px;
@@ -108,23 +117,52 @@
   margin-right: 20px;
 }
 
-.productFormRight{
+.productFormRight {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  flex: 1;
+  min-width: 260px;
 }
 
-.productUpload{
+.productUpload {
   display: flex;
   align-items: center;
 }
 
-.productButton{
+.productButton {
   border: none;
   padding: 5px;
   border-radius: 5px;
   background-color: darkblue;
-  color:white;
+  color: white;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media (max-width: 850px) {
+  .productTop {
+    flex-direction: column;
+  }
+
+  .productForm {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 500px) {
+  .productTitleContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .productTopRight,
+  .productBottom {
+    padding: 15px;
+  }
+
+  .productUploadImg {
+    width: 80px;
+    height: 80px;
+  }
 }

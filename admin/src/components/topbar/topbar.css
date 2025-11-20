@@ -4,12 +4,10 @@
   background-color: white;
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1000;
 }
 
 .topbarWrapper {
-  height: 100%;
-  padding: 0px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,6 +54,17 @@
     cursor: pointer;
 }
 
-.logout{
-  
+
+@media screen and (max-width: 900px) {
+  .logo {
+    font-size: 20px; 
+  }
+
+  .topRight {
+    font-size: 14px;
+  }
+
+  .logout {
+    padding: 5px 8px;
+  }
 }

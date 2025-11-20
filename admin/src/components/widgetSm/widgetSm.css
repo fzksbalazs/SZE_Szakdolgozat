@@ -59,3 +59,25 @@
     font-size: 16px !important;
     margin-right: 5px;
 }
+
+@media screen and (max-width: 768px) {
+  .widgetSm {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .widgetSmListItem {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .widgetSmImg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .widgetSmUsername {
+    font-size: 16px;
+  }
+}

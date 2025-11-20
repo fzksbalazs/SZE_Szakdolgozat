@@ -58,6 +58,7 @@ export default function UserList() {
 
   return (
     <div className="userList">
+      <div className="tableWrapper">
       <DataGrid
         rows={users}
         disableSelectionOnClick
@@ -65,7 +66,9 @@ export default function UserList() {
         getRowId={(row) => row._id}
         pageSize={14}
         checkboxSelection
+        autoHeight  
       />
+      </div>
     </div>
   );
 }

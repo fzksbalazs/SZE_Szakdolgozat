@@ -1,6 +1,24 @@
 .userList {
   flex: 4;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;  
+}
+
+
+.MuiDataGrid-root {
+  min-width: 600px;   
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 
 .userListUser {
   display: flex;
@@ -11,21 +29,40 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  object-fit: cover;
   margin-right: 10px;
+  object-fit: cover;
 }
 
-.userListEdit{
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #3bb077;
-    color: white;
-    cursor: pointer;
-    margin-right: 20px;
+
+.userListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 14px;
 }
 
-.userListDelete{
-    color: red;
-    cursor: pointer;
+.userListDelete {
+  color: red;
+  cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+  .userList {
+    padding: 10px;
+  }
+
+
+  .MuiDataGrid-root {
+    min-width: 500px;
+  }
+
+  .userListEdit {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
 }

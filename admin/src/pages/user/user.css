@@ -1,73 +1,49 @@
 .user {
   flex: 4;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .userTitleContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.userAddButton {
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: teal;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
+  flex-wrap: wrap;
 }
 
 .userContainer {
   display: flex;
+  gap: 20px;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
+/* SHOW BOX */
 .userShow {
   flex: 1;
+  min-width: 280px;
   padding: 20px;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-}
-
-.userUpdate {
-  flex: 2;
-  padding: 20px;
-  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-  margin-left: 20px;
+  border-radius: 10px;
+  background: white;
 }
 
 .userShowTop {
   display: flex;
   align-items: center;
+  gap: 15px;
 }
 
 .userShowImg {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.userShowTopTitle {
-  display: flex;
-  flex-direction: column;
-  margin-left: 20px;
-}
-
-.userShowUsername {
-  font-weight: 600;
-}
-
-.userShowUserTitle {
-  font-weight: 300;
-}
-
-.userShowBottom{
-    margin-top: 20px;
+.userShowBottom {
+  margin-top: 20px;
 }
 
 .userShowTitle {
@@ -76,79 +52,106 @@
   color: rgb(175, 170, 170);
 }
 
-.userShowInfo{
-    display: flex;
-    align-items: center;
-    margin: 20px 0px;
-    color: #444;
+.userShowInfo {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  color: #444;
 }
 
-.userShowIcon{
-    font-size: 16px !important;
+.userShowIcon {
+  font-size: 18px !important;
 }
 
-.userShowInfoTitle{
-    margin-left: 10px;
+.userShowInfoTitle {
+  margin-left: 10px;
+  word-break: break-word;
 }
 
-.userUpdateTitle{
-    font-size: 24px;
-    font-weight: 600;
+/* UPDATE BOX */
+.userUpdate {
+  flex: 2;
+  min-width: 300px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
-.userUpdateForm{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+.userUpdateForm {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.userUpdateItem{
-    display: flex;
+.userUpdateItem {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  min-width: 150px;
+}
+
+.userUpdateItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.userUpdateInput {
+  border: none;
+  height: 30px;
+  border-bottom: 1px solid gray;
+  width: 100%;
+}
+
+.userUpdateRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 200px;
+}
+
+.userUpdateUpload {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.userUpdateImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.userUpdateButton {
+  margin-top: 15px;
+  border-radius: 5px;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+}
+
+/* 📱 MOBILE BREAKPOINT */
+@media (max-width: 768px) {
+  .userContainer {
     flex-direction: column;
-    margin-top: 10px;
-}
+  }
 
-.userUpdateItem>label{
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.userUpdateInput{
-    border: none;
-    width: 250px;
-    height: 30px;
-    border-bottom: 1px solid gray;
-}
-
-.userUpdateRight{
-    display: flex;
+  .userUpdateForm {
     flex-direction: column;
-    justify-content: space-between;
-}
+  }
 
-.userUpdateUpload{
-    display: flex;
-    align-items: center;
-}
+  .userUpdateItem,
+  .userUpdateRight {
+    width: 100%;
+  }
 
-.userUpdateImg{
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 20px;
-}
-
-.userUpdateIcon{
-    cursor: pointer;
-}
-
-.userUpdateButton{
-    border-radius: 5px;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    background-color: darkblue;
-    color: white;
-    font-weight: 600;
+  .userShowImg {
+    width: 50px;
+    height: 50px;
+  }
 }

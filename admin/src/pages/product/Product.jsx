@@ -214,12 +214,11 @@ export default function Product() {
   {/* KATEGÓRIA */}
   <label>Kategória</label>
   <select defaultValue={product.categories[0]} onChange={handleCategoryChange}>
-    <option value="ferfi">ferfi</option>
-    <option value="noi">noi</option>
+
     <option value="polo">polo</option>
     <option value="cipo">cipo</option>
     <option value="kiegeszito">kiegeszito</option>
-    <option value="unisex">unisex</option>
+
   </select>
 
  

@@ -33,7 +33,7 @@ export default function ProductList() {
         );
       },
     },
-    { field: "inStock", headerName: "Raktáron", width: 200 },  
+    { field: "inStock", headerName: "Raktáron", width: 200 },
     {
       field: "price",
       headerName: "Termékár",
@@ -61,14 +61,19 @@ export default function ProductList() {
 
   return (
     <div className="productList">
-      <DataGrid
-        rows={products}
-        disableSelectionOnClick
-        columns={columns}
-        getRowId={row=> row._id}
-        pageSize={15}
-        checkboxSelection
-      />
+      <div className="tableWrapper">
+        <div className="responsiveTable">
+          <DataGrid
+            rows={products}
+            disableSelectionOnClick
+            columns={columns}
+            getRowId={(row) => row._id}
+            pageSize={15}
+            checkboxSelection
+            autoHeight
+          />
+        </div>
+      </div>
     </div>
   );
 }
