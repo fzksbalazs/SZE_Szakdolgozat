@@ -25,10 +25,10 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Preflight, Postman, mobil app stb.
+     
       if (!origin) return callback(null, true);
 
-      // Vercel admin wildcard
+     
       if (origin.endsWith(".vercel.app")) {
         return callback(null, true);
       }

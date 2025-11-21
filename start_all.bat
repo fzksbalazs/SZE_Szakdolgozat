@@ -2,7 +2,7 @@
 echo ==== WEARABLE PROJECT - ALL SERVICES STARTING ====
 echo.
 
-REM 
+REM Set working directory to the folder of this .bat file
 cd /d "%~dp0"
 
 REM --- ADMIN ---
@@ -21,22 +21,7 @@ REM --- TSHIRT NODE SERVER ---
 start "tshirt_server" cmd /k "cd tshirt_designer\server && npm install && npm start"
 
 REM --- PYTHON FASTAPI SERVER ---
-start "python_api" cmd /k ^
-"cd tshirt_designer\server\python && ^
-IF NOT EXIST .venv ( ^
-    echo Creating Python virtual environment... && ^
-    python -m venv .venv ^
-) && ^
-call .venv\Scripts\activate && ^
-pip install --upgrade pip && ^
-IF EXIST requirements.txt ( ^
-    echo Installing Python dependencies... && ^
-    pip install -r requirements.txt ^
-) ELSE ( ^
-    echo WARNING: requirements.txt not found! ^
-) && ^
-echo Starting AI server... && ^
-uvicorn app:app --host 0.0.0.0 --port 8000"
+start "python_api" cmd /k "cd tshirt_designer && .venv\Scripts\activate && cd server\python && uvicorn app:app --host 0.0.0.0 --port 8000"
 
 echo.
 echo ==== ALL SERVICES STARTED! ====
