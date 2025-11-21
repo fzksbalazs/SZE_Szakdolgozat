@@ -1,10 +1,17 @@
 import React from "react";
 import { useSnapshot } from "valtio";
-
 import state from "../store";
 
 const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
   const snap = useSnapshot(state);
+
+  // Vercel felismerése .env nélkül
+  const isVercel =
+    typeof window !== "undefined" &&
+    window.location.hostname.includes("vercel.app");
+
+  // Ha AI tab és Vercel → disable
+  const isDisabled = isVercel && tab.name === "aipicker";
 
   const activeStyles =
     isFilterTab && isActiveTab
@@ -14,15 +21,18 @@ const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
   return (
     <div
       key={tab.name}
-      className={`tab-btn ${
-        isFilterTab ? "rounded-full glassmorphism" : "rounded-4"
-      }`}
-      onClick={handleClick}
+      onClick={!isDisabled ? handleClick : undefined}
+      className={`
+        tab-btn 
+        ${isFilterTab ? "rounded-full glassmorphism" : "rounded-4"}
+        ${isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}
+      `}
       style={activeStyles}
+      title={isDisabled ? "AI funkció Vercelen nem érhető el" : ""}
     >
       <img
         src={tab.icon}
-        alt="tab.name"
+        alt={tab.name}
         className={`${
           isFilterTab ? "w-2/3 h-2/3" : "w-11/12 h-11/12 object-contain"
         }`}
