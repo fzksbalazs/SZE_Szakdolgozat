@@ -12,7 +12,6 @@ regex==2025.11.3
 requests==2.32.5
 tokenizers==0.19.1
 
-# PYTORCH - Windows CPU build (EZ A FONTOS!)
 torch==2.2.2+cpu
 torchvision==0.17.2+cpu
 torchaudio==2.2.2+cpu
