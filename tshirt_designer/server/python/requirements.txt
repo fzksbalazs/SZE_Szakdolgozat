@@ -1,9 +1,14 @@
---only-binary=:all:
 fastapi==0.110.0
 uvicorn[standard]==0.27.1
+
 diffusers==0.30.3
 transformers==4.43.3
 accelerate==0.33.0
 safetensors==0.4.5
-torch==2.8.0
 Pillow==11.0.0
+
+
+torch==2.1.2+cu118
+torchvision==0.16.2+cu118
+torchaudio==2.1.2+cu118
+--extra-index-url https://download.pytorch.org/whl/cu118

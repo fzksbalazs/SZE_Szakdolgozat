@@ -23,6 +23,7 @@ start "tshirt_server" cmd /k "cd tshirt_designer\server && npm install && npm st
 REM --- PYTHON FASTAPI SERVER ---
 start "python_api" cmd /k "cd tshirt_designer && .venv\Scripts\activate && cd server\python && uvicorn app:app --host 0.0.0.0 --port 8000"
 
+
 echo.
 echo ==== ALL SERVICES STARTED! ====
 pause
