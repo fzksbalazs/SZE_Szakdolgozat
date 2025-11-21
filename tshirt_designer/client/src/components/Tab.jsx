@@ -1,17 +1,27 @@
 import React from "react";
 import { useSnapshot } from "valtio";
+
 import state from "../store";
 
 const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
   const snap = useSnapshot(state);
 
-  // Vercel felismerése .env nélkül
+  // Vercel felismerése
   const isVercel =
     typeof window !== "undefined" &&
     window.location.hostname.includes("vercel.app");
 
-  // Ha AI tab és Vercel → disable
+  // Csak az AI tab legyen tiltva
   const isDisabled = isVercel && tab.name === "aipicker";
+
+  // Ha tiltott tab-ra kattint → popup
+  const handleDisabledClick = () => {
+    if (isDisabled) {
+      alert(
+        "Az AI generálás funkció a szakdolgozatban kizárólag helyi környezetben érhető el.\nA Vercel verzióban biztonsági okokból le van tiltva."
+      );
+    }
+  };
 
   const activeStyles =
     isFilterTab && isActiveTab
@@ -21,14 +31,14 @@ const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
   return (
     <div
       key={tab.name}
-      onClick={!isDisabled ? handleClick : undefined}
       className={`
         tab-btn 
         ${isFilterTab ? "rounded-full glassmorphism" : "rounded-4"}
         ${isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}
       `}
       style={activeStyles}
-      title={isDisabled ? "AI funkció Vercelen nem érhető el" : ""}
+      onClick={isDisabled ? handleDisabledClick : handleClick}
+      title={isDisabled ? "AI funkció csak lokálisan elérhető" : ""}
     >
       <img
         src={tab.icon}
