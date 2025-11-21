@@ -18,7 +18,7 @@ const Tab = ({ tab, isFilterTab, isActiveTab, handleClick }) => {
   const handleDisabledClick = () => {
     if (isDisabled) {
       alert(
-        "Az AI generálás funkció a szakdolgozatban kizárólag helyi környezetben érhető el.\nA Vercel verzióban biztonsági okokból le van tiltva."
+        "Az AI generálás funkció átmenetileg kizárólag helyi környezetben érhető el.\nA Vercel verzióban biztonsági okokból le van tiltva."
       );
     }
   };
