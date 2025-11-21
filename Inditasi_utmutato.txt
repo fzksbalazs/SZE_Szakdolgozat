@@ -3,9 +3,9 @@ WEARABLE – INDÍTÁSI ÚTMUTATÓ
 1.  Telepítendő programok A projekt futtatásához az alábbi két szoftver
     szükséges:
 
-2.  Node.js (LTS verzió)
+2.  Node.js (LTS verzió): v16.20.2
 
-3.  Python 3.10 vagy újabb verzió
+3.  Python 3.11.9 telepítése (AI Huggingface ezzel kompatibilis)
 
 4.  A projekt indítása
 
@@ -21,5 +21,14 @@ következő szolgáltatásokat:
 -   Backend API: http://localhost:5000
 -   T-shirt designer kliens: http://localhost:5173
 -   T-shirt designer Node.js szerver: http://localhost:8080
--   Python AI szerver (FastAPI): http://localhost:8000
+
+Python szerver futtatasa: (első alkalommal szükséges)
+•	Telepítsd a Python 3.11.9 verzióját, A telepítőben jelöld be Add Python to PATH.
+•	Script futtatás engedélyezése PowerShellben: Ha ezt írja: "running scripts is disabled”: Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+•	A projekt virtuális környezetének (.venv) létrehozása:- Navigálj a backend AI mappához: cd SZE_Szakdolgozat-main\tshirt_designer
+o								                          -Hozd létre a .venv-et: python -m venv .venv
+•	A. venv aktiválása: --> .venv\Scripts\activate  -->a tshirtdesigner mappában
+•	Kötelező csomagok telepítése (requirements.txt): python -m pip install -r requirements.txt
+•	uvicorn szerver indítása: cd SZE_Szakdolgozat-main\tshirt_designer\server\python --> uvicorn app:app --host 0.0.0.0 --port 8000
+
 
