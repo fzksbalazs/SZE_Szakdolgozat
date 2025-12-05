@@ -41,11 +41,14 @@ const Navbar = ({
   const dispatch = useDispatch();
 
   const handleLogout = (e) => {
+  if (e && e.preventDefault) {
     e.preventDefault();
-    localStorage.clear();
-    Logout(dispatch);
-    window.location.href = "/";
-  };
+  }
+  
+  localStorage.clear();
+  Logout(dispatch);
+  window.location.href = "/";
+};
 
   useEffect(() => {
     const layout = () => {
