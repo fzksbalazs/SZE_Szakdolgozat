@@ -369,15 +369,15 @@ const handleLogoEnter = () => {
       <li key={item.href || `mobile-item-${i}`}>
         {item.isLogout ? (
           <span
-            className="mobile-menu-link"
-            onClick={() => {
-              handleLogout();
-              setIsMobileMenuOpen(false);
-              toggleMobileMenu();
-            }}
-          >
-            {item.label}
-          </span>
+  className="mobile-menu-link"
+  onClick={() => {
+    setIsMobileMenuOpen(false);    
+    gsap.set(mobileMenuRef.current, { visibility: "hidden" }); 
+    handleLogout();                 
+>
+  {item.label}
+</span>
+
         ) : item.isCart ? (
           <Link
             to={item.href}
