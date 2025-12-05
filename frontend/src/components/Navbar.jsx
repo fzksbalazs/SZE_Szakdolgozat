@@ -371,12 +371,14 @@ const handleLogoEnter = () => {
           <span
   className="mobile-menu-link"
   onClick={() => {
-    setIsMobileMenuOpen(false);    
-    gsap.set(mobileMenuRef.current, { visibility: "hidden" }); 
-    handleLogout();                 
+    setIsMobileMenuOpen(false);
+    gsap.set(mobileMenuRef.current, { visibility: "hidden" });
+    handleLogout();
+  }}
 >
   {item.label}
 </span>
+
 
         ) : item.isCart ? (
           <Link
