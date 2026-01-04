@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 
     const msg = {
       to: userEmail,
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_USERG,
       subject: "Rendelés visszaigazolása - Wearable",
       html: `
         <div style="font-family:Arial; padding:20px; color:#222;">

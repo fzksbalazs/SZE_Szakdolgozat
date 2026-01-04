@@ -136,7 +136,7 @@ router.post("/forgot-password", async (req, res) => {
 
     const msg = {
       to: email,
-      from: process.env.EMAIL_USER, 
+      from: process.env.EMAIL_USERG, 
       subject: "Jelszó visszaállítása - Wearable",
       html: `
         <div style="font-family: Arial, sans-serif; color:#222; padding:20px;">
